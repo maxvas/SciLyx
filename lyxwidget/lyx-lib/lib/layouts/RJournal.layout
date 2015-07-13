@@ -1,0 +1,86 @@
+#% Do not delete the line below; configure depends on this
+#  \DeclareLaTeXClass[report,RJournal.sty,booktabs.sty,natbib.sty]{R Journal}
+#  \DeclareCategory{Reports}
+# Author: Yihui Xie
+# Modified by: Scott Kostyshak
+
+Format 49
+
+Input stdclass.inc
+
+Provides natbib-internal 1
+Provides url             1
+
+ClassOptions
+	Other		  a4paper
+End
+
+DefaultModule   knitr
+
+AddToPreamble
+	\usepackage{RJournal}
+	\usepackage{booktabs}
+
+	\fancyhf{}
+	\fancyhead[LO,RE]{\textsc{Contributed Article}}
+	\fancyhead[RO,LE]{\thepage}
+	\fancyfoot[L]{The R Journal Vol. X/Y, Month, Year}
+	\fancyfoot[R]{ISSN 2073-4859}
+
+	\AtBeginDocument{%
+	  \begin{article}
+	}
+
+	\AtEndDocument{%
+	  \end{article}
+	}
+EndPreamble
+
+Style Abstract
+	Margin                First_Dynamic
+	LatexType             Command
+	InTitle               0
+	LatexName             abstract
+	LeftMargin            MMM
+	LabelIndent           MMM
+	RightMargin           MMM
+	ParIndent             MM
+	TopSep                0.7
+	BottomSep             0.7
+	Align                 Block
+	LabelType             Static
+	LabelString           "Abstract."
+	LabelSep              M
+	Font
+	  Size                Small
+	EndFont
+	LabelFont
+	  Shape               Smallcaps
+	  Color               latex
+	EndFont
+End
+
+Style Address
+	Category	      FrontMatter
+	Margin                Static
+	LatexType             Command
+	LatexName             address
+	ParSkip               0.4
+	BottomSep             1.5
+	ParSep                1.5
+	Align                 Left
+	AlignPossible         Block, Left, Right, Center
+	LabelType             No_Label
+End
+
+InsetLayout "Flex:Email"
+	LabelString           "Email"
+	LatexType             Command
+	Decoration            Classic
+	LaTexName             email
+	LyXType               Custom
+	ForcePlain            1
+	LabelFont
+	  Color               latex
+	EndFont
+End

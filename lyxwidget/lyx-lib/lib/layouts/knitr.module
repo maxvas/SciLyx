@@ -1,0 +1,63 @@
+#\DeclareLyXModule[knitr->latex]{Rnw (knitr)}
+#DescriptionBegin
+#Uses the knitr package in R for dynamic report generation. This R package has to be installed for this module to work: install.packages('knitr'). Note it depends on R >= 2.14.1.
+#For more info see http://yihui.name/knitr
+#DescriptionEnd
+#Category: literate
+#Excludes: lilypond | sweave
+
+Format 49
+
+Input litinsets.inc
+
+Counter chunk
+    InitialValue 2
+End
+
+OutputType             literate
+OutputFormat           knitr
+
+InsetLayout "Flex:Sweave Options"
+	LabelString           "Sweave opts"
+	LatexType             Command
+	LaTexName             SweaveOpts
+	LyXType               Custom
+	Decoration            Classic
+	Font
+	  Color               latex
+	  Family              typewriter
+	EndFont
+	LabelFont
+	  Color               latex
+	  Size                Small
+	EndFont
+	MultiPar              false
+	PassThru              1
+	ParbreakIsNewline     1
+	Spellcheck	      0
+	FreeSpacing           true
+	ForceLTR              true
+End
+
+InsetLayout "Flex:S/R expression"
+	LabelString           "S/R expr"
+	LatexType             Command
+	LaTexName             Sexpr
+	LyXType               Custom
+	Decoration            Conglomerate
+	Font
+	  Color               latex
+	  Family              typewriter
+	EndFont
+	LabelFont
+	  Color               latex
+	  Size                Small
+	EndFont
+	MultiPar              false
+	PassThru              1
+	ParbreakIsNewline     1
+	Spellcheck	      0
+	FreeSpacing           true
+	ForceLTR              true
+End
+

@@ -1,0 +1,8 @@
+#% Do not delete the line below; configure depends on this      
+#  \DeclareLaTeXClass[ctexart,savesym.sty,xeCJK.sty]{Chinese Article (CTeX)}
+#  \DeclareCategory{Articles}
+
+Format 49
+
+# Read the definitions from article.layout
+Input article.layout

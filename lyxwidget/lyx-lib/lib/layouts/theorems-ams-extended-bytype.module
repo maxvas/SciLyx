@@ -1,0 +1,408 @@
+#\DeclareLyXModule{Theorems (AMS-Extended, Numbered by Type)}
+#DescriptionBegin
+#Defines some additional theorem environments for use with the
+#AMS theorems packages. Includes Criterion, Algorithm, Axiom,
+#Condition, Note, Notation, Summary, Acknowledgement, Conclusion,
+#Assumption, and Case, in both numbered and non-numbered forms.
+#Contrary to the plain AMS-Extended module, the different theorem 
+#types provided here each have a separate counter (e.g., criterion 1,
+#criterion 2, axiom 1, assumption 1, criterion 3, ...,
+#as opposed to criterion 1, criterion 2, axiom 3, assumption 4, ...).
+#DescriptionEnd
+#Requires: theorems-ams-bytype
+
+# Original Author : David L. Johnson <dlj0@lehigh.edu>
+# Probably broken by Jean-Marc Lasgouttes <Jean-Marc.Lasgouttes@inria.fr>
+# modified and modularized by Emmanuel GUREGHIAN <gureghia@boston.bertin.fr>
+# Tinkered with Sep. '07 by Paul Rubin <rubin@msu.edu>
+# Modularized Jan 08 by Richard Heck <rgheck@comcast.net>
+# Hacked June '09 by Paul Rubin <rubin@msu.edu> to use separate counters
+
+Format 49
+
+Requires	amsmath
+
+# The environnements defined (regular and starred) are :
+# - Criterion
+# - Algorithm
+# - Axiom
+# - Condition
+# - Note
+# - Notation
+# - Summary
+# - Acknowledgement
+# - Conclusion
+# - Assumption
+
+# We need separate counters for each theorem-like style.
+Counter criterion
+End
+Counter algorithm
+End
+Counter axiom
+End
+Counter condition
+End
+Counter note
+End
+Counter notation
+End
+Counter summary
+End
+Counter acknowledgement
+End
+Counter conclusion
+End
+Counter assumption
+End
+
+
+Style Criterion
+	CopyStyle             Theorem
+	LatexName             criterion
+	LabelString           "Criterion \thecriterion."
+	Preamble
+	  \theoremstyle{plain}
+	  \newtheorem{criterion}{\protect\criterionname}
+	EndPreamble
+	LangPreamble
+	  \providecommand{\criterionname}{_(Criterion)}
+	EndLangPreamble
+	BabelPreamble
+	  \addto\captions$$lang{\renewcommand{\criterionname}{_(Criterion)}}
+	EndBabelPreamble
+	LabelCounter          criterion
+End
+
+Style Criterion*
+	CopyStyle             Theorem*
+	LatexName             criterion*
+	LabelString           "Criterion."
+	Preamble
+	  \theoremstyle{plain}
+	  \newtheorem*{criterion*}{\protect\criterionname}
+	EndPreamble
+	LangPreamble
+	  \providecommand{\criterionname}{_(Criterion)}
+	EndLangPreamble
+	BabelPreamble
+	  \addto\captions$$lang{\renewcommand{\criterionname}{_(Criterion)}}
+	EndBabelPreamble
+End
+
+
+Style Algorithm
+	CopyStyle             Theorem
+	LatexName             lyxalgorithm
+	LabelString           "Algorithm \thealgorithm."
+	Preamble
+	  \theoremstyle{plain}
+	  \newtheorem{lyxalgorithm}{\protect\algorithmname}
+	EndPreamble
+	LangPreamble
+	  \providecommand{\algorithmname}{_(Algorithm)}
+	EndLangPreamble
+	BabelPreamble
+	  \addto\captions$$lang{\renewcommand{\algorithmname}{_(Algorithm)}}
+	EndBabelPreamble
+	LabelCounter          algorithm
+End
+
+
+Style Algorithm*
+	CopyStyle             Theorem*
+	LatexName             lyxalgorithm*
+	LabelString           "Algorithm."
+	Preamble
+	  \theoremstyle{plain}
+	  \newtheorem*{lyxalgorithm*}{\protect\algorithmname}
+	EndPreamble
+	LangPreamble
+	  \providecommand{\algorithmname}{_(Algorithm)}
+	EndLangPreamble
+	BabelPreamble
+	  \addto\captions$$lang{\renewcommand{\algorithmname}{_(Algorithm)}}
+	EndBabelPreamble
+End
+
+
+Style Axiom
+	CopyStyle             Theorem
+	LatexName             ax
+	LabelString           "Axiom \theaxiom."
+	Preamble
+	  \theoremstyle{plain}
+	  \newtheorem{ax}{\protect\axiomname}
+	EndPreamble
+	LangPreamble
+	  \providecommand{\axiomname}{_(Axiom)}
+	EndLangPreamble
+	BabelPreamble
+	  \addto\captions$$lang{\renewcommand{\axiomname}{_(Axiom)}}
+	EndBabelPreamble
+	LabelCounter          axiom
+End
+
+
+Style Axiom*
+	CopyStyle             Theorem*
+	LatexName             ax*
+	LabelString           "Axiom."
+	Preamble
+	  \theoremstyle{plain}
+	  \newtheorem*{ax*}{\protect\axiomname}
+	EndPreamble
+	LangPreamble
+	  \providecommand{\axiomname}{_(Axiom)}
+	EndLangPreamble
+	BabelPreamble
+	  \addto\captions$$lang{\renewcommand{\axiomname}{_(Axiom)}}
+	EndBabelPreamble
+End
+
+
+Style Condition
+	CopyStyle             Definition
+	LatexName             condition
+	LabelString           "Condition \thecondition."
+	Preamble
+	  \theoremstyle{definition}
+	  \newtheorem{condition}{\protect\conditionname}
+	EndPreamble
+	LangPreamble
+	  \providecommand{\conditionname}{_(Condition)}
+	EndLangPreamble
+	BabelPreamble
+	  \addto\captions$$lang{\renewcommand{\conditionname}{_(Condition)}}
+	EndBabelPreamble
+	LabelCounter          condition
+End
+
+
+Style Condition*
+	CopyStyle             Definition*
+	LatexName             condition*
+	LabelString           "Condition."
+	Preamble
+	  \theoremstyle{definition}
+	  \newtheorem*{condition*}{\protect\conditionname}
+	EndPreamble
+	LangPreamble
+	  \providecommand{\conditionname}{_(Condition)}
+	EndLangPreamble
+	BabelPreamble
+	  \addto\captions$$lang{\renewcommand{\conditionname}{_(Condition)}}
+	EndBabelPreamble
+End
+
+
+Style Note
+	CopyStyle             Remark
+	LatexName             note
+	LabelString           "Note \thenote."
+	Preamble
+	  \theoremstyle{remark}
+	  \newtheorem{note}{\protect\notename}
+	EndPreamble
+	LangPreamble
+	  \providecommand{\notename}{_(Note)}
+	EndLangPreamble
+	BabelPreamble
+	  \addto\captions$$lang{\renewcommand{\notename}{_(Note)}}
+	EndBabelPreamble
+	LabelCounter          note
+End
+
+
+Style Note*
+	CopyStyle             Remark*
+	LatexName             note*
+	LabelString           "Note."
+	Preamble
+	  \theoremstyle{remark}
+	  \newtheorem*{note*}{\protect\notename}
+	EndPreamble
+	LangPreamble
+	  \providecommand{\notename}{_(Note)}
+	EndLangPreamble
+	BabelPreamble
+	  \addto\captions$$lang{\renewcommand{\notename}{_(Note)}}
+	EndBabelPreamble
+End
+
+
+Style Notation
+	CopyStyle             Remark
+	LatexName             notation
+	LabelString           "Notation \thenotation."
+	Preamble
+	  \theoremstyle{remark}
+	  \newtheorem{notation}{\protect\notationname}
+	EndPreamble
+	LangPreamble
+	  \providecommand{\notationname}{_(Notation)}
+	EndLangPreamble
+	BabelPreamble
+	  \addto\captions$$lang{\renewcommand{\notationname}{_(Notation)}}
+	EndBabelPreamble
+	LabelCounter          notation
+End
+
+
+Style Notation*
+	CopyStyle             Remark*
+	LatexName             notation*
+	LabelString           "Notation."
+	Preamble
+	  \theoremstyle{remark}
+	  \newtheorem*{notation*}{\protect\notationname}
+	EndPreamble
+	LangPreamble
+	  \providecommand{\notationname}{_(Notation)}
+	EndLangPreamble
+	BabelPreamble
+	  \addto\captions$$lang{\renewcommand{\notationname}{_(Notation)}}
+	EndBabelPreamble
+End
+
+
+Style Summary
+	CopyStyle             Remark
+	LatexName             summary
+	LabelString           "Summary \thesummary."
+	Preamble
+	  \theoremstyle{remark}
+	  \newtheorem{summary}{\protect\summaryname}
+	EndPreamble
+	LangPreamble
+	  \providecommand{\summaryname}{_(Summary)}
+	EndLangPreamble
+	BabelPreamble
+	  \addto\captions$$lang{\renewcommand{\summaryname}{_(Summary)}}
+	EndBabelPreamble
+	LabelCounter          summary
+End
+
+
+Style Summary*
+	CopyStyle             Remark*
+	LatexName             summary*
+	LabelString           "Summary."
+	Preamble
+	  \theoremstyle{remark}
+	  \newtheorem*{summary*}{\protect\summaryname}
+	EndPreamble
+	LangPreamble
+	  \providecommand{\summaryname}{_(Summary)}
+	EndLangPreamble
+	BabelPreamble
+	  \addto\captions$$lang{\renewcommand{\summaryname}{_(Summary)}}
+	EndBabelPreamble
+End
+
+
+Style Acknowledgement
+	CopyStyle             Remark
+	LatexName             acknowledgement
+	LabelString           "Acknowledgement \theacknowledgement."
+	Preamble
+	  \theoremstyle{remark}
+	  \newtheorem{acknowledgement}{\protect\acknowledgementname}
+	EndPreamble
+	LangPreamble
+	  \providecommand{\acknowledgementname}{_(Acknowledgement)}
+	EndLangPreamble
+	BabelPreamble
+	  \addto\captions$$lang{\renewcommand{\acknowledgementname}{_(Acknowledgement)}}
+	EndBabelPreamble
+	LabelCounter          acknowledgement
+End
+
+
+Style Acknowledgement*
+	CopyStyle             Remark*
+	LatexName             acknowledgement*
+	LabelString           "Acknowledgement."
+	Preamble
+	  \theoremstyle{remark}
+	  \newtheorem*{acknowledgement*}{\protect\acknowledgementname}
+	EndPreamble
+	LangPreamble
+	  \providecommand{\acknowledgementname}{_(Acknowledgement)}
+	EndLangPreamble
+	BabelPreamble
+	  \addto\captions$$lang{\renewcommand{\acknowledgementname}{_(Acknowledgement)}}
+	EndBabelPreamble
+End
+
+
+Style Conclusion
+	CopyStyle             Remark
+	LatexName             conclusion
+	LabelString           "Conclusion \theconclusion."
+	Preamble
+	  \theoremstyle{remark}
+	  \newtheorem{conclusion}{\protect\conclusionname}
+	EndPreamble
+	LangPreamble
+	  \providecommand{\conclusionname}{_(Conclusion)}
+	EndLangPreamble
+	BabelPreamble
+	  \addto\captions$$lang{\renewcommand{\conclusionname}{_(Conclusion)}}
+	EndBabelPreamble
+	LabelCounter          conclusion
+End
+
+
+Style Conclusion*
+	CopyStyle             Remark*
+	LatexName             conclusion*
+	LabelString           "Conclusion."
+	Preamble
+	  \theoremstyle{remark}
+	  \newtheorem*{conclusion*}{\protect\conclusionname}
+	EndPreamble
+	LangPreamble
+	  \providecommand{\conclusionname}{_(Conclusion)}
+	EndLangPreamble
+	BabelPreamble
+	  \addto\captions$$lang{\renewcommand{\conclusionname}{_(Conclusion)}}
+	EndBabelPreamble
+End
+
+
+Style Assumption
+	CopyStyle             Theorem
+	LatexName             assumption
+	LabelString           "Assumption \theassumption."
+	Preamble
+	  \theoremstyle{plain}
+	  \newtheorem{assumption}{\protect\assumptionname}
+	EndPreamble
+	LangPreamble
+	  \providecommand{\assumptionname}{_(Assumption)}
+	EndLangPreamble
+	BabelPreamble
+	  \addto\captions$$lang{\renewcommand{\assumptionname}{_(Assumption)}}
+	EndBabelPreamble
+	LabelCounter          assumption
+End
+
+
+Style Assumption*
+	CopyStyle             Theorem*
+	LatexName             assumption*
+	LabelString           "Assumption."
+	Preamble
+	  \theoremstyle{plain}
+	  \newtheorem*{assumption*}{\protect\assumptionname}
+	EndPreamble
+	LangPreamble
+	  \providecommand{\assumptionname}{_(Assumption)}
+	EndLangPreamble
+	BabelPreamble
+	  \addto\captions$$lang{\renewcommand{\assumptionname}{_(Assumption)}}
+	EndBabelPreamble
+End
+
+Input theorems-refprefix.inc

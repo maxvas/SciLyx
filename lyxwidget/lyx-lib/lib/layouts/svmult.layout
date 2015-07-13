@@ -1,0 +1,158 @@
+#% Do not delete the line below; configure depends on this
+#  \DeclareLaTeXClass[svmult,natbib.sty]{Springer SV Mult}
+#  \DeclareCategory{Books}
+#  Author: Koji Yokota <yokota@res.otaru-uc.ac.jp>
+#          adapted: Marcus Kriele <mkriele@mac.com> and Uwe Stöhr (April 2011)
+#
+#  Supports: SVMULT DOCUMENT CLASS -- version 5.4 (25-Jun-07)
+#  Class and style files and templates are found at:
+#       http://wiki.lyx.org/Examples/Springer
+#
+Format 49
+
+Input svcommon.inc
+
+ClassOptions
+	FontSize	""
+End
+
+NoStyle Acknowledgements
+
+# Additional headings
+
+#Style MiniTOC
+#	CopyStyle	Running_Title
+#	LatexType	Command
+#	LatexName	svmulttoc
+#	LeftMargin	"TOC depth (provide a number):xxx"
+#	LabelString	"TOC depth (provide a number):"
+#	Preamble
+#	  \newcommand{\svmulttoc}[1]{\setcounter{minitocdepth}{#1}\dominitoc}
+#	EndPreamble
+#End
+
+Style Title*
+	CopyStyle	Title
+	LatexName	title*
+	LabelString	"Title*: "
+	LabelSep	"xxx"
+	LabelType	Static
+	Margin		First_Dynamic
+	HTMLTitle	true
+	LabelFont
+	  Color		Blue
+	EndFont
+End
+
+Style Title
+	CopyStyle	Chapter
+	Category	FrontMatter
+	LatexName	title
+	TopSep		1
+	TocLevel	1
+	InTitle		0
+	Align		Left
+	AlignPossible	Block, Center, Left, Right
+	LabelFont
+	  Size		Largest
+	  Family	Sans
+	EndFont
+	TextFont
+	  Family	Sans
+	  Series	Bold
+	EndFont
+End
+
+Style Contributors
+	CopyStyle	Foreword
+	LabelString	"List of Contributors"
+	LatexName	contributors
+End
+
+Style Contributor_List
+	LatexType	Environment
+	LatexName	thecontriblist
+	TopSep		0.7
+	BottomSep	0.4
+End
+
+Style Author
+	Margin		First_Dynamic
+	LabelType	Static
+	LabelSep	x
+	LabelString	"Author:"
+	Font
+	  Series	Medium
+	  Family	Roman
+	  Size		Normal
+	  Shape		Up
+	EndFont
+	LabelFont
+	  Family	Typewriter
+	  Color		Blue
+	EndFont
+End
+
+Style Abstract
+	LatexType	Command
+	LatexName	abstract
+	Category	FrontMatter
+	LabelString	"Abstract"
+End
+
+Style Part
+	Category	"For editors"
+End
+
+Style PartBacktext
+	Category	"For editors"
+End
+
+Style Chapter
+	Category	"For editors"
+End
+
+Style Running_Chapter
+	Category	"For editors"
+End
+
+Style ChapAuthor
+	Category	"For editors"
+End
+
+Style ChapSubtitle
+	Category	"For editors"
+End
+
+Style extrachap
+	Category	"For editors"
+End
+
+Style Extrachap
+	Category	"For editors"
+End
+
+Style Dedication
+	Category	"For editors"
+End
+
+Style Foreword
+	Category	"For editors"
+End
+
+Style Preface
+	Category	"For editors"
+End
+
+Style Acknowledgement
+	Category	"For editors"
+End
+
+Style Contributors
+	Category	"For editors"
+End
+
+Style ChapMotto
+	Category	"For editors"
+End
+

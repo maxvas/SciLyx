@@ -1,0 +1,65 @@
+#\DeclareLyXModule[bicaption.sty]{Multilingual Captions}
+#DescriptionBegin
+#Provides two styles to typeset multilingual captions.
+#For a description see the file MultilingualCaptions.lyx in LyX's examples folder.
+#DescriptionEnd
+#Author: Uwe Stöhr <uwestoehr@web.de>
+
+Format 49
+
+Style "Caption setup"
+	LatexType	command
+	LatexName	captionsetup
+	Category	FrontMatter
+	Argument 1
+	 LabelString	"Language"
+	 Tooltip	"Language that should be affected, can be 'bi-first', 'bi-second' or 'bi-both'"
+	EndArgument
+	PassThru	1
+	Margin		Dynamic
+	LabelSep	xx
+	ParSkip		0.0
+	ItemSep		0.2
+	TopSep		0.7
+	BottomSep	0.7
+	ParSep		0.3
+	Align		Block
+	AlignPossible	Block
+	LabelType	Static
+	LabelString	"Caption setup:"
+	LabelFont
+	  Color		Green
+	EndFont
+	BabelPreamble
+	\usepackage{bicaption} % for multilingual captions
+	EndBabelPreamble
+End
+
+
+InsetLayout Caption:Bicaption
+	LabelString	bilingual
+	LaTeXType	command
+	LatexName	bicaption
+	Argument 1
+	  LabelString	"Main Language Short Title"
+	  Tooltip	"Short title for the main(document) language"
+	EndArgument
+	Argument 2
+	 Mandatory	1
+	  LabelString	"Main Language Text"
+	  Tooltip	"Text in the main(document) language"
+	EndArgument
+	Argument 3
+	  LabelString	"Second Language Short Title"
+	  Tooltip	"Short title for the second language"
+	EndArgument
+	HTMLStyle
+	  div.float-caption {
+	   text-align: center;
+	   border: 2px solid black;
+	   padding: 1ex;
+	   margin: 1ex;
+	  }
+	EndHTMLStyle
+	HTMLAttr "class='float-caption float-caption-bicaption'"
+End

@@ -1,0 +1,147 @@
+#\DeclareLyXModule{Theorems (Numbered by Type within Sections)}
+#DescriptionBegin
+#Defines some theorem environments for use with non-AMS classes. Contrary to the
+#plain Theorem module, the different theorem types provided here each have a separate
+#counter (e.g., theorem 1, theorem 2, lemma 1, proposition 1, theorem 3, lemma 2, ...,
+#as opposed to theorem 1, theorem 2, lemma 3, proposition 4, ...). The numbering is reset
+#at each section start.
+#DescriptionEnd
+#Requires: theorems-bytype | theorems-ams-bytype
+#Excludes: theorems-std | theorems-ams | theorems-starred | theorems-chap | theorems-chap-bytype
+
+# Author: Paul Rubin <rubin@msu.edu> (hacked from Richard Heck's various modules)
+
+Format 49
+
+# We need separate counters for each theorem-like style.
+Counter theorem
+	Within         section
+End
+Counter corollary
+	Within         section
+End
+Counter lemma
+	Within         section
+End
+Counter proposition
+	Within         section
+End
+Counter conjecture
+	Within         section
+End
+Counter fact
+	Within         section
+End
+Counter definition
+	Within         section
+End
+Counter example
+	Within         section
+End
+Counter problem
+	Within         section
+End
+Counter exercise
+	Within         section
+End
+Counter remark
+	Within         section
+End
+Counter claim
+	Within         section
+End
+
+Style Theorem
+	Preamble
+	  \theoremstyle{plain}
+	  \newtheorem{thm}{\protect\theoremname}[section]
+	EndPreamble
+End
+
+
+Style Corollary
+	Preamble
+	  \theoremstyle{plain}
+	  \newtheorem{cor}{\protect\corollaryname}[section]
+	EndPreamble
+End
+
+
+Style Lemma
+	Preamble
+	  \theoremstyle{plain}
+	  \newtheorem{lem}{\protect\lemmaname}[section]
+	EndPreamble
+End
+
+
+Style Proposition
+	Preamble
+	  \theoremstyle{plain}
+	  \newtheorem{prop}{\protect\propositionname}[section]
+	EndPreamble
+End
+
+
+Style Conjecture
+	Preamble
+	  \theoremstyle{plain}
+	  \newtheorem{conjecture}{\protect\conjecturename}[section]
+	EndPreamble
+End
+
+
+Style Fact
+	Preamble
+	  \theoremstyle{plain}
+	  \newtheorem{fact}{\protect\factname}[section]
+	EndPreamble
+End
+
+
+Style Definition
+	Preamble
+	  \theoremstyle{definition}
+	  \newtheorem{defn}{\protect\definitionname}[section]
+	EndPreamble
+End
+
+
+Style Example
+	Preamble
+	  \theoremstyle{definition}
+	  \newtheorem{example}{\protect\examplename}[section]
+	EndPreamble
+End
+
+
+Style Problem
+	Preamble
+	  \theoremstyle{definition}
+	  \newtheorem{problem}{\protect\problemname}[section]
+	EndPreamble
+End
+
+
+Style Exercise
+	Preamble
+	  \theoremstyle{definition}
+	  \newtheorem{xca}{\protect\exercisename}[section]
+	EndPreamble
+End
+
+
+Style Remark
+	Preamble
+	  \theoremstyle{remark}
+	  \newtheorem{rem}{\protect\remarkname}[section]
+	EndPreamble
+End
+
+
+Style Claim
+	Preamble
+	  \theoremstyle{remark}
+	  \newtheorem{claim}{\protect\claimname}[section]
+	EndPreamble
+End

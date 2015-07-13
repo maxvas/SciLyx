@@ -1,0 +1,255 @@
+#% Do not delete the line below; configure depends on this
+#  \DeclareLaTeXClass[memoir]{Memoir}
+#  \DeclareCategory{Books}
+# Memoir textclass definition file
+# Author: Jürgen Spitzmüller <spitz@lyx.org>
+# Improvements by: Bennett Helm <bennett.helm@fandm.edu>
+# feel free to contribute missing features!
+
+
+Format 49
+Columns            1
+Sides              2
+SecNumDepth        1
+TocDepth           1
+DefaultStyle       Standard
+PageStyle          Headings
+Provides makeidx   1
+Provides framed    1
+Provides subscript 1
+# Memoir has support for line spacing, but uses different names from
+# what setspace.sty does.  
+Provides SetSpace  1
+
+
+ClassOptions
+	FontSize             9|10|11|12|14|17
+	PageStyle            empty|plain|headings|myheadings|ruled|Ruled|companion
+	Other                oldfontcommands
+End
+
+
+Style Standard
+	Category              MainText
+	Margin                Static
+	LatexType             Paragraph
+	LatexName             dummy
+	ParIndent             MM
+	ParSkip               0.4
+	Align                 Block
+	AlignPossible         Block, Left, Right, Center
+	LabelType             No_Label
+End
+
+
+Input stdinsets.inc
+Input stdlists.inc
+Input stdcounters.inc
+Input stdfloats.inc
+Input stdsections.inc
+Input stdstarsections.inc
+Input numreport.inc
+
+
+Style Part
+	Argument 1
+		LabelString   "Short Title|S"
+		Tooltip       "The part as it appears in the table of contents/running headers"
+	EndArgument
+End
+      	
+
+
+Style Chapter
+	Argument 1
+		LabelString   "Short Title (TOC)|S"
+		Tooltip       "The chapter as it appears in the table of contents"
+	EndArgument
+	Argument 2
+		LabelString   "Short Title (Header)"
+		Tooltip       "The chapter as it appears in the running headers"
+		Requires      1
+	EndArgument
+End
+
+
+Style Chapter*
+	Argument 1
+		LabelString   "Short Title (TOC)|S"
+		Tooltip       "The chapter as it appears in the table of contents"
+	EndArgument
+End
+
+
+Style Section
+	Argument 1
+		LabelString   "Short Title (TOC)|S"
+		Tooltip       "The section as it appears in the table of contents"
+	EndArgument
+	Argument 2
+		LabelString   "Short Title (Header)"
+		Tooltip       "The section as it appears in the running headers"
+		Requires      1
+	EndArgument
+End
+
+
+Style Subsection
+	Argument 1
+		LabelString   "Short Title (TOC)|S"
+		Tooltip       "The subsection as it appears in the table of contents"
+	EndArgument
+	Argument 2
+		LabelString   "Short Title (Header)"
+		Tooltip       "The subsection as it appears in the running headers"
+		Requires      1
+	EndArgument
+End
+
+
+Style Subsubsection
+	Argument 1
+		LabelString   "Short Title (TOC)|S"
+		Tooltip       "The subsubsection as it appears in the table of contents"
+	EndArgument
+	Argument 2
+		LabelString   "Short Title (Header)"
+		Tooltip       "The subsubsection as it appears in the running headers"
+		Requires      1
+	EndArgument
+End
+
+
+Style Paragraph
+	Argument 1
+		LabelString   "Short Title (TOC)|S"
+		Tooltip       "The paragraph as it appears in the table of contents"
+	EndArgument
+	Argument 2
+		LabelString   "Short Title (Header)"
+		Tooltip       "The paragraph as it appears in the running headers"
+		Requires      1
+	EndArgument
+End
+
+
+Style Subparagraph
+	Argument 1
+		LabelString   "Short Title (TOC)|S"
+		Tooltip       "The subparagraph as it appears in the table of contents"
+	EndArgument
+	Argument 2
+		LabelString   "Short Title (Header)"
+		Tooltip       "The subparagraph as it appears in the running headers"
+		Requires      1
+	EndArgument
+End
+
+
+Style Chapterprecis
+	Margin               Static
+	LatexType            Command
+	LatexName            chapterprecis
+	NeedProtect          1
+	NextNoIndent         1
+	LeftMargin           MM
+	LabelSep             xxx
+	ParSkip              0.4
+	TopSep               0.4
+	BottomSep            0
+	ParSep               0.4
+	Align                Block
+	Font
+	  Shape              Italic
+	  Size               Normal
+	EndFont
+End
+
+Style Epigraph
+	Category              MainText
+	Margin                Right_Address_Box
+	LatexType             Command
+	LatexName             epigraph
+	ParSkip               0.4
+	BottomSep             1.5
+	ParSep                1.5
+	Align                 Left
+	Argument post:1
+		MenuString    "Epigraph Source|S"
+		LabelString   "Source"
+		Tooltip       "The source/author of this epigraph"
+		Mandatory     1
+	EndArgument
+	HTMLStyle
+		div.epigraph {
+			float: right;
+			width: 33%;
+			font-size: small;
+			margin: 0.5em 0em 0.5em 1em;
+		}
+	EndHTMLStyle
+End
+
+Style Poemtitle
+	Category              Sectioning
+	LatexType             Command
+	LatexName             PoemTitle
+	NeedProtect           1
+	NextNoIndent          1
+	LabelSep              xxx
+	ParSkip               0.4
+	TopSep                0.4
+	ParSep                0.4
+	Align                 center
+	Argument 1
+		LabelString   "Short Title (TOC)|S"
+		Tooltip       "The poem title as it appears in the table of contents"
+	EndArgument
+	Argument 2
+		LabelString   "Short Title (Header)"
+		Tooltip       "The poem title as it appears in the running headers"
+		Requires      1
+	EndArgument
+	Font
+	   Series             Bold
+	EndFont
+End
+
+
+Style Poemtitle*
+	CopyStyle             Poemtitle
+	Category              Unnumbered
+	LatexName             PoemTitle*
+	Argument 1
+		LabelString   "Short Title (TOC)|S"
+		Tooltip       "The poem title as it appears in the table of contents"
+	EndArgument
+End
+
+
+Input stdtitle.inc
+Input stdstruct.inc
+
+
+Style Bibliography
+	TopSep               4
+	LabelString          "Bibliography"
+	LabelFont
+	  Series             Bold
+	  Size               Huge
+	EndFont
+End
+
+
+Input lyxmacros.inc
+Input stdlayouts.inc
+
+Style Legend
+	Category            MainText
+	LatexType           Command
+	LatexName           legend
+	NeedProtect         1
+	NextNoIndent        1
+	ParSkip             0.4
+	Align               Center
+End

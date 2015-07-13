@@ -1,0 +1,38 @@
+\documentclass{article}
+\usepackage{fontspec}
+\setmainfont[Mapping=tex-text]{Linux Libertine O}
+\setsansfont[Mapping=tex-text,Scale=0.75]{Linux Biolinum O}
+\setmonofont{Linux Biolinum O}
+\usepackage{xunicode}
+\usepackage{polyglossia}
+\setdefaultlanguage[variant=british, ordinalmonthday = false]{english}
+\setotherlanguage{albanian}
+\setotherlanguage[variant=polytonic]{greek}
+\setotherlanguage{hebrew}
+\begin{document}
+
+\part{df}
+
+1 English \textgreek[variant=ancient]{ancient Greek} English
+\textgreek[numerals=arabic, variant=ancient]{ancient G\textsf{reek} with Arabic numerals} English
+
+\begin{albanian}%
+
+\part{df}
+
+2 Albanian \textgreek{Greek} Albanian \textsc{smallcaps}
+
+\end{albanian}%
+\begin{hebrew}%
+
+\part{df}
+
+3 Hebrew
+
+\end{hebrew}%
+
+%empty language paragraph
+\begin{albanian}%
+\end{albanian}%
+
+\end{document}

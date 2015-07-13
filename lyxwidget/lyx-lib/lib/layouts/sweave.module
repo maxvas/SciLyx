@@ -1,0 +1,94 @@
+#\DeclareLyXModule[sweave->latex,fancyvrb.sty]{Sweave}
+#DescriptionBegin
+#Allows to use the statistical language S/R as a literate programming tool via the Sweave() function.
+#For more info see the LyX example file sweave.lyx.
+#DescriptionEnd
+#Category: literate
+#Excludes: lilypond
+
+Format 49
+
+Input litinsets.inc
+
+Counter chunk
+    InitialValue 2
+End
+
+OutputType             literate
+OutputFormat           sweave
+
+ClassOptions
+	Other          "noae"
+End
+
+AddToPreamble
+	<<echo=F>>=
+	  if(exists(".orig.enc")) options(encoding = .orig.enc)
+	@
+EndPreamble
+
+InsetLayout "Flex:Sweave Options"
+	LabelString           "Sweave opts"
+	LatexType             Command
+	LaTexName             SweaveOpts
+	LyXType               Custom
+	Decoration            Classic
+	Font
+	  Color               latex
+	  Family              typewriter
+	EndFont
+	LabelFont
+	  Color               latex
+	  Size                Small
+	EndFont
+	MultiPar              false
+	PassThru              1
+	ParbreakIsNewline     1
+	Spellcheck	      0
+	FreeSpacing           true
+	ForceLTR              true
+End
+
+InsetLayout "Flex:S/R expression"
+	LabelString           "S/R expr"
+	LatexType             Command
+	LaTexName             Sexpr
+	LyXType               Custom
+	Decoration            Conglomerate
+	Font
+	  Color               latex
+	  Family              typewriter
+	EndFont
+	LabelFont
+	  Color               latex
+	  Size                Small
+	EndFont
+	MultiPar              false
+	PassThru              1
+	ParbreakIsNewline     1
+	Spellcheck	      0
+	FreeSpacing           true
+	ForceLTR              true
+End
+
+InsetLayout "Flex:Sweave Input File"
+	LabelString           "Sweave Input File"
+	LatexType             Command
+	LaTexName             SweaveInput
+	LyXType               Custom
+	Decoration            Classic
+	Font
+	  Color               latex
+	  Family              typewriter
+	EndFont
+	LabelFont
+	  Color               latex
+	  Size                Small
+	EndFont
+	MultiPar              false
+	PassThru              1
+	ParbreakIsNewline     1
+	Spellcheck	      0
+	FreeSpacing           true
+	ForceLTR              true
+End

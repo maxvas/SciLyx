@@ -1,0 +1,13 @@
+#\DeclareLyXModule[endnotes.sty]{Foot to End}
+#DescriptionBegin
+#Sets all footnotes as endnotes. You will need to add \theendnotes 
+#in TeX-code where you want the endnotes to appear.
+#DescriptionEnd
+
+Format 49
+
+Requires	endnotes
+
+AddToPreamble
+  \let\footnote=\endnote
+EndPreamble

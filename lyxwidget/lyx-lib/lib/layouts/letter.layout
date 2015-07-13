@@ -1,0 +1,19 @@
+#% Do not delete the line below; configure depends on this
+#  \DeclareLaTeXClass{Letter (Standard Class)}
+#  \DeclareCategory{Letters}
+# Letter textclass definition file.
+# Author : Matthias Ettrich <ettrich@informatik.uni-tuebingen.de>
+# Heavily modifed and enhanced by serveral developers.
+
+Format 49
+Input stdinsets.inc
+Input stdletter.inc
+Input stdlists.inc
+Input lyxmacros.inc
+Input stdfloats.inc
+Input stdcounters.inc
+Input stdlayouts.inc
+
+NoStyle         Right_Address
+NoStyle         Address
+

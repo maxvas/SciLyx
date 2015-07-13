@@ -1,0 +1,1023 @@
+##########################################################################
+#
+# Languages supported by LyX.
+#
+# Syntax:
+#
+# Language <lyxname>
+#	GuiName            "<Gui Name>"
+#	BabelName          <babelname>
+#	PolyglossiaName    <polyglossianame>
+#	PolyglossiaOpts    "<language-specific options>"
+#	Encoding           <encoding>
+#	QuoteStyle         <danish|english|french|german|polish|swedish>
+#	InternalEncoding   <true|false>
+#	RTL                <true|false>
+#	AsBabelOptions     <true|false>
+#	LangCode           <language_code>
+#	LangVariety        <language_variety>
+#	PreBabelPreamble
+#	  <extra latex code inserted before babel>
+#	EndPreBabelPreamble
+#	PostBabelPreamble
+#	  <extra latex code inserted after babel>
+#	EndPostBabelPreamble
+#	Requires           <requirement>
+# End
+#
+#
+# NOTES:
+#
+# * Omitted elements will be treated as empty (if string) or "false"
+#   (if boolean).
+# * The QuoteStyle arguments correspond to the following styles:
+#   - danish:  >>text<<  >text<   (inward guillemets)
+#   - english: ``text''  `text'   (66_99)
+#   - french:  <<text>>  <text>   (outward guillemets)
+#   - german:  ,,text``  ,text`   (99/66)
+#   - polish:  ,,text''  ,text'   (99/99)
+#   - swedish: ''text''  'text'   (99_99)
+#   Note that the option names have been selected (rather arbitrarily)
+#   because the respective styles are common in the respective countries.
+#   Of course this does not imply any fixed relation to those countries.
+# * Encoding is not relevant for XeTeX (which is utf8 always), and if
+#   Document > Settings > Language > Encoding is not set to "Language
+#   Default"
+# * InternalEncoding is used to tell LyX that babel internally sets a font
+#   encoding (such as hebrew to LHE). See bug #5091.
+# * AsBabelOptions advices LyX to pass the languages locally to babel, not
+#   globally to the class. Some languages (basically those not directly
+#   supported by babel) need this.
+#   FIXME: in this case, we might still need to pass the other languages
+#          globally, for the use of other packages (such as varioref).
+# * LangCode is also used for spellchecking and thesaurus, where the
+#   dictionaries are named accordingly. Thus, check this when intoducing/
+#   changing language codes (especially aspell, thesaurus).
+#   TODO: maybe use Best Current Practice (BCP 47) codes for LangCode
+#         http://www.rfc-editor.org/rfc/bcp/bcp47.txt
+#         http://www.w3.org/International/articles/language-tags/
+#         http://www.iana.org/assignments/language-subtag-registry
+# * LangVariety is used by the aspell spellchecker to differentiate
+#   dictionaries for different varieties of a given language (e.g. German
+#   pre-1998 and post-1998 spelling). The aspell dictionaries are named
+#   language[_REGION][-variety].multi, e.g. de-alt.multi for "German (old
+#   spelling)" (see http://aspell.net/man-html/Dictionary-Naming.html)
+#
+##########################################################################
+
+#
+# LyX-internal languages
+#
+
+Language ignore
+	GuiName          "Ignore"
+	BabelName        ignore
+	PolyglossiaName  ignore
+	Encoding         iso8859-1
+	LangCode         ignore
+End
+
+Language latex
+	GuiName          "LaTeX"
+	Encoding         iso8859-1
+	LangCode         latex
+End
+
+#
+# Real languages
+#
+
+# not yet supported by polyglossia
+Language afrikaans
+	GuiName          "Afrikaans"
+	BabelName        afrikaans
+	QuoteStyle       polish
+	Encoding         iso8859-15
+	LangCode         af_ZA
+End
+
+Language albanian
+	GuiName          "Albanian"
+	BabelName        albanian
+	PolyglossiaName  albanian
+	QuoteStyle       french
+	Encoding         iso8859-2
+	LangCode         sq_AL
+End
+
+Language american
+	GuiName          "English (USA)"
+	BabelName        american
+	PolyglossiaName  english
+	PolyglossiaOpts  "variant=american"
+	QuoteStyle       english
+	Encoding         iso8859-15
+	LangCode         en_US
+End
+
+# not supported by babel
+Language ancientgreek
+	GuiName          "Greek (ancient)"
+	PolyglossiaName  greek
+	PolyglossiaOpts  variant=ancient
+	QuoteStyle       french
+	Encoding         iso8859-7
+	LangCode         grc_GR
+End
+
+# FIXME: dummy babel language for arabic_arabtex to be able
+# to switch the language the way of the ArabTeX-package
+Language arabic_arabtex
+	GuiName          "Arabic (ArabTeX)"
+	BabelName        arabtex
+	QuoteStyle       french
+	Encoding         cp1256
+	RTL              true
+	LangCode         ar_SA
+End
+
+# polyglossia uses "Arabic" for the lang environment
+Language arabic_arabi
+	GuiName          "Arabic (Arabi)"
+	BabelName        arabic
+	PolyglossiaName  arabic
+	QuoteStyle       french
+	Encoding         cp1256
+	RTL              true
+	AsBabelOptions   true
+	LangCode         ar_SA
+End
+
+# not supported by babel
+Language armenian
+	GuiName          "Armenian"
+	PolyglossiaName  armenian
+	QuoteStyle       french
+	Encoding         utf8
+	LangCode         hy_AM
+End
+
+Language australian
+	GuiName          "English (Australia)"
+	BabelName        australian
+	PolyglossiaName  english
+	PolyglossiaOpts  "variant=australian"
+	Encoding         iso8859-15
+	QuoteStyle       english
+	LangCode         en_AU
+End
+
+# In polyglossia, this is supported since release 1.33.4 (May 2014)
+# We introduce it with LyX 2.2 to give the support time to settle.
+Language austrian
+	GuiName          "German (Austria, old spelling)"
+	BabelName        austrian
+	PolyglossiaName  german
+	PolyglossiaOpts  "variant=austrian,spelling=old,babelshorthands=true"
+	QuoteStyle       german
+	Encoding         iso8859-15
+	LangCode         de_AT
+End
+
+# In polyglossia, this is supported since release 1.33.4 (May 2014)
+# We introduce it with LyX 2.2 to give the support time to settle.
+Language naustrian
+	GuiName          "German (Austria)"
+	BabelName        naustrian
+	PolyglossiaName  german
+	PolyglossiaOpts  "variant=austrian,babelshorthands=true"
+	QuoteStyle       german
+	Encoding         iso8859-15
+	LangCode         de_AT
+End
+
+Language bahasa
+	GuiName          "Indonesian"
+	BabelName        bahasa
+	PolyglossiaName  bahasai
+	QuoteStyle       english
+	Encoding         iso8859-15
+	LangCode         id_ID
+End
+
+Language bahasam
+	GuiName          "Malay"
+	BabelName        bahasam
+	PolyglossiaName  bahasam
+	QuoteStyle       english
+	Encoding         iso8859-15
+	LangCode         ms_MY
+End
+
+Language basque
+	GuiName          "Basque"
+	BabelName        basque
+	PolyglossiaName  basque
+	QuoteStyle       french
+	Encoding         iso8859-15
+	LangCode         eu_ES
+	PostBabelPreamble
+	\addto\extrasbasque{\bbl@deactivate{~}}
+	EndPostBabelPreamble
+End
+
+# not yet supported by polyglossia
+Language belarusian
+	GuiName          "Belarusian"
+	BabelName        belarusian
+	QuoteStyle       french
+	Encoding         cp1251
+	LangCode         be_BY
+	AsBabelOptions   true
+End
+
+Language brazilian
+	GuiName          "Portuguese (Brazil)"
+	BabelName        brazil
+	PolyglossiaName  brazil
+	QuoteStyle       english
+	Encoding         iso8859-15
+	LangCode         pt_BR
+End
+
+Language breton
+	GuiName          "Breton"
+	BabelName        breton
+	PolyglossiaName  breton
+	QuoteStyle       french
+	Encoding         iso8859-15
+	LangCode         br_FR
+End
+
+Language british
+	GuiName          "English (UK)"
+	BabelName        british
+	PolyglossiaName  english
+	PolyglossiaOpts  "variant=british"
+	QuoteStyle       english
+	Encoding         iso8859-15
+	LangCode         en_GB
+End
+
+Language bulgarian
+	GuiName          "Bulgarian"
+	BabelName        bulgarian
+	PolyglossiaName  bulgarian
+	QuoteStyle       german
+	Encoding         cp1251
+	LangCode         bg_BG
+End
+
+# not yet supported by polyglossia
+Language canadian
+	GuiName          "English (Canada)"
+	BabelName        canadian
+#	PolyglossiaName  english
+#	PolyglossiaOpts  "variant=canadian"
+	QuoteStyle       english
+	Encoding         iso8859-15
+	LangCode         en_CA
+End
+
+# not yet supported by polyglossia
+Language canadien
+	GuiName          "French (Canada)"
+	BabelName        canadien
+#	PolyglossiaName  french
+#	PolyglossiaOpts  "variant=canadien"
+	QuoteStyle       french
+	Encoding         iso8859-15
+	LangCode         fr_CA
+End
+
+Language catalan
+	GuiName          "Catalan"
+	BabelName        catalan
+	PolyglossiaName  catalan
+	PolyglossiaOpts  "babelshorthands=true"
+	QuoteStyle       french
+	Encoding         iso8859-15
+	LangCode         ca_ES
+End
+
+# uses CJK package
+Language chinese-simplified
+	GuiName          "Chinese (simplified)"
+	Encoding         euc-cn
+	QuoteStyle       english
+	LangCode         zh_CN
+	Requires         CJK
+End
+
+# uses CJK package
+Language chinese-traditional
+	GuiName         "Chinese (traditional)"
+	QuoteStyle       english
+	Encoding        utf8-cjk
+	LangCode        zh_TW
+	Requires         CJK
+End
+
+# not supported by babel
+Language coptic
+	GuiName          "Coptic"
+	PolyglossiaName  coptic
+	Encoding         utf8
+	LangCode         cop_EG
+End
+
+Language croatian
+	GuiName          "Croatian"
+	BabelName        croatian
+	PolyglossiaName  croatian
+	QuoteStyle       polish
+	Encoding         iso8859-2
+	LangCode         hr_HR
+End
+
+Language czech
+	GuiName          "Czech"
+	BabelName        czech
+	PolyglossiaName  czech
+	QuoteStyle       german
+	Encoding         iso8859-2
+	LangCode         cs_CZ
+End
+
+Language danish
+	GuiName          "Danish"
+	BabelName        danish
+	PolyglossiaName  danish
+	QuoteStyle       danish
+	Encoding         iso8859-15
+	LangCode         da_DK
+End
+
+# not supported by babel
+Language divehi
+	GuiName          "Divehi (Maldivian)"
+	PolyglossiaName  divehi
+	Encoding         utf8
+	LangCode         dv_MV
+End
+
+Language dutch
+	GuiName          "Dutch"
+	BabelName        dutch
+	PolyglossiaName  dutch
+	PolyglossiaOpts  "babelshorthands=true"
+	QuoteStyle       polish
+	Encoding         iso8859-15
+	LangCode         nl_NL
+End
+
+Language english
+	GuiName          "English"
+	BabelName        english
+	PolyglossiaName  english
+	QuoteStyle       english
+	Encoding         iso8859-15
+	LangCode         en_US
+End
+
+# Esperanto has no country code because it is an auxiliary language.
+# We therefore the name of its hunspell dictionary.
+Language esperanto
+	GuiName          "Esperanto"
+	BabelName        esperanto
+	PolyglossiaName  esperanto
+	QuoteStyle       english
+	Encoding         iso8859-3
+	LangCode         eo_EO
+End
+
+Language estonian
+	GuiName          "Estonian"
+	BabelName        estonian
+	PolyglossiaName  estonian
+	QuoteStyle       polish
+	Encoding         iso8859-15
+	LangCode         et_EE
+	PostBabelPreamble
+	\addto\extrasestonian{\bbl@deactivate{~}}
+	EndPostBabelPreamble
+End
+
+# the preamble definitions are only used due to bugs in the
+# arabi-package -- remove them if they become unnecessary!
+Language farsi
+	GuiName          "Farsi"
+	BabelName        farsi
+	PolyglossiaName  farsi
+	Encoding         utf8
+	RTL              true
+	LangCode         fa_IR
+	PostBabelPreamble
+	\DeclareTextSymbol{\guillemotright}{LFE}{62}
+	\DeclareTextSymbol{\guillemotleft}{LFE}{60}
+	EndPostBabelPreamble
+End
+
+Language finnish
+	GuiName          "Finnish"
+	BabelName        finnish
+	PolyglossiaName  finnish
+	QuoteStyle       swedish
+	Encoding         iso8859-15
+	LangCode         fi_FI
+End
+
+# We redefine \og and \fg (guillemets) for older french language definitions
+Language french
+	GuiName          "French"
+	BabelName        french
+	PolyglossiaName  french
+	QuoteStyle       french
+	Encoding         iso8859-15
+	LangCode         fr_FR
+	PostBabelPreamble
+	\addto\extrasfrench{%
+	   \providecommand{\og}{\leavevmode\flqq~}%
+	   \providecommand{\fg}{\ifdim\lastskip>\z@\unskip\fi~\frqq}%
+	}
+	EndPostBabelPreamble
+End
+
+Language galician
+	GuiName          "Galician"
+	BabelName        galician
+	PolyglossiaName  galician
+	QuoteStyle       french
+	Encoding         iso8859-15
+	LangCode         gl_ES
+	PostBabelPreamble
+	\addto\shorthandsgalician{\galiciandeactivate{~}}
+	EndPostBabelPreamble
+End
+
+# german does not use a country code (due to the variety)
+Language german
+	GuiName          "German (old spelling)"
+	BabelName        german
+	PolyglossiaName  german
+	PolyglossiaOpts  "spelling=old,babelshorthands=true"
+	QuoteStyle       german
+	Encoding         iso8859-15
+	LangCode         de
+	LangVariety      alt
+End
+
+Language ngerman
+	GuiName          "German"
+	BabelName        ngerman
+	PolyglossiaName  german
+	PolyglossiaOpts  "babelshorthands=true"
+	QuoteStyle       german
+	Encoding         iso8859-15
+	LangCode         de_DE
+End
+
+# In Babel, this is supported since release 2.7 of babel-german (Dec 2013)
+# We introduce it with LyX 2.2 to give the support time to settle.
+# Polyglossia does not yet support Swiss German. We use ngerman for now.
+Language german-ch
+	GuiName          "German (Switzerland)"
+	BabelName        nswissgerman
+	PolyglossiaName  german
+	PolyglossiaOpts  "babelshorthands=true"
+#	PolyglossiaOpts  "variant=swiss,babelshorthands=true"
+	QuoteStyle       danish
+	Encoding         iso8859-15
+	LangCode         de_CH
+End
+
+# In Babel, this is supported since release 2.7 of babel-german (Dec 2013)
+# Polyglossia does not yet support Swiss German. We use german for now.
+Language german-ch-old
+	GuiName          "German (Switzerland, old spelling)"
+ 	BabelName        swissgerman
+ 	PolyglossiaName  german
+ 	PolyglossiaOpts  "spelling=old,babelshorthands=true"
+# 	PolyglossiaOpts  "variant=swiss,spelling=old,babelshorthands=true"
+ 	QuoteStyle       danish
+ 	Encoding         iso8859-15
+ 	LangCode         de_CH
+End
+
+Language greek
+	GuiName           "Greek"
+	BabelName         greek
+	PolyglossiaName   greek
+	QuoteStyle        french
+	Encoding          iso8859-7
+	InternalEncoding  true
+	LangCode          el_GR
+End
+
+Language polutonikogreek
+	GuiName           "Greek (polytonic)"
+	BabelName         polutonikogreek
+	PolyglossiaName   greek
+	PolyglossiaOpts   "variant=polytonic"
+	QuoteStyle        french
+	Encoding          iso8859-7
+	InternalEncoding  true
+	LangCode          el_GR
+End
+
+Language hebrew
+	GuiName           "Hebrew"
+	BabelName         hebrew
+	PolyglossiaName   hebrew
+	Encoding          cp1255
+	QuoteStyle        english
+	InternalEncoding  true
+	RTL               true
+	LangCode          he_IL
+End
+
+# not supported by babel
+Language hindi
+	GuiName          "Hindi"
+	PolyglossiaName  hindi
+	Encoding         utf8
+	LangCode         hi_IN
+End
+
+# Currently not supported (file format change!)
+# "hungarian" is a synonym for the "magyar" babel language option
+# "hungarian" might be used for special purposes,
+# see http://www.math.bme.hu/latex/magyar_pre_tug2004.pdf
+#Language hungarian
+#	GuiName         "Hungarian"
+#	BabelName       hungarian
+#	Encoding        iso8859-2
+#	LangCode        hu_HU
+#End
+
+Language icelandic
+	GuiName          "Icelandic"
+	BabelName        icelandic
+	PolyglossiaName  icelandic
+	QuoteStyle       german
+	Encoding         iso8859-15
+	LangCode         is_IS
+End
+
+# Interlingua has no official country code because it is an auxiliary
+# language. We therefore the name of its hunspell dictionary.
+Language interlingua
+	GuiName          "Interlingua"
+	BabelName        interlingua
+	PolyglossiaName  interlingua
+	Encoding         iso8859-15
+	LangCode         ia_IA
+End
+
+Language irish
+	GuiName          "Irish"
+	BabelName        irish
+	PolyglossiaName  irish
+	QuoteStyle       english
+	Encoding         iso8859-15
+	LangCode         ga_IE
+End
+
+Language italian
+	GuiName          "Italian"
+	BabelName        italian
+	PolyglossiaName  italian
+	QuoteStyle       french
+	Encoding         iso8859-15
+	LangCode         it_IT
+End
+
+# japanese must be loaded locally with babel options,
+# not globally via class options
+# http://www.lyx.org/trac/ticket/4597#c4
+# Since japanese does not load fontenc, we set
+# InternalEncoding to true.
+Language japanese
+	GuiName          "Japanese"
+	BabelName        japanese
+	Encoding         jis-platex
+	LangCode         ja_JP
+	AsBabelOptions   true
+	Requires         japanese
+	InternalEncoding true
+End
+
+# uses CJK package
+Language japanese-cjk
+	GuiName         "Japanese (CJK)"
+	Encoding        euc-jp
+	LangCode        ja_JP
+	Requires        CJK
+End
+
+# not yet supported by polyglossia
+# not supported by babel
+Language kazakh
+	GuiName         "Kazakh"
+	Encoding        ascii
+	LangCode        kk_KZ
+	PostBabelPreamble
+	\input{t2aenc.def}
+	\AtBeginDocument{\fontencoding{T2A}\selectfont}
+	EndPostBabelPreamble
+End
+
+Language korean
+	GuiName         "Korean"
+	Encoding        euc-kr
+	QuoteStyle      english
+	LangCode        ko_KR
+	Requires        CJK
+End
+
+# not yet supported by polyglossia
+Language kurmanji
+	GuiName          "Kurmanji"
+	BabelName        kurmanji
+	Encoding         utf8
+	LangCode         kmr
+	AsBabelOptions   true
+End
+
+# not supported by babel
+Language lao
+	GuiName          "Lao"
+	PolyglossiaName  lao
+	Encoding         utf8
+	LangCode         lo_LA
+End
+
+# There is no country code for Latin because it is a dead language.
+# We therefore the name of its hunspell dictionary.
+Language latin
+	GuiName          "Latin"
+	BabelName        latin
+	PolyglossiaName  latin
+	Encoding         iso8859-15
+	LangCode         la_LA
+End
+
+# latvian must be loaded locally with babel options,
+# not globally via class options
+Language latvian
+	GuiName          "Latvian"
+	BabelName        latvian
+	PolyglossiaName  latvian
+	QuoteStyle       danish
+	Encoding         iso8859-4
+	LangCode         lv_LV
+	AsBabelOptions   true
+End
+
+# lithuanian must be loaded locally with babel options,
+# not globally via class options
+Language lithuanian
+	GuiName          "Lithuanian"
+	BabelName        lithuanian
+	PolyglossiaName  lithuanian
+	QuoteStyle       german
+	Encoding         iso8859-13
+	LangCode         lt_LT
+	AsBabelOptions   true
+End
+
+Language lowersorbian
+	GuiName          "Lower Sorbian"
+	BabelName        lowersorbian
+	PolyglossiaName  lsorbian
+	QuoteStyle       german
+	Encoding         iso8859-2
+	LangCode         dsb_DE
+End
+
+Language magyar
+	GuiName          "Hungarian"
+	BabelName        magyar
+	PolyglossiaName  magyar
+	QuoteStyle       polish
+	Encoding         iso8859-2
+	LangCode         hu_HU
+End
+
+# not supported by babel
+Language marathi
+	GuiName          "Marathi"
+	PolyglossiaName  marathi
+	Encoding         utf8
+	LangCode         mr_IN
+End
+
+# mongolian must be loaded locally with babel options,
+# not globally via class options
+# not yet supported by polyglossia
+Language mongolian
+	GuiName          "Mongolian"
+	BabelName        mongolian
+	Encoding         utf8
+	LangCode         mn_MN
+	AsBabelOptions   true
+End
+
+Language newzealand
+	GuiName          "English (New Zealand)"
+	BabelName        newzealand
+	PolyglossiaName  english
+	PolyglossiaOpts  "variant=newzealand"
+	QuoteStyle       english
+	Encoding         iso8859-15
+	LangCode         en_NZ
+End
+
+Language norsk
+	GuiName          "Norwegian (Bokmaal)"
+	BabelName        norsk
+	PolyglossiaName  norsk
+	QuoteStyle       french
+	Encoding         iso8859-15
+	LangCode         nb_NO
+End
+
+Language nynorsk
+	GuiName          "Norwegian (Nynorsk)"
+	BabelName        nynorsk
+	PolyglossiaName  nynorsk
+	QuoteStyle       french
+	Encoding         iso8859-15
+	LangCode         nn_NO
+End
+
+# not supported by babel
+Language occitan
+	GuiName          "Occitan"
+	PolyglossiaName  occitan
+	QuoteStyle       french
+	Encoding         utf8
+	LangCode         oc_FR
+End
+
+# Currently not supported (file format change!)
+# Russian orthography from the Petrine orthographic reforms of
+# 1708 to the 1917 orthographic reform
+# Language oldrussian
+# 	GuiName          "Russian (Petrine orthography)"
+# 	PolyglossiaName  russian
+# 	PolyglossiaOpts  spelling=old
+# 	LangCode         ru_petr1708
+# End
+
+Language polish
+	GuiName          "Polish"
+	BabelName        polish
+	PolyglossiaName  polish
+	QuoteStyle       polish
+	Encoding         iso8859-2
+	LangCode         pl_PL
+End
+
+Language portuguese
+	GuiName          "Portuguese"
+	BabelName        portuges
+	PolyglossiaName  portuges
+	QuoteStyle       english
+	Encoding         iso8859-15
+	LangCode         pt_PT
+End
+
+Language romanian
+	GuiName          "Romanian"
+	BabelName        romanian
+	PolyglossiaName  romanian
+	QuoteStyle       polish
+	Encoding         iso8859-2
+	LangCode         ro_RO
+End
+
+Language russian
+	GuiName          "Russian"
+	BabelName        russian
+	PolyglossiaName  russian
+	QuoteStyle       french
+	Encoding         koi8-r
+	LangCode         ru_RU
+End
+
+Language samin
+	GuiName          "North Sami"
+	BabelName        samin
+	PolyglossiaName  samin
+	Encoding         iso8859-15
+	LangCode         se_NO
+End
+
+# not supported by babel
+Language sanskrit
+	GuiName          "Sanskrit"
+	PolyglossiaName  sanskrit
+	Encoding         utf8
+	LangCode         sa_IN
+End
+
+Language scottish
+	GuiName          "Scottish"
+	BabelName        scottish
+	PolyglossiaName  scottish
+	QuoteStyle       english
+	Encoding         iso8859-15
+	LangCode         gd_GB
+End
+
+Language serbian
+	GuiName          "Serbian"
+	BabelName        serbianc
+	PolyglossiaName  serbian
+	QuoteStyle       german
+	Encoding         iso8859-5
+	LangCode         sr_RS
+	AsBabelOptions   true
+End
+
+Language serbian-latin
+	GuiName          "Serbian (Latin)"
+	BabelName        serbian
+	PolyglossiaName  serbian
+	PolyglossiaOpts  "script=latin"
+	QuoteStyle       german
+	Encoding         iso8859-2
+	LangCode         sr_RS-Latin
+End
+
+Language slovak
+	GuiName          "Slovak"
+	BabelName        slovak
+	PolyglossiaName  slovak
+	QuoteStyle       german
+	Encoding         iso8859-2
+	LangCode         sk_SK
+End
+
+Language slovene
+	GuiName          "Slovene"
+	BabelName        slovene
+	PolyglossiaName  slovenian
+	QuoteStyle       german
+	Encoding         iso8859-2
+	LangCode         sl_SI
+End
+
+Language spanish
+	GuiName          "Spanish"
+	BabelName        spanish
+	PolyglossiaName  spanish
+	QuoteStyle       french
+	Encoding         iso8859-15
+	LangCode         es_ES
+	PostBabelPreamble
+	\addto\shorthandsspanish{\spanishdeactivate{~<>}}
+	EndPostBabelPreamble
+End
+
+# there are no spanish shorthands in polyglossia
+Language spanish-mexico
+	GuiName          "Spanish (Mexico)"
+	BabelName        spanish
+	PolyglossiaName  spanish
+	QuoteStyle       french
+	Encoding         iso8859-15
+	LangCode         es_MX
+	PostBabelPreamble
+	\addto\shorthandsspanish{\spanishdeactivate{~<>.}}
+	EndPostBabelPreamble
+End
+
+Language swedish
+	GuiName          "Swedish"
+	BabelName        swedish
+	PolyglossiaName  swedish
+	QuoteStyle       swedish
+	Encoding         iso8859-15
+	LangCode         sv_SE
+End
+
+# not supported by babel
+#Language syriac
+#	GuiName          "Syriac"
+#	PolyglossiaName  syriac
+#	Encoding         utf8
+#	RTL              true
+#	LangCode         syr_SY
+#End
+
+# not supported by babel
+Language tamil
+	GuiName          "Tamil"
+	PolyglossiaName  tamil
+	Encoding         utf8
+	LangCode         ta_IN
+End
+
+# not supported by babel
+Language telugu
+	GuiName          "Telugu"
+	PolyglossiaName  telugu
+	Encoding         utf8
+	LangCode         te_IN
+End
+
+Language thai
+	GuiName          "Thai"
+	BabelName        thai
+	PolyglossiaName  thai
+	QuoteStyle       english
+	Encoding         tis620-0
+	LangCode         th_TH
+	PostBabelPreamble
+	\usepackage{thswitch}
+	EndPostBabelPreamble
+End
+
+# not supported by babel
+Language tibetan
+	GuiName          "Tibetan"
+	PolyglossiaName  tibetan
+	Encoding         utf8
+	LangCode         bo_CN
+End
+
+Language turkish
+	GuiName          "Turkish"
+	BabelName        turkish
+	PolyglossiaName  turkish
+	QuoteStyle       french
+	Encoding         iso8859-9
+	LangCode         tr_TR
+	PostBabelPreamble
+	\usepackage{xkeyval}
+	EndPostBabelPreamble
+End
+
+# turkmen must be loaded locally with babel options,
+# not globally via class options
+Language turkmen
+	GuiName          "Turkmen"
+	BabelName        turkmen
+	PolyglossiaName  turkmen
+	QuoteStyle       french
+	Encoding         utf8
+	LangCode         tk_TM
+	AsBabelOptions   true
+End
+
+Language ukrainian
+	GuiName          "Ukrainian"
+	BabelName        ukrainian
+	PolyglossiaName  ukrainian
+	QuoteStyle       french
+	Encoding         koi8-u
+	LangCode         uk_UA
+End
+
+Language uppersorbian
+	GuiName          "Upper Sorbian"
+	BabelName        uppersorbian
+	PolyglossiaName  usorbian
+	QuoteStyle       german
+	Encoding         iso8859-2
+	LangCode         hsb_DE
+End
+
+# not supported by babel
+#Language urdu
+#	GuiName          "Urdu"
+#	PolyglossiaName  urdu
+#	Encoding         utf8
+#	RTL              true
+#	LangCode         ur_PK
+#End
+
+# vietnam must be loaded locally with babel options,
+# not globally via class options, see
+# http://www.mail-archive.com/lyx-devel@lists.lyx.org/msg129417.html
+Language vietnamese
+	GuiName          "Vietnamese"
+	BabelName        vietnam
+	PolyglossiaName  vietnamese
+	QuoteStyle       french
+	Encoding         utf8
+	LangCode         vi_VN
+	AsBabelOptions   true
+	Requires         vietnamese
+End
+
+Language welsh
+	GuiName          "Welsh"
+	BabelName        welsh
+	PolyglossiaName  welsh
+	QuoteStyle       english
+	Encoding         iso8859-15
+	LangCode         cy_GB
+End

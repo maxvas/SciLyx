@@ -1,0 +1,152 @@
+#% Do not delete the line below; configure depends on this
+#  \DeclareLaTeXClass[seminar,sem-page.sty]{Seminar}
+#  \DeclareCategory{Presentations}
+# Versions:
+#   1.0 Initial attemt at makeing a LyX layout file for the seminar class.
+#       Author : Lars Gullik Bjønnes <larsbj@lyx.org>
+#   1.1 08-04-2002 Günter Milde <milde users.sf.net>
+#   1.2 11-12-2002 Günter Milde (copying some stuff from L. G. Bjønnes
+#                                version in LyX 1.3)
+#   1.3 2007-09-18 Günter Milde (adapted to LyX 1.5)
+#   1.4 2008-10-08 Günter Milde (use --Separator-- "look")
+#   1.5 2011-06-09 Günter Milde (Use Flex insets)
+
+Format 50
+Sides	1
+Columns	1
+
+ClassOptions
+	FontSize	8|9|10|11|12|14|17
+	Other		"slidesec,semrot,portrait"
+End
+
+# Input general definitions: (seminar is based on the article class)
+Input article.layout
+
+InsetLayout Flex:LandscapeSlide
+	LabelString	"Landscape Slide"
+	LatexType	Environment
+	LatexName	slide
+	LyXType		custom
+	Decoration	classic
+	MultiPar	true
+	KeepEmpty		true
+	LabelFont
+		Size	Small
+	EndFont
+	ResetsFont true
+End
+
+InsetLayout Flex:PortraitSlide
+	CopyStyle	Flex:LandscapeSlide
+	LabelString	"Portrait Slide"
+	LatexName	slide*
+End
+
+# Note: \slideheading is only defined when the option slidesec is present
+Style SlideHeading
+	CopyStyle		Section*
+	LatexName		slideheading
+	Align			Center
+End
+
+# Note: \slidesubheading is only defined when the option slidesec is present
+Style SlideSubHeading
+	CopyStyle		Subsection*
+	LatexName		slidesubheading
+	Align			Center
+End
+
+InsetLayout Flex:ListOfSlides
+	CopyStyle		Flex:LandscapeSlide
+	LabelString		"List of Slides"
+	LatexType		Command
+	LatexName		listofslides
+	BgColor			listingsbg
+	Spellcheck		0
+End
+
+InsetLayout Flex:SlideContents
+	CopyStyle		Flex:ListOfSlides
+	LabelString		"Slide Contents"
+	LatexName		slidecontents
+End
+
+InsetLayout Flex:ProgressContents
+	CopyStyle		Flex:ListOfSlides
+	LabelString		"Progress Contents"
+	LatexName		Slidecontents
+End
+
+# Compatibility definitions for old documents
+# -------------------------------------------
+#
+# It is recommended to use the custom insets instead of paragraph styles.
+
+Style LandscapeSlide
+	Category		MainText
+	KeepEmpty		1
+	LatexType		Environment
+	LatexName		slide
+	NextNoIndent		1
+	Margin			Static
+	LeftMargin		N
+	ParIndent		""
+	TopSep			0.4
+	Align			Block
+	LabelType		Above
+	LabelString		"Landscape Slide:"
+	LabelFont
+	  Family		Roman
+	  Series		Medium
+	  Size			Normal
+	  Color			Blue
+	EndFont
+	HTMLLabel		NONE
+End
+
+Style Slide
+	Obsoletedby		LandscapeSlide
+End
+
+Style PortraitSlide
+	CopyStyle		LandscapeSlide
+	LatexName		slide*
+	LabelString		"Portrait Slide:"
+End
+Style Slide*
+	ObsoletedBy		PortraitSlide
+End
+
+Style ListOfSlides
+	Category		MainText
+	KeepEmpty		1
+	LatexType		Command
+	LatexName		listofslides
+	Margin			Dynamic
+	ParIndent		MM
+	TopSep			0.5
+	BottomSep		0.5
+	Align			Center
+	LabelType		Static
+	LabelString		"[List Of Slides]"
+	LabelFont
+	  Family		Roman
+	  Series		Medium
+	  Size			Normal
+	  Color			Blue
+	EndFont
+	HTMLLabel		NONE
+End
+
+Style SlideContents
+	CopyStyle		ListOfSlides
+	LatexName		slidecontents
+	LabelString		"[Slide Contents]"
+End
+
+Style ProgressContents
+	CopyStyle		ListOfSlides
+	LatexName		Slidecontents
+	LabelString		"[Progress Contents]"
+End

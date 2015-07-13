@@ -1,0 +1,104 @@
+#% Do not delete the line below; configure depends on this
+#  \DeclareLaTeXClass[svmono,footmisc.sty,multicol.sty,natbib.sty,type1cm.sty]{Springer SV Mono}
+#  \DeclareCategory{Books}
+#  Author: Koji Yokota <yokota@res.otaru-uc.ac.jp>
+#          adapted: Marcus Kriele <mkriele@mac.com> and Uwe Stöhr (April 2011)
+#
+#  Supports: SVMONO DOCUMENT CLASS -- version 5.5 (17-Dec-09)
+#  Class and style files and templates are found at:
+#       http://wiki.lyx.org/Examples/Springer
+#
+Format 49
+Input svcommon.inc
+
+TocDepth                2
+
+ClassOptions
+	FontSize	10
+End
+
+NoStyle Acknowledgements
+NoStyle Institute
+
+Style Abstract
+	LatexType	Command
+End
+
+Counter theorem
+  Within	chapter
+End
+
+Counter definition
+  Within	chapter
+End
+
+Counter remark
+  Within	chapter
+End
+
+Counter corollary
+  Within	chapter
+End
+
+Counter lemma
+  Within	chapter
+End
+
+Counter proposition
+  Within	chapter
+End
+
+Counter claim
+  Within	chapter
+End
+
+Counter conjecture
+  Within	chapter
+End
+
+Counter question
+  Within	chapter
+End
+
+Counter example
+  Within	chapter
+End
+
+Counter exercise
+  Within	chapter
+End
+
+Counter case
+  Within	chapter
+End
+
+Counter property
+  Within	chapter
+End
+
+Counter note
+  Within	chapter
+End
+
+Style Claim
+	LabelString	"Claim."
+End
+
+Style Proof
+	LabelString	"Proof."
+End
+
+Style Proof(QED)
+	LabelString	"Proof."
+End
+
+Style Proof(smartQED)
+	LabelString	"Proof."
+End
+
+NoStyle TOC_Title
+NoStyle TOC_Author
+NoStyle Running_Title
+NoStyle Running_Author
+
+

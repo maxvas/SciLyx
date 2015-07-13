@@ -1,0 +1,105 @@
+This file lists features that are supported by LyX but not yet converted (or
+not converted completely) by tex2lyx. Currently, (all?) features up to the
+current file format are listed. The table is organized in three columns:
+
+
+Format:        First file format that supports the feature. In some cases the
+               feature may habe been revised in later file formats.
+LaTeX feature: LaTeX package, command or environment
+LyX feature:   LyX inset or document setting
+
+
+Format LaTeX feature                        LyX feature
+224    external insets defined in           InsetExternal
+       lib/external_templates.
+       (Date and RasterImage cannot be supported
+       (Chess diagram, PDF pages and Spreadsheet are supported)
+       (Xfig figure, Lilypond, Dia diagram can be supported by looking at the file extension)
+226    nothing (impossible to import)       InsetBranch, \branch...\end_branch
+226    transformations                      InsetExternal
+228    draft                                InsetExternal
+232    bibtopic                             InsetBibTeX
+254    esint.sty                            \use_esint
+267    XeTeX                                utf8 encoding
+270    \alert, \structure (beamer)          layout
+281    ?                                    modules
+293    ?                                    InsetInfo
+322    ?                                    local layout
+326    PDFLaTeX for external insets         InsetExternal
+329    master documents                     \master
+332    ?                                    InsetGraphics groupId
+343    ?                                    \use_default_options
+358    custom bibtex command                \bibtex_command
+358    custom makeindex command             \index_command
+363    horizontal longtable alignment       InsetTabular
+364    branch file name suffix              \filename_suffix
+366    relative lengths for parskip         \defskip
+367    relative lengths for h and v space   InsetSpace, InsetVSpace
+368    glue lengths                         InsetSpace
+371    automatic mhchem loading             \use_mhchem
+375    \includeonly                         \{begin,end}_includeonly
+376    update .aux of unincluded children   \maintain_unincluded_children
+377    multirow.sty                         InsetTabular
+378    revision info                        InsetInfo
+380    ?                                    InsetPreview
+386    LyX version                          InsetInfo
+390    forward/reverse search               \forward_search, \forward_macro
+391    decimal alignment in tables          InsetTabular
+392    new beamer format                    InsetLayout
+396    nameref.sty                          InsetRef
+399    automatic mathdots loading           \use_mathdots
+407    vertical offset for multirows        InsetTabular
+411    support for polyglossia              \language_package	(the cases of no package, of babel and of custom package is supported)
+415    automatic undertilde loading         \use_package undertilde
+438    \t*{ } and \=*{a}                    InsetTIPA
+439    MinionPro.sty                        \font_roman, \font_osf
+440    MinionPro.sty,                       \font_math
+443    unicode-math.sty                     InsetMath*
+445    URW Classico LaTeX font              \font_sans uop
+       \renewcommand{\sffamily}{uop}
+446    Optional and required arguments      InsetArgument
+       now numbered by order
+447
+448
+449    \item[<arg>]                         \begin_inset Argument item:<nr>
+450    ugm LaTeX font,                      \font_roman, \font_osf,
+451    beamer overlay arguments             InsetArgument
+       \command<arg>, \begin{env}<arg>
+452    beamer block arguments               InsetArgument
+       \begin{block}<overlay>{title}
+453    automatic stmaryrd loading           \use_package stmaryrd
+454    beamer overprint environment         InsetArgument, layout Overprint
+       \begin{overprint}[maxlength]
+       \onslide<slide> text ...
+       \end{overprint}
+455    beamer frametitle command            \begin_layout FrameTitle
+       \frametitle<overlay>[short}{long}
+456    memoir: \epigraph{text}{source}      layout Epigraph, InsetArgument
+457    automatic stackrel loading           \use_package stackrel
+458    Extended InsetCaption syntax         InsetCaption
+459    beamer: \begin{frame},               \begin_layout Frame
+       \begin{frame}[plain],                \begin_layout PlainFrame
+       \begin{frame}[fragile]               \begin_layout FragileFrame
+461   support for kurier math font (the other kurier fonts are already supported)
+462    New libertine LaTeX fonts:
+       \usepackage[scale|scaled|ttscale=$val]{libertineMono-type1}
+                                            \font_typewriter
+                                            \font_tt_scale
+       \usepackage[scale|scaled=$val]{biolinum-type1}
+                                            \font_sans
+                                            \font_sf_scale
+466   Powerdot updates:                     
+      \pause[]                              layout Pause
+      \onslide{}{}                          InsetFlex, InsetArgument
+      \onslide*{}{}                         InsetFlex, InsetArgument
+      \onslide+{}{}                         InsetFlex, InsetArgument
+      \twocolumn[]{}{}                      Layout Twocolumn, InsetArgument
+      \item[]<>                             InsetArgument
+      \begin{enumerate|itemize|...}[]       InsetArgument
+467   support for iwona math font (the other iwona fonts are already supported)
+
+
+General
+
+* Use the language information provided by Language.cpp and the languages file (for babel/lyx/polyglossia name, quote style etc.)
+  instead of hardcoding this information in Preamble.cpp.

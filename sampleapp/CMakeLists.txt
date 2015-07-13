@@ -1,0 +1,39 @@
+cmake_minimum_required(VERSION 2.6.4)
+set(PROJECT science-editor-sampleapp)
+
+project(${PROJECT})
+
+find_package( Qt5 REQUIRED COMPONENTS Core Gui Widgets Network)
+
+set(HEADERS
+)
+
+set(SOURCES
+    main.cpp
+)
+
+set(UI
+)
+
+set(RESOURCES
+)
+#LINK_DIRECTORIES(${CMAKE_CURRENT_SOURCE_DIR}/..)
+#LINK_DIRECTORIES(${CMAKE_CURRENT_SOURCE_DIR}/../gitbrowser)
+#LINK_DIRECTORIES(${CMAKE_CURRENT_SOURCE_DIR}/../lyxwidget)
+#LINK_DIRECTORIES(${CMAKE_CURRENT_SOURCE_DIR}/../qfs)
+
+INCLUDE_DIRECTORIES(${CMAKE_CURRENT_SOURCE_DIR}/..)
+INCLUDE_DIRECTORIES(${CMAKE_CURRENT_BINARY_DIR})
+INCLUDE_DIRECTORIES(${CMAKE_CURRENT_SOURCE_DIR}/../qfs)
+SET (MOC_SOURCES )
+SET (UIS )
+qt5_wrap_cpp (MOC_SOURCES ${HEADERS})
+qt5_wrap_ui (UIS ${UI})
+qt5_add_resources (RESSRC ${RESOURCES})
+#cmake_policy(SET CMP0028 OLD)
+set(CMAKE_CXX_FLAGS "-fPIC")
+
+add_executable(${PROJECT} ${HEADERS} ${SOURCES} ${MOC_SOURCES} ${UIS} ${RESSRC})
+
+target_link_libraries(${PROJECT} Qt5::Widgets Qt5::Network SciLyx)
+install(TARGETS ${PROJECT} DESTINATION ${CMAKE_BINARY_DIR}/bin)

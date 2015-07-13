@@ -1,0 +1,219 @@
+﻿Changelog for LyX-211-2:
+- updated to Python 2.7.8
+
+
+Changelog for LyX-211-1:
+- installs LyX 2.1.1
+- updated to Ghostscript 8.14
+- updated to Qt 4.8.6
+
+
+Changelog for LyX-210-2:
+- LyX can now also be installed over an existing installation of the same LyX version
+  if the users really wants this.
+- LyX can now also be installed if the uninstaller executable of a former LyX was
+  accidentally deleted.
+- If a user set MiKTeX's automatic package installation to "No" the installer will
+  respect that and not re-enable it.
+
+
+Changelog for LyX-210-1:
+- installs LyX 2.1.0
+- fixed a bug that MiKTeX was not found if Windows' PATH variable is very long
+
+
+Changelog for LyX-208-1:
+- installs LyX 2.0.8
+- fixed a bug that MiKTeX was not found if Windows' PATH variable is very long
+
+
+Changelog for LyX-207-4:
+- downgraded to Qt 4.8.4
+  (there is a bug in the newer Qt 4.8.5 that destroys some shortcuts)
+- updated to JabRef 2.10
+
+
+Changelog for LyX-207-3:
+- fix serious bug that LyX could directly be installed to c:\programs
+  the uninstaller would then delete the whole c:\programs folder
+- install a stripped-down version of Perl to be able to use LyX's feature
+  to have several indexes also when LyX is installed without admin privileges
+- updated to Qt 4.8.5
+- updated to Perl 5.18
+
+
+Changelog for LyX-207-2:
+- LyX can now be installed and uninstalled silently
+  (administrators can start the installer with "LyX-207-Installer-2.exe /S")
+- updated to Python 2.7.6
+- new spell checker for Turkmen
+- new thesaurus for Galician
+- updated spell-checker dictionaries for Gaelic, Galician, Interlingua,
+  Italian, Lower Sorbian, Portuguese (Portugal), Romanian, serbian (Latin and Cyrillic) and Ukrainian
+  (To benefit from them you must uninstall an already installed LyX 2.0.x and
+   then use this installer.)
+- updated thesaurus for Slovenian and Ukrainian
+  (need to reinstall LyX to benefit from this)
+
+
+Changelog for LyX-207:
+- installs LyX 2.0.7
+- updated to GhostScript 9.10
+- updated to MiKTeX 2.9 build 5105
+
+
+Changelog for LyX-206-3:
+- XeTeX support for Arabic and Farsi will now
+  automatically be installed to MiKTeX
+- updated spell-checker dictionary for Norwegian(Bokmal)
+
+
+Changelog for LyX-206-2:
+- fix bug that View/Export a file as HTML did not work.
+- enable to use multiple indexes also with 64bit-MiKTeX
+- updated to Python 2.7.5 
+
+
+Changelog for LyX-206-1:
+- installs LyX 2.0.6
+- support for Vietnamese, Thai, Serbian Cyrillic and Mongolian will now
+  automatically be installed to MiKTeX
+- language support files for Belarusian and Hungarian are now included
+- spell-checker dictionaries for Serbian(Latin) and French(Canada) are now available
+  (for French(Canada) see also http://wiki.lyx.org/Windows/FrenchCanadian)
+- thesaurus dictionaries for Icelandic and Ukrainian are now available
+- updated to eLyXer 1.2.5
+- updated spell-checker dictionaries for Belarusian, Breton, Gaelic, Interlingua,
+  Italian, Korean, Latin, Latvian, Norwegian, Portuguese, Romanian, Serbian(Cyrillic),
+  Slovakian and Swedish
+  (To benefit from them you must uninstall an already installed LyX 2.0.x and
+   then use this installer.)
+- updated thesaurus for Italian, Norwegian(Bokmal), Portuguese, Romanian,
+  Slovakian and Slovenian
+  (need to reinstall LyX to benefit from this)
+- updated to Python 2.7.4
+
+
+Changelog for LyX-2051-5:
+- Fix broken importing of TeX files to LyX
+- If a 64bit version of MiKTeX is installed it is now recognized by LyX
+- Fix broken installation of the Perl interpreter (Perl is only necessary to use
+  several global indexes in a LyX document.)
+- Fix bug that installation of LyX was not aborted if no LaTeX-distribution was found
+  but LaTeX should be used (does not affect the bundle installer)
+- updated to GhostScript 9.07
+- updated to MiKTeX 2.9 build 4813
+
+
+Changelog for LyX-2051-4:
+- If LyX is installed together with MiKTeX (bundle installer) the installation of
+  LaTeX-packages required by LyX takes now much less time and you get a visual feedback
+  about the installation process. 
+
+
+Changelog for LyX-2051-3:
+- fix bug that MiKTeX was not correctly configured on some 64bit versions of Windows
+- don't overwrite the MiKTeX package repository from where missing packages will be installed
+- updated to JabRef 2.9.2
+- updated to MiKTeX 2.9 build 4757
+
+
+Changelog for LyX-2051-2:
+- fix bug that an installed MiKTeX was not found on Windows 7 and 8 with 64 bit
+- adapt the source package to make it easier to compile the installer;
+  added a Readme file describing how to compile
+
+
+Changelog for LyX-2051-1:
+Nothing changed except of LyX.
+
+
+Changelog for LyX-205-5:
+Bugfixes:
+- fix bug that installer stopped working if LyX was installed
+  the first time on a computer
+- fix failing installation of Slovakian spellcheck dictionary
+- prevent case that the installer could run an infinite loop if the
+  installation of dictionaries was interrupted
+- added missing files to the installer source zip-file so that it can now really be
+  used to compile the installer
+- updated to Qt 4.8.4 (Fixes a problem that with some screen font zooms, lines and dots disappeared.)
+
+New features:
+- give feedback about the state of the package installation
+  (Especially if LyX is installed the first time, the package installation can take several minutes.
+   Now the installer prints in the progress window the name of the package that is currently installed.)
+- the installer supports now the usage of TeXLive as LaTeX distribution.
+  (TeXLive must be manually installed before LyX.) 
+- updated spell-checker dictionaries for Scottish and Swedish
+  (To benefit from them you must uninstall an already installed LyX 2.0.x and
+   then use this installer.)
+- updated thesaurus for Slovenian
+  (need to reinstall LyX to benefit from this)
+- updated Hungarian, Indonesian and Swedish translation of the installer messages
+- new Basque translation of the installer messages
+
+
+Changelog for LyX-205-4:
+- support to update the view as PDF if Adobe Reader XI is used
+- fix long standing bug that updating a PDF view failed for larger
+  LyX documents if Adobe Reader or Acrobat was used as PDF viewer
+- fixed bug that viewing PDF files could fail if Acrobat or Adobe Reader was
+  not the default PDF viewer of the system while LyX was installed, but
+  became later the default PDF viewer
+- fixed bug that EPS and PDF images were not displayed if LyX was installed this time without
+  admin privileges but an older LyX version was once installed with admin privileges
+- correct the required disk space for the German thesaurus dictionaries
+- updated Japanese, Norwegian, Polish, Slovak and Ukrainian translation of the installer messages
+
+
+Changelog for LyX-205-3:
+- fixed infinite loop when starting the installer and not having Ghostscript previously installed (LyX bug #8417)
+- updated to JabRef 2.8.1
+- updated French and Spanish translation of the installer messages
+- removed support for old installations of MiKTeX version 2.7 and older
+
+
+Changelog for LyX-205-2:
+- the installer detects now existing spell-checker and thesaurus dictionaries
+  of existing LyX installations
+- fixed un/installation of Jabref if bundle installer is executed without having admin privileges
+- fixed uninstallation of Metafile2EPS printer
+- fixed detection for already installed Ghostscript and GSview on 64bit Windows
+- fixed detection for jEdit, Vim, WinEdt and TeXnicCenter as LaTeX source file editor
+- fixed detection of Gimp and Photoshop as image manipulating program
+- updated spell-checker dictionaries for German and Belorussian
+  (To benefit from them you must uninstall an already installed LyX 2.0.x and
+   then use this installer.)
+- updated thesaurus for German
+  (need to reinstall LyX to benefit from this)
+- bugfix: remove registry entries of existing LyX version when installing over it
+- don't allow to install an older LyX version over an existing newer one
+
+
+Changelog for LyX-205-1:
+- installs LyX 2.0.5
+- updated to Python 2.7.3
+- updated to ImageMagick 6.8.0-4
+- updated to Ghostscript 9.06
+
+
+Changelog for LyX-204-3:
+- renamed the proposed LyX installation folder to "LyX 2.0" instead of the former "LyX 2.0.4"
+  (reason: it should be default be possible to override existing older version of the LyX 2.0.x series)
+- link the LyX Wiki and website in LyX's start menu folder
+
+
+Changelog for LyX-204-2:
+- Prevent that LyX can first be installed with admin privileges and afterwards without them
+- In the uninstaller it is now the default not to uninstall the user preferences and settings
+- Fix the path in which the LyX start menu shortcut is executed
+- Also if LyX is installed without admin privileges, the .lyx file associations are set
+- Fix a typo in English translation
+
+
+Changelog for LyX-204-1:
+- It is now possible to install LyX also without administrator privileges.
+  (Note that the support for the image file formats WMF and EMF can only be installed if LyX is installed with administrator privileges.)
+- Added support for multiple indexes in LyX documents
+- Support to install spell checker and thesaurus dictionaries for all languages supported by LyX.

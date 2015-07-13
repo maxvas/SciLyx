@@ -1,0 +1,148 @@
+Описание классов:  
+Author.h
+	lyx::Author - информация об авторе, производящем редактирование документа
+BiblioInfo.h
+	lyx::BibTeXInfo - класс, представляющий библиографическую запись, содержащую такие данные, как год, автор, наименование, тип публикации
+	lyx::BiblioInfo - список библиографических записей
+Bidi.h
+	lyx::Bidi - Bi-directional text поддержка двунаправленных текстов (напрнимер сочетание на одной странице латиницы с арабским текстом)
+
+boost.cpp
+	обработка boost assertion
+
+BranchList.h
+	Ветки в LyX - это части текста, которые можно скрыть или показать.
+	Это можно использовать, например, если нужно добавить комментарий, который не будет виден при распечатке
+	lyx::Branch - описывает часть текста. У нее есть имя branch_, цвет фона color_ и флаг(отображать/не отображать) selected_
+	lyx::BranchList - список веток. Есть функции поиска веток, добавления, удаления, переименовывания и т.д.
+Buffer.h
+	lyx::Buffer - класс, описывающий документ. Один из центральных классов lyx
+buffer_funcs.р
+	Функции для работы с документом
+	Buffer * checkAndLoadLyXFile(FileName const & filename, bool const acceptDirty)
+	Buffer * newFile(string const & filename, string const & templatename, bool is_named)
+	Buffer * newUnnamedFile(FileName const & path, string const & prefix, string const & templatename)
+	Buffer * loadIfNeeded(FileName const & fname)
+BufferEncodings.h
+	Содержит функцию validate, которая проверяет документ Buffer на воспринимаемость кодировок Латексом и возвращает LaTeXFeatures
+BufferList.h
+	Все открытые документы
+BufferParams.h
+	Свойства документа
+BufferView.h
+	Окно(или вкладка) с документом. Здесь описаны курсор, отступы, скроллбар и т.д.
+	Этот класс является промежуточным между ядром LyX и фронтендом
+Bullet.h
+	Маркер из маркированного списка
+Changes.h
+	lyx::Change - одно изменение. Содержит автора, тип и время
+	lyx::Changes - список изменений
+Chktex.h
+	lyx::Chktex - Класс предназначен для запуска функции chktex
+Citation.h
+	lyx::CitationStyle - цитаты
+CmdDef.р
+	CmdDef - создает определения команд
+Color.h
+	Color - описывает цвета. Цвета бывают простые и смешанные
+ColorCode.h
+	ColorCode - включает enum Color с основными цветами
+ColorSet.h
+	ColorSet делает сопоставление (преобразование) между цветами LaTexX, X11, GUI, LyX
+CompletionList.h
+	CompletionList - абстрактный класс для преобразования строк (преобразование строк для получения текстов на кнопках в GUI, загрузки иконок и т.д.)
+Converter.h
+	Converter - преобразование между форматами LaTeX и LyX
+ConverterCache.h
+	ConverterCache - кэш для сконвертированных файлов
+CoordCache.h
+	CoordCache - кэш координат
+Counter.h
+	Нумерованные списки
+Cursor.h
+CursorSlice.h
+CutAndPaste.h
+DepTable.h
+Dimension.h
+DispatchResult.h
+DocIterator.h
+DocumentClassPtr.h
+Encoding.h
+ErrorList.h
+Exporter.h
+factory.h
+Floating.h
+FloatList.h
+Font.h
+FontEnums.h
+FontInfo.h
+FontList.h
+Format.h
+FuncCode.h
+FuncRequest.h
+FuncStatus.h
+Graph.h
+HSpace.h
+IndicesList.h
+InsetIterator.h
+InsetList.h
+Intl.h
+KeyMap.h
+KeySequence.h
+Language.h
+LaTeX.h
+LaTeXFeatures.h
+LaTeXFonts.h
+LaTeXPackages.h
+Layout.h
+LayoutEnums.h
+LayoutFile.h
+ModuleList.h
+Length.h
+lengthcommon.cpp
+Lexer.h
+LyX.h
+LyXAction.h
+lyxfind.h
+LyXRC.h
+LyXVC.h
+MetricsInfo.h
+ModuleList.h
+Mover.h
+output.h
+output_docbook.h
+output_latex.h
+output_plaintext.h
+output_xhtml.h
+OutputEnums.h
+OutputParams.h
+paper.h
+Paragraph.h
+ParagraphList.h
+ParagraphMetrics.h
+ParagraphParameters.h
+ParIterator.h
+pch.h
+PDFOptions.h
+PersonalWordList.h
+Row.h
+RowPainter.h
+Server.h
+ServerSocket.h
+Session.h
+sgml.h
+Spacing.h
+SpellChecker.h
+TexRow.h
+Text.h
+TextClass.h
+TextMetrics.h
+TocBackend.h
+Trans.h
+Undo.h
+update_flags.h
+VCBackend.h
+version.h
+VSpace.h
+WordLangTuple.h
+WordList.h

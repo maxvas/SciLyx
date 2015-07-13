@@ -1,0 +1,8 @@
+#% Do not delete the line below; configure depends on this      
+#  \DeclareLaTeXClass[ctexbook,savesym.sty,xeCJK.sty]{Chinese Book (CTeX)}
+#  \DeclareCategory{Books}
+
+Format 49
+
+# Read the definitions from book.layout
+Input book.layout

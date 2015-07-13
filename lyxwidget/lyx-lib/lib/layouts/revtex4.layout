@@ -1,0 +1,281 @@
+#% Do not delete the line below; configure depends on this
+#  \DeclareLaTeXClass[revtex4,natbib.sty,revsymb.sty]{REVTeX (V. 4)}
+#  \DeclareCategory{Articles}
+# RevTeX 4 textclass definition file. Based on:
+# AMS-Article textclass definition file. Taken from initial LyX source code
+# and from the Article textclass definition file, following the AMS sample
+# paper "testmath.tex" of January, 1995
+# Author : David L. Johnson <dlj0@lehigh.edu> (AMS)
+#          Marc Mengel (RevTeX)
+#          Amir Karger (LyX v11.34 style modifications)
+#          Amir Karger (RevTeX 4 beta) 9/1999, 7/2000
+# Heavily modifed and enhanced by serveral developers.
+
+Format 49
+
+Columns                   1
+Sides                     1
+PageStyle                 Headers
+Provides natbib-internal  1
+Provides url              1
+
+SecNumDepth               4
+TocDepth                  3
+
+# Default textclass options. The user may need to modify this.
+ClassOptions
+	Other                 "aps,manuscript"
+End
+
+Preamble
+	\@ifundefined{textcolor}{}
+	{%
+	 \definecolor{BLACK}{gray}{0}
+	 \definecolor{WHITE}{gray}{1}
+	 \definecolor{RED}{rgb}{1,0,0}
+	 \definecolor{GREEN}{rgb}{0,1,0}
+	 \definecolor{BLUE}{rgb}{0,0,1}
+	 \definecolor{CYAN}{cmyk}{1,0,0,0}
+	 \definecolor{MAGENTA}{cmyk}{0,1,0,0}
+	 \definecolor{YELLOW}{cmyk}{0,0,1,0}
+	}
+EndPreamble
+
+
+Style Standard
+	Category              MainText
+	Margin                Static
+	LatexType             Paragraph
+	LatexName             dummy
+	ParIndent             MM
+	ParSkip               0.4
+	Align                 Block
+	AlignPossible         Block, Left, Right, Center
+	LabelType             No_Label
+End
+
+
+# Idea from aapaper: declare all layouts here ("Style Foo\nEnd\n")
+# so that they appear in a specific order in the layout dropdown menu.
+
+Input stdinsets.inc
+Input stdsections.inc
+Input numrevtex.inc
+
+Style Section
+	Align                 Center
+	AlignPossible         Block, Center, Left
+	Font
+	  Shape               Smallcaps
+	EndFont
+End
+
+
+Style Subsubsection
+	Font
+	  Series              Medium
+	  Shape               Italic
+	EndFont
+End
+
+
+Style Paragraph
+	Font
+	  Series              Medium
+	  Shape               Italic
+	EndFont
+End
+
+# then define the unumbered sections, based on the numbered ones.
+Input stdstarsections.inc
+
+NoStyle         Chapter
+NoStyle         Chapter*
+NoStyle         Subparagraph
+NoStyle         Subparagraph*
+
+Input stdlayouts.inc
+Input stdlists.inc
+Input stdtitle.inc
+Input stdstruct.inc
+
+
+Style Preprint
+	Category              FrontMatter
+	Margin                Right_Address_Box
+	LatexType             Command
+	InTitle               1
+	LatexName             preprint
+	ParSkip               0.4
+	BottomSep             1.5
+	ParSep                1.5
+	Align                 Left
+End
+
+
+Style Title
+	Font
+	  Series              Bold
+	  Size                Large
+	EndFont
+End
+
+
+Style Date
+	LabelType             Static
+	LabelString           "Date:"
+	LabelFont
+	  Shape               Italic
+	EndFont
+End
+
+
+Style Affiliation
+	Category              FrontMatter
+	Margin                Dynamic
+	LatexType             Command
+	InTitle               1
+	LatexName             affiliation
+	ParSkip               0.4
+	Align                 Center
+	AlignPossible         Block, Left, Right, Center
+	LabelType             Static
+	LabelSep              M
+	LabelString           "Affiliation:"
+
+	LabelFont
+	  Shape               Italic
+	EndFont
+End
+
+
+Style Affiliation_(alternate)
+	CopyStyle             Affiliation
+	PassThru              1
+	ParbreakIsNewline     1
+	LatexName             altaffiliation
+	Argument 1
+		LabelString   "Alternate Affiliation Option"
+		Tooltip       "Optional argument to the altaffiliation command"
+	EndArgument
+	LabelString           "Affiliation (alternate):"
+End
+
+
+Style Affiliation_(none)
+	CopyStyle             Affiliation
+	KeepEmpty             1
+	LabelString           "No affiliation"
+	LatexName             noaffiliation%
+End
+
+
+Style AltAffiliation
+	ObsoletedBy           Affiliation_(alternate)
+End
+
+
+# Address is exactly the same as Affiliation. We just put this in so
+# that tex2lyx will know what to do with it.
+Style Address
+	CopyStyle             Affiliation
+	LatexName             address
+	LabelString           "Address:"
+End
+
+
+Style Collaboration
+	CopyStyle             Affiliation
+	LatexName             collaboration
+	LabelString           "Collaboration:"
+End
+
+
+Style Thanks
+	CopyStyle             Affiliation
+	LatexName             thanks
+	LabelString           "Thanks:"
+End
+
+
+Style Author_Email
+	CopyStyle             Affiliation
+	PassThru              1
+	ParbreakIsNewline     1
+	LatexName             email
+	Argument 1
+		LabelString   "Electronic Address Option|s"
+		Tooltip       "Optional argument to the email command"
+	EndArgument
+	LabelString           "Electronic Address:"
+	TextFont
+	  Family              Typewriter
+	EndFont
+	LabelFont
+	  Family              Roman
+	EndFont
+End
+
+
+Style Author_URL
+	CopyStyle             Author_Email
+	PassThru              1
+	ParbreakIsNewline     1
+	LatexName             homepage
+	Argument 1
+		LabelString   "Author URL Option"
+		Tooltip       "Optional argument to the homepage command"
+	EndArgument
+	LabelString           "URL:"
+End
+
+
+Style Abstract
+	InTitle               1
+	ItemSep               0.2
+	ParSep                0.3
+End
+
+
+Style Acknowledgments
+	Category              BackMatter
+	LatexType             Environment
+	LatexName             acknowledgments
+	ParIndent             MM
+	ParSkip               0.4
+	TopSep                0.7
+	Align                 Block
+	AlignPossible         Block, Left, Right, Center
+	LabelType             Centered
+	LabelString           "Acknowledgments"
+	LabelBottomSep        0.5
+	LabelFont
+	  Series              Bold
+	  Size                Large
+	EndFont
+End
+
+
+Style PACS
+	Category              FrontMatter
+	Margin                Dynamic
+	LatexType             Command
+	InTitle               1
+	LatexName             pacs
+	LabelType             Static
+	LabelSep              M
+	LabelString           "PACS number:"
+End
+
+
+Style Keywords
+	CopyStyle             PACS
+	InTitle               1
+	Latexname             keywords
+	LabelSep              M
+	LabelString           "Keywords:"
+End
+
+
+Input stdfloats.inc
+Input stdcounters.inc

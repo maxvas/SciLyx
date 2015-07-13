@@ -1,0 +1,35 @@
+#\DeclareLyXModule[multicol.sty]{Multiple Columns}
+#DescriptionBegin
+#Adds a custom inset whose content is set with multiple columns (2 by default).
+#See the Additional manual, section 'Multiple Text Columns', for a detailed
+#description of multiple columns.
+#DescriptionEnd
+#Authors: Uwe Stöhr and Jürgen Spitzmüller
+
+Format 49
+
+InsetLayout Flex:Multiple_Columns
+  LyXType               custom
+  Decoration            classic
+  LabelString           Columns
+  LatexType             environment
+  LatexName             multicols
+  Requires              multicol
+  Argument 1
+    LabelString         "Number of Columns"
+    Tooltip             "Insert the number of columns here"
+    Mandatory           1
+    DefaultArg          2
+  EndArgument
+  Argument 2
+    LabelString         "Preface"
+    Tooltip             "An optional preface"
+  EndArgument
+  Argument 3
+    LabelString         "Space Before Page Break"
+    Tooltip             "Free space that needs to be on the page to start the multiple columns on this page"
+    Requires            2
+  EndArgument
+	ResetsFont true
+End
+

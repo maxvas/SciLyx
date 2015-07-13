@@ -1,0 +1,8 @@
+#% Do not delete the line below; configure depends on this
+#  \DeclareLaTeXClass[arabart,arabrep,altxext.sty,arabext.sty,arabtex.sty]{Arabic Article}
+#  \DeclareCategory{Articles}
+# Arabic article textclass definition file.
+# Author: Dekel Tsur <dekel@math.tau.ac.il>
+
+Format 49
+Input article

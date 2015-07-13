@@ -1,0 +1,13 @@
+#% Do not delete the line below; configure depends on this
+#  \DeclareLaTeXClass[extletter]{Letter (Standard Class with Extra Font Sizes)}
+#  \DeclareCategory{Letters}
+# Extended article textclass definition file.
+# Herbert Voss <voss@lyx.org>
+
+Format 49
+Input letter.layout
+
+# change available fontsizes
+ClassOptions
+	FontSize              8|9|10|11|12|14|17|20
+end

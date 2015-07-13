@@ -1,0 +1,366 @@
+%% LyX trick_preamble_code_into_believing_that_this_was_created_by_lyx created this file.  For more info, see http://www.lyx.org/.
+%% Do not edit unless you really know what you are doing.
+\documentclass[legalpaper,french,german,newzealand,english,dummyoption]{article}
+\usepackage[latin9]{inputenc}
+\usepackage{color}
+\usepackage{rotfloat}
+\synctex=-1\usepackage{wrapfig}
+
+\makeatletter
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% LyX specific LaTeX commands.
+\pdfpageheight\paperheight
+\pdfpagewidth\paperwidth
+
+\providecommand{\LyX}{L\kern-.1667em\lower.25em\hbox{Y}\kern-.125emX\@}
+\newcommand{\noun}[1]{\textsc{#1}}
+%% Because html converters don't know tabularnewline
+\providecommand{\tabularnewline}{\\}
+\newcommand{\lyxadded}[3]{#3}
+\newcommand{\lyxdeleted}[3]{}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Textclass specific LaTeX commands.
+\newenvironment{lyxlist}[1]
+{\begin{list}{}
+{\settowidth{\labelwidth}{#1}
+ \setlength{\leftmargin}{\labelwidth}
+ \addtolength{\leftmargin}{\labelsep}
+ \renewcommand{\makelabel}[1]{##1\hfil}}}
+{\end{list}}
+\newcommand{\strong}[1]{\textbf{#1}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% User specified LaTeX commands.
+%% Special footnote code from the package 'stblftnt.sty'
+%% Author: Robin Fairbairns -- Last revised Dec 13 1996
+\let\SF@@footnote\footnote
+\def\footnote{\ifx\protect\@typeset@protect
+    \expandafter\SF@@footnote
+\else
+    \expandafter\SF@gobble@opt
+\fi
+}
+\expandafter\def\csname SF@gobble@opt \endcsname{\@ifnextchar[%]
+    \SF@gobble@twobracket
+    \@gobble
+}
+\edef\SF@gobble@opt{\noexpand\protect
+  \expandafter\noexpand\csname SF@gobble@opt \endcsname}
+  \def\SF@gobble@twobracket[#1]#2{}
+
+\newenvironment{foo}{==[}{]==}
+
+\usepackage{fixltx2e} % this should cause the fixltx2e module to be loaded
+
+\date{}
+
+\@ifundefined{showcaptionsetup}{}{%
+ \PassOptionsToPackage{caption=false}{subfig}}
+\usepackage{subfig}
+\makeatother
+
+\usepackage{babel}
+\addto\extrasfrench{%
+   \providecommand{\og}{\leavevmode\flqq~}%
+   \providecommand{\fg}{\ifdim\lastskip>\z@\unskip\fi~\frqq}%
+}
+
+\begin{document}
+
+\title{Title}
+
+% this should be recognized as empty date:
+\date{}
+
+\maketitle
+This document contains all sorts of layouts we are supposed to
+support, along with weird nestings.
+
+At time you will see that I use subsubsections in weird places. The
+intent is just to make sure that I can include a macro-type layout
+everyzhere it makes sense.
+
+A normal paragraph
+\begin{equation}
+x = \sin y
+\end{equation}
+with maths inside it.
+
+\begin{quote}
+An environment...
+
+... with two paragraphs
+\end{quote}
+
+\begin{foo}
+an unknown environment
+\end{foo}
+
+
+\section{A section}
+
+\section[Hello!]{A section with optional argument}
+
+This causes the \strong{logikalmkup} module to be loaded.
+
+\begin{quote}
+An environment
+\end{quote}
+
+We also support change tracking:
+\lyxadded{Hans Wurst}{Sun Nov  6 09:39:39 2011}{Added text}
+some parts remain
+\lyxdeleted{Hans Wurst}{Sun Nov  6 09:39:55 2011}{This was the original text}
+some parts remain
+
+\section*{A starred section for floats}
+
+\begin{figure}
+\caption{ \emph{\noun{is}} a caption}
+\end{figure}
+
+\begin{figure}
+\caption[s\noun{ho}rt]{this \emph{is} a caption}
+\end{figure}
+
+\begin{sidewaystable*}
+\caption{rotated table, spanning all columns}
+
+\centering{}%
+\begin{tabular}[b]{|c|c|}
+\hline 
+a  & b\tabularnewline
+\hline 
+\hline 
+d  & c\tabularnewline
+\hline 
+\end{tabular}
+\end{sidewaystable*}
+
+\begin{wrapfigure}[4]{L}[2ex]{0.5\columnwidth}%
+\begin{centering}
+fdgsdfdh
+\par\end{centering}
+
+\caption{test1}
+\end{wrapfigure}%
+\LyX{} is a document preparation system. It excels at letting you
+create complex technical and scientific articles with mathematics,
+cross-references, bibliographies, indices, etc. It is very good at
+documents of any length in which the usual processing abilities are
+required: automatic sectioning and pagination, spell checking, and
+so forth. It can also be used to write a letter to your mom, though
+granted, there are probably simpler programs available for that. It
+is definitely not the best tool for creating banners, flyers, or advertisements
+(we'll explain why later), though with some effort all these can be
+done, too.
+
+\begin{wrapfigure}{o}{0.5\columnwidth}%
+\begin{centering}
+fdgs
+\par\end{centering}
+
+\caption{test2}
+\end{wrapfigure}%
+\LyX{} is a document preparation system. It excels at letting you
+create complex technical and scientific articles with mathematics,
+cross-references, bibliographies, indices, etc. It is very good at
+documents of any length in which the usual processing abilities are
+required: automatic sectioning and pagination, spell checking, and
+so forth. It can also be used to write a letter to your mom, though
+granted, there are probably simpler programs available for that. It
+is definitely not the best tool for creating banners, flyers, or advertisements
+(we'll explain why later), though with some effort all these can be
+done, too.
+
+\begin{wraptable}{i}[0.05\textwidth]{5ex}%
+\caption{fdg}
+
+
+\centering{}dfgd\end{wraptable}%
+\LyX{} is a document preparation system. It excels at letting you
+create complex technical and scientific articles with mathematics,
+cross-references, bibliographies, indices, etc. It is very good at
+documents of any length in which the usual processing abilities are
+required: automatic sectioning and pagination, spell checking, and
+so forth. It can also be used to write a letter to your mom, though
+granted, there are probably simpler programs available for that. It
+is definitely not the best tool for creating banners, flyers, or advertisements
+(we'll explain why later), though with some effort all these can be
+done, too.
+
+\begin{table}
+\caption{lkälöä}
+
+
+\subfloat[ölkälö]{
+
+klöä}
+
+\end{table}
+
+
+\begin{figure}
+\subfloat[te\%st]{sub\textcolor{red}{fig}u\%re 1
+
+}
+
+\hfill{} \subfloat[]{subfigure 2ö
+
+}
+
+\subfloat{subfigure 3}
+
+\caption{figure caption}
+
+
+strange usage, but valid 
+\end{figure}
+
+
+\subsection{Some paragraph stuff}
+
+A paragraph\footnote{hello} with a footnote and another
+one\footnote{hello
+
+there} with several paragraphs \vspace{1cm} aa
+
+and another paragraph
+
+\begin{center}
+Some centered stuff
+\end{center}
+
+\begin{quotation}
+An environment
+
+\subsubsection*{with a command inside it}
+\end{quotation}
+
+\begin{quotation}
+Another environment
+
+\begin{quotation}
+With another one inside it (with same layout)
+
+[this one even has several paragraphs!]
+\end{quotation}
+
+\end{quotation}
+
+We can also nest enumerations
+
+\begin{enumerate}
+\item Item1
+\begin{enumerate}
+\item Item1.a
+
+\item Item1.b (there is  a paragraph break in front of this)
+\begin{itemize}
+\item Item1.b.*
+\item Item1.b.*
+\end{itemize}
+\end{enumerate}
+\item Item2
+\end{enumerate}
+\begin{enumerate}
+\item Item1 (appears as Item3 with bug 5716)
+
+Normal paragraph in Item1
+
+\begin{enumerate}
+\item Item1.a
+\end{enumerate}
+\end{enumerate}
+
+Let's see what happens when normal paragraphs are inserted in lists:
+
+\begin{itemize}
+\item the first item
+
+with some explanatory text under it
+
+and a second paragraph for good measure
+
+\subsubsection*{we can even have one as a subsubsection}
+
+\item the second item
+
+\item the third item
+
+\subsubsection*{and a sssection heading inside it (why not?)}
+\end{itemize}
+
+What else? Well, we have descriptions:
+\begin{description}
+\item[ABC] first item
+\item[BCD] second one
+\item[{x y z}] with space
+\item  % hi there
+[{x y % bla
+z}] and with comments
+\end{description}
+
+labelings:
+\begin{lyxlist}{00.00.0000}
+\item [label~1] first item
+\item [label~2] second item
+\item [{$\left[\textrm{ }\right]^{x}$}] Label with space, math and ] in it
+\end{lyxlist}
+
+verbatim:
+\begin{verbatim}
+verbat  im % $ 02/19/12
+hjkh
+jkh \ blah
+\begin{centering}
+
+
+zzz \section{
+\end{raggedleft}
+
+\end{verbatim}
+\verb~\~
+\verb+\item[ABC] first item+
+\verb+something\+ bug 4468
+
+and bibliography:
+\begin{thebibliography}{9}
+\bibitem{FOO} Edward Bar. \emph{The Foo Book}. (1999)
+\bibitem{FO2} Walter Müller \emph{The Müller Book}. (2004) 
+\end{thebibliography}
+
+\appendix
+
+\section{This is the Appendix}
+
+\noindent blabla bla bla
+
+switch to german:\selectlanguage{german}
+Hallo!
+\foreignlanguage{french}{some \emph{french}}
+back to english:\selectlanguage{newzealand}
+and some nested \foreignlanguage{francais}{french \foreignlanguage{german}{nested
+\emph{german}} french} english stuff.
+Note that we both used \texttt{french} and the \texttt{francais} alias for the
+french text, but for some reason this does not work with the
+\texttt{newzealand} alias and \texttt{english} for english text.
+
+\section{Another Appendix section}
+
+blub
+
+Test for missing \textbackslash end\_deeper (file format 278).
+This must stay at the very end of the document!
+\begin{itemize}
+\item par1
+
+par2
+\begin{enumerate}
+\item par1
+
+par2
+\end{enumerate}
+
+\end{itemize}
+
+\end{document}

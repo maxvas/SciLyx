@@ -1,0 +1,88 @@
+#% Do not delete the line below; configure depends on this
+#  \DeclareLaTeXClass[svjour3,svglov3.clo,natbib.sty]{Springer SV Global (V. 3)}
+#  \DeclareCategory{Articles}
+# svjour3/global (article) textclass definition file.
+# for various Springer Verlag Journals for which no specific file exists (Global).
+# --------
+#
+# Taken from initial LyX source code
+# Author : Matthias Ettrich <ettrich@informatik.uni-tuebingen.de>
+# Adapted from svjour/jog by Cengiz Gunay in 2003.
+# Transposed by Pascal André <andre@via.ecp.fr>
+# Heavily modified and enhanced by serveral developers.
+# Revision svjour version 3.2 by Uwe Stöhr in September 2009
+# Revised by Marcus Kriele and Uwe Stöhr in April 2011 
+#
+# see ftp://ftp.springer.de/pub/tex/latex/svjour3/ for class files
+
+Format 49
+
+Input svcommon.inc
+
+NoStyle Front_Matter
+NoStyle Main_Matter
+NoStyle Back_Matter
+NoStyle Part
+NoStyle PartBacktext
+NoCounter part
+NoStyle Part*
+NoStyle Chapter
+NoStyle Running_Chapter
+NoStyle ChapAuthor
+NoStyle ChapSubtitle
+NoStyle ChapMotto
+NoCounter chapter
+NoStyle Chapter*
+NoStyle Subparagraph
+NoStyle Run-in_headings
+NoStyle Sub-run-in_headings
+NoStyle Extrachap
+NoStyle extrachap
+NoStyle Preface
+NoStyle Foreword
+NoStyle Dedication
+NoStyle Svgraybox
+NoStyle Petit
+NoStyle	Prob
+NoStyle Sol
+NoStyle Abstract*
+NoStyle TOC_Title
+NoStyle TOC_Author
+NoStyle Proof(smartQED)
+
+NoStyle Acknowledgement
+NoStyle Keywords
+
+
+InsetLayout Flex:Keywords
+	CopyStyle	Flex:Email
+	LatexName	keywords
+	LabelString	"Keywords"
+	LabelFont
+	  Color		green
+	  Size		Small
+	EndFont
+End
+
+InsetLayout Flex:PACS
+	CopyStyle	Flex:Keywords
+	LatexName	PACS
+	LabelString	"PACS"
+End
+
+InsetLayout Flex:Subclass
+	CopyStyle	Flex:Keywords
+	LatexName	subclass
+	LabelString	"Mathematics Subject Classification"
+End
+
+InsetLayout Flex:CRSC
+	CopyStyle	Flex:PACS
+	LatexName	CRclass
+	LabelString	"CR Subject Classification"
+End
+
+# this label has no dot at the end
+Style Solution
+	LabelString	"Solution \thesolution"
+End

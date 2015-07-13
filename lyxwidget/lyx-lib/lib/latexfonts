@@ -1,0 +1,679 @@
+##########################################################################
+#
+# LaTeX fonts natively supported by LyX.
+#
+# Syntax:
+#
+# Font <name>
+#	GuiName            "<Gui Name>"
+#	Family             <rm|sf|tt|math>
+#	SwitchDefault      <0|1>
+#	Package            <LaTeX package to be loaded>
+#	Requires           <LaTeX package to test for>
+#	AltFonts           <alternative fonts (comma-separated)>
+#	OT1Font            <alternative font specifically for OT1 encoding>
+#	CompleteFont       <alternative package for the complete family>
+#	NoMathFont         <alternative font that does not change math>
+#	PackageOptions     <general options to be passed to the package>
+#	OsfOption          <option for oldstyle figure support>
+#	OsfFont            <extra font for oldstyle figures>
+#	OsfDefault         <0|1>
+#	ScOption           <option for true smallcaps support>
+#	OsfScOption        <option for combined osf and true smallcaps support>
+#	ScaleOption        <option for font scaling>
+#	Provides           <features provided by the font packages (comma-separated)>
+#	Preamble
+#	  <some arbitrary LaTeX code to be issued in the preamble>
+#	EndPreamble
+# EndFont
+#
+#
+# NOTES:
+#
+# * Adding a new font results in a FILE FORMAT CHANGE. So if a new font
+#   is added for the LyX distribution, the according changes need to be
+#   done.
+# * "SwitchDefault 1" makes the font to be loaded by switching the default
+#   family to <name> (e.g., \renewcommand{\rmdefault}{cmr}), whereas
+#   Package <package> loads it via \usepackage{package}. Only one of these
+#   options is used per font (SwitchDefault takes precendende). Note that
+#   SwitchDefault uses the font name.
+# * In addition to normal fonts, you can also define alternative fonts
+#   using the AltFont...EndFont tags. These alternative fonts will not
+#   be added to the GUI, but LyX will fall back on them under specific
+#   circumstances (e.g. if the main font is not available; see below).
+# * If AltFonts are defined, LyX will try to load them in the defined
+#   order if the main package is not available. So
+#       Package          mathptmx
+#       AltFonts         mathptm,times
+#   will try to load mathptm if mathptmx is not available and then times
+#   if mathptm is not available either.
+#   AltFonts need to be defined separately using AltFont ... EndFont tags.
+# * If Requires is set, LyX will check for this. If not, it will check
+#   for Package and AltFonts.
+# * OT1Font will load the defined font if the font encoding is OT1. This is
+#   necessary since some newer font packages do not support this encoding.
+#   The value "none" tells LyX not to load any font in OT1 encoding.
+#   OT1Fonts need to be defined separately using AltFont ... EndFont tags.
+# * The CompleteFont is loaded if the current font is selected as rm and
+#   both sf and tt are set to "default" (this allows for instance to load
+#   "bera" as opposed to "beraserif").
+#   CompleteFonts need to be defined separately using AltFont ... EndFont
+#   tags.
+# * OsfFont is a font that is loaded additionally in and that provides
+#   Old Style Figures for a given font (e.g. eco).
+# * OsfScOption overrides any OsfOption and ScOption if both features
+#   are selected.
+# * Set OsfDefault to true for fonts which have Old Style Figures by
+#   default and provide an option for lining figures. Pass this option
+#   to OsfOption.
+# * ScaleOption supports the placeholder $$val for the scale value.
+# * The Preamble code is output immediately after the respective font
+#   loading command.
+#
+##########################################################################
+
+
+#
+# ROMAN FONTS
+#
+
+Font ae
+	GuiName          "AE (Almost European)"
+	Family           rm
+	Package          "ae,aecompl"
+	OT1Font          none
+	Requires         ae
+EndFont
+
+Font beraserif
+	GuiName          "Bera Serif"
+	Family           rm
+	Package          beraserif
+	CompleteFont     bera
+	Requires         bera
+EndFont
+
+AltFont bera
+	GuiName          "Bera Serif"
+	Family           rm
+	Package          bera
+EndFont
+
+Font bookman
+	GuiName          "Bookman"
+	Family           rm
+	Package          bookman
+EndFont
+
+Font ccfonts
+	GuiName          "Concrete Roman"
+	Family           rm
+	Package          ccfonts
+EndFont
+
+Font chancery
+	GuiName          "Zapf Chancery"
+	Family           rm
+	Package          chancery
+EndFont
+
+Font charter
+	GuiName          "Bitstream Charter (PSNFSS)"
+	Family           rm
+	Package          charter
+EndFont
+
+Font cmr
+	GuiName          "Computer Modern Roman"
+	Family           rm
+	SwitchDefault    1
+	OsfFont          eco
+EndFont
+
+AltFont eco
+	Family           rm
+	Package          eco
+EndFont
+
+Font garamondx
+	GuiName          "URW Garamond"
+	Family           rm
+	OsfOption        osfI
+	Package          garamondx
+	Requires         garamondx-fonts
+	AltFonts         ugm
+EndFont
+
+AltFont ugm
+	GuiName          "URW Garamond"
+	Family           rm
+	SwitchDefault    1
+EndFont
+
+Font libertine
+	GuiName          "Libertine"
+	Family           rm
+	OsfOption        osf
+	Package          libertine-type1
+	AltFonts         libertine-2012,libertine-legacy
+	Requires         libertineMono-type1
+EndFont
+
+AltFont libertine-2012
+	GuiName          "Libertine"
+	Family           rm
+	OsfOption        lining
+	OsfDefault       1
+	Package          libertine-type1
+EndFont
+
+AltFont libertine-legacy
+	GuiName          "Libertine"
+	Family           rm
+	OsfOption        osf
+	Package          libertine
+EndFont
+
+Font lmodern
+	GuiName          "Latin Modern Roman"
+	Family           rm
+	Package          lmodern
+	NoMathFont       lmr
+EndFont
+
+AltFont lmr
+	GuiName          "Latin Modern Roman"
+	Family           rm
+	SwitchDefault    1
+	Requires         lmodern
+EndFont
+
+Font md-charter
+	GuiName          "Bitstream Charter (Mathdesign)"
+	Family           rm
+	OsfOption        expert
+	ScOption         expert
+	OsfScOption      expert
+	Package          mathdesign
+	PackageOption    charter
+	Requires         mdbch
+	Provides         amssymb,amsfonts
+	NoMathFont       mdbch
+EndFont
+
+AltFont mdbch
+	GuiName          "Bitstream Charter (Mathdesign)"
+	Family           rm
+	SwitchDefault    1
+	Requires         mdbch
+EndFont
+
+Font md-utopia
+	GuiName          "Utopia (Mathdesign)"
+	Family           rm
+	OsfOption        expert
+	ScOption         expert
+	OsfScOption      expert
+	Package          mathdesign
+	PackageOption    utopia
+	Requires         mdput
+	Provides         amssymb,amsfonts
+	NoMathFont       mdput
+EndFont
+
+AltFont mdput
+	GuiName          "Utopia (Mathdesign)"
+	Family           rm
+	SwitchDefault    1
+	Requires         mdput
+EndFont
+
+Font md-garamond
+	GuiName          "URW Garamond (Mathdesign)"
+	Family           rm
+	OsfOption        expert
+	ScOption         expert
+	OsfScOption      expert
+	Package          mathdesign
+	PackageOption    garamond
+	Requires         mdugm
+	Provides         amssymb,amsfonts
+	NoMathFont       mdugm
+EndFont
+
+AltFont mdugm
+	GuiName          "URW Garamond (Mathdesign)"
+	Family           rm
+	SwitchDefault    1
+	Requires         mdugm
+EndFont
+
+Font minionpro
+	GuiName          "Minion Pro"
+	Family           rm
+	OsfOption        lf
+	OsfDefault       1
+	Package          MinionPro
+	Provides         amssymb,amsfonts
+	NoMathFont       minionpro-nomath
+EndFont
+
+AltFont minionpro-nomath
+	GuiName          "Minion Pro"
+	Family           rm
+	OsfOption        lf
+	OsfDefault       1
+	Package          MinionPro
+	PackageOption    onlytext
+EndFont
+
+Font newcent
+	GuiName          "New Century Schoolbook"
+	Family           rm
+	Package          newcent
+EndFont
+
+Font palatino
+	GuiName          "Palatino"
+	Family           rm
+	OsfOption        osf
+	ScOption         sc
+	OsfScOption      osf
+	Package          mathpazo
+	AltFonts         mathpple,palatino-sty
+	NoMathFont       ppl
+	Requires         psnfss
+EndFont
+
+AltFont mathpple
+	GuiName          "Palatino"
+	Family           rm
+	Package          mathpple
+	NoMathFont       ppl
+EndFont
+
+AltFont palatino-sty
+	GuiName          "Palatino"
+	Family           rm
+	Package          palatino
+EndFont
+
+AltFont ppl
+	GuiName          "Palatino"
+	Family           rm
+	OsfFont          pplj
+	SwitchDefault    1
+EndFont
+
+AltFont pplj
+	GuiName          "Palatino"
+	Family           rm
+	SwitchDefault    1
+EndFont
+
+Font times
+	GuiName          "Times Roman"
+	Family           rm
+	Package          mathptmx
+	AltFonts         mathptm,times-sty
+	NoMathFont       ptm
+	Requires         psnfss
+EndFont
+
+AltFont mathptm
+	GuiName          "Times Roman"
+	Family           rm
+	Package          mathptm
+	NoMathFont       ptm
+EndFont
+
+AltFont times-sty
+	GuiName          "Times Roman"
+	Family           rm
+	Package          times
+EndFont
+
+AltFont ptm
+	GuiName          "Times Roman"
+	Family           rm
+	SwitchDefault    1
+EndFont
+
+Font tgbonum
+	GuiName          "TeX Gyre Bonum"
+	Family           rm
+	Package          tgbonum
+EndFont
+
+Font tgchorus
+	GuiName          "TeX Gyre Chorus"
+	Family           rm
+	Package          tgchorus
+EndFont
+
+Font tgpagella
+	GuiName          "TeX Gyre Pagella"
+	Family           rm
+	Package          tgpagella
+EndFont
+
+Font tgschola
+	GuiName          "TeX Gyre Schola"
+	Family           rm
+	Package          tgschola
+EndFont
+
+Font tgtermes
+	GuiName          "TeX Gyre Termes"
+	Family           rm
+	Package          tgtermes
+EndFont
+
+# fourier supersedes utopia.sty, but does
+# not work with OT1 encoding.
+Font utopia
+	GuiName          "Utopia (Fourier)"
+	Family           rm
+	OsfOption        oldstyle
+	ScOption         expert
+	Package          fourier
+	AltFonts         utopia-sty
+	OT1Font          utopia-sty
+	NoMathFont       futs
+EndFont
+
+AltFont utopia-sty
+	GuiName          "Utopia (Fourier)"
+	Family           rm
+	Package          utopia
+EndFont
+
+AltFont futs
+	GuiName          "Utopia (Fourier)"
+	Family           rm
+	SwitchDefault    1
+	OsfFont          futj
+EndFont
+
+AltFont futj
+	GuiName          "Utopia (Fourier)"
+	Family           rm
+	SwitchDefault    1
+EndFont
+
+
+#
+# SANS SERIF FONTS
+#
+
+Font avant
+	GuiName          "Avant Garde"
+	Family           sf
+	Package          avant
+EndFont
+
+Font berasans
+	GuiName          "Bera Sans"
+	Family           sf
+	ScaleOption      scaled=$$val
+	Package          berasans
+	Requires         bera
+EndFont
+
+Font biolinum
+	GuiName          "Biolinum"
+	Family           sf
+	OsfOption        osf
+	ScaleOption      scaled=$$val
+	Package          biolinum-type1
+	Requires         libertineMono-type1
+	AltFonts         biolinum-2012
+EndFont
+
+AltFont biolinum-2012
+	GuiName          "Biolinum"
+	Family           sf
+	OsfOption        lining
+	OsfDefault       1
+	Package          biolinum-type1
+EndFont
+
+Font cmbr
+	GuiName          "CM Bright"
+	Family           sf
+	SwitchDefault    1
+	Requires         cmbright
+EndFont
+
+Font cmss
+	GuiName          "Computer Modern Sans"
+	Family           sf
+	SwitchDefault    1
+EndFont
+
+Font helvet
+	GuiName          "Helvetica"
+	Family           sf
+	ScaleOption      scaled=$$val
+	Package          helvet
+	Requires         psnfss
+EndFont
+
+Font iwona
+	GuiName         "Iwona"
+	Family          sf
+	Requires        iwona
+	SwitchDefault   1
+EndFont
+
+Font iwonal
+	GuiName         "Iwona (Light)"
+	Family          sf
+	Requires        iwona
+	SwitchDefault   1
+EndFont
+
+Font iwonac
+	GuiName         "Iwona (Condensed)"
+	Family          sf
+	Requires        iwona
+	SwitchDefault   1
+EndFont
+
+Font iwonalc
+	GuiName         "Iwona (Light Condensed)"
+	Family          sf
+	Requires        iwona
+	SwitchDefault   1
+EndFont
+
+Font kurier
+	GuiName         "Kurier"
+	Family          sf
+	Requires        kurier
+	SwitchDefault   1
+EndFont
+
+Font kurierl
+	GuiName         "Kurier (Light)"
+	Family          sf
+	Requires        kurier
+	SwitchDefault   1
+EndFont
+
+Font kurierc
+	GuiName         "Kurier (Condensed)"
+	Family          sf
+	Requires        kurier
+	SwitchDefault   1
+EndFont
+
+Font kurierlc
+	GuiName         "Kurier (Light Condensed)"
+	Family          sf
+	Requires        kurier
+	SwitchDefault   1
+EndFont
+
+Font lmss
+	GuiName          "Latin Modern Sans"
+	Family           sf
+	SwitchDefault    1
+	Requires         lmodern
+EndFont
+
+Font tgadventor
+	GuiName          "TeX Gyre Adventor"
+	Family           sf
+	Package          tgadventor
+EndFont
+
+Font tgheros
+	GuiName          "TeX Gyre Heros"
+	Family           sf
+	Package          tgheros
+EndFont
+
+Font uop
+	GuiName          "URW Classico (Optima)"
+	Family           sf
+	SwitchDefault    1
+	Requires         urwclassico
+EndFont
+
+
+#
+# MONOSPACED FONTS
+#
+
+Font beramono
+	GuiName          "Bera Mono"
+	Family           tt
+	ScaleOption      scaled=$$val
+	Package          beramono
+	Requires         bera
+EndFont
+
+Font cmtl
+	GuiName          "CM Typewriter Light"
+	Family           tt
+	SwitchDefault    1
+	Requires         cmbright
+EndFont
+
+Font cmtt
+	GuiName          "Computer Modern Typewriter"
+	Family           tt
+	SwitchDefault    1
+EndFont
+
+Font courier
+	GuiName          "Courier"
+	Family           tt
+	Package          courier
+	Requires         psnfss
+EndFont
+
+Font libertine-mono
+	GuiName          "Libertine Mono"
+	Family           tt
+	ScaleOption      scaled=$$val
+	Package          libertineMono-type1
+EndFont
+
+Font lmtt
+	GuiName          "Latin Modern Typewriter"
+	Family           tt
+	SwitchDefault    1
+	Requires         lmodern
+EndFont
+
+Font luximono
+	GuiName          "LuxiMono"
+	Family           tt
+	ScaleOption      scaled=$$val
+	Package          luximono
+EndFont
+
+Font tgcursor
+	GuiName          "TeX Gyre Cursor"
+	Family           tt
+	Package          tgcursor
+EndFont
+
+Font txtt
+	GuiName          "TX Typewriter"
+	Family           tt
+	SwitchDefault    1
+	Requires         txfonts
+EndFont
+
+
+#
+# MATH FONTS
+#
+
+Font eulervm
+	GuiName          "Euler VM"
+	Family           math
+	Package          eulervm
+EndFont
+
+Font garamondx-ntxm
+	GuiName          "URW Garamond (New TX)"
+	Family           math
+	Package          newtxmath
+	PackageOption    garamondx
+	Provides         amssymb,amsfonts
+EndFont
+
+Font iwona-math
+	GuiName         "Iwona (Math)"
+	Family          math
+	Requires        iwona
+	Preamble
+	% store roman font
+	\let\origrmdefault\rmdefault
+	\usepackage[math]{iwona}
+	% reset stored roman font
+	\renewcommand{\rmdefault}{\origrmdefault}
+	EndPreamble
+EndFont
+
+Font kurier-math
+	GuiName         "Kurier (Math)"
+	Family          math
+	Requires        kurier
+	Preamble
+	% store roman font
+	\let\origrmdefault\rmdefault
+	\usepackage[math]{kurier}
+	% reset stored roman font
+	\renewcommand{\rmdefault}{\origrmdefault}
+	EndPreamble
+EndFont
+
+Font libertine-ntxm
+	GuiName          "Libertine (New TX)"
+	Family           math
+	Package          newtxmath
+	PackageOption    libertine
+	Provides         amssymb,amsfonts
+EndFont
+
+Font minion-ntxm
+	GuiName          "Minion Pro (New TX)"
+	Family           math
+	Package          newtxmath
+	PackageOption    minion
+	Requires         minion2newtx
+	Provides         amssymb,amsfonts
+EndFont
+
+Font newtxmath
+	GuiName          "Times Roman (New TX)"
+	Family           math
+	Package          newtxmath
+	Provides         amssymb,amsfonts
+EndFont

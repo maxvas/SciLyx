@@ -1,0 +1,10 @@
+<RCC>
+    <qresource prefix="/">
+        <file>images/arrow-090.png</file>
+        <file>images/arrow-180.png</file>
+        <file>images/sync.gif</file>
+        <file>images/arrow-circle-315.png</file>
+        <file>images/error.png</file>
+        <file>images/new-document.png</file>
+    </qresource>
+</RCC>

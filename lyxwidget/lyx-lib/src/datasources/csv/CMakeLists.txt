@@ -1,0 +1,12 @@
+cmake_minimum_required(VERSION 2.8.11)
+set (PROJECT datasource_csv)
+
+project(${PROJECT})
+INCLUDE_DIRECTORIES(../)
+set(CMAKE_INCLUDE_CURRENT_DIR ON)
+set(CMAKE_AUTOMOC ON)
+QT5_WRAP_UI(UIS_HDRS CsvFile.ui)
+find_package(Qt5Widgets)
+add_library(${PROJECT} SHARED CsvFile.h CsvFile.cpp ${UIS_HDRS})
+target_link_libraries(${PROJECT} Qt5::Widgets datasources)
+install (TARGETS ${PROJECT} DESTINATION ${CMAKE_BINARY_DIR}/bin)

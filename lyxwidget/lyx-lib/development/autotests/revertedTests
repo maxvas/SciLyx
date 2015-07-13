@@ -1,0 +1,105 @@
+# Hebrew docs do not currently work with LuaTeX
+export/.*/he/.*(pdf5|dvi3)_.*
+#
+# FIXME
+# After LyX 2.1 is released, apply the patch and remove these
+# See http://www.mail-archive.com/lyx-devel@lists.lyx.org/msg181595.html
+export/.*/id/.*(pdf5|dvi3)_.*
+#
+# FIXME
+# Similar to the Indonesian support, see:
+# http://www.mail-archive.com/lyx-devel@lists.lyx.org/msg181595.html
+export/.*/hu/.*(pdf5|dvi3)_.*
+#
+export/.*/es/europeCV_pdf_texF
+#
+# somehow lualatex is not able to compile with non-tex fonts
+export/.*/es/(Math|Tutorial|UserGuide|ejemplo_con_lyx)_dvi3_systemF
+
+# See http://www.lyx.org/trac/ticket/8823
+export/examples/ja/(lilypond|sweave|knitr)_pdf
+# Incompatibility between luainputenc.sty and ectaart.cls
+# luainputenc.sty loads luatex.sty
+# Both files (luatex.sty and ectaart.cls) define
+# the latex-command \setattribute
+export/templates/ectaart_(pdf5|dvi3)_.*
+#
+# LuaTeX does not support Farsi yet. See:
+# https://github.com/reutenauer/polyglossia/commit/ccb0e9e2c6411170ad779b05ff5076f1193cc323
+export/examples/fa/splash_(pdf5|dvi3)_.*
+#
+# There is no non-TeX support for Ukrainian with LuaTeX. See:
+# https://www.mail-archive.com/lyx-devel@lists.lyx.org/msg181690.html
+export/doc/uk/Intro_(pdf5|dvi3)_systemF
+#
+# The following documents likely fail because of excessive preamble code that
+# is only targeted at (pdf)latex. TODO these .lyx files could be fixed. Although
+# it is unlikely that a user would want to use system fonts to view LyX's
+# documents, fixing these would provide further tests for LyX's handling of
+# XeTeX/LuaTeX with system fonts.
+export/doc/(|de/|es/|fr/)Customization_pdf4_systemF
+export/doc/es/Math_dvi3_systemF
+export/doc/(|de/|es/|fr/)Math_pdf4_systemF
+export/doc/attic/eu_Additional_pdf4_systemF
+export/doc/attic/pl_Additional_pdf4_systemF
+export/doc/(de|es|fr)/EmbeddedObjects_pdf4_systemF
+export/doc/(de|es|fr|id)/UserGuide_pdf4_systemF
+export/doc/attic/eu_UserGuide_pdf4_systemF
+export/doc/es/Tutorial_pdf4_systemF
+export/doc/gl/Tutorial_dvi3_systemF
+export/doc/(nb|sk|sv)/Intro_pdf4_systemF
+export/doc/ru/Intro_pdf4_texF
+export/examples/(MultilingualCaptions|aas_sample|simplecv)_pdf4_systemF
+export/examples/de/Lebenslauf_pdf4_systemF
+export/examples/es/ejemplo_con_lyx_pdf5_systemF
+export/examples/eu/adibide_lyx-atua_(dvi3|pdf5)_systemF
+export/examples/fr/(Foils|ListesPuces|seminar|simplecv)_pdf4_systemF
+export/examples/gl/exemplo_lyxificado_(dvi3|pdf5)_systemF
+export/examples/sr/Braille_pdf4_systemF
+export/examples/sr/splash_pdf4_systemF
+export/templates/RJournal_(dvi3|pdf[45])_systemF
+# Changes in TeX Live 2014 (see git blame for info) fixed IEEEtran-CompSoc
+# pdf4_systemF but not others. TODO Investigate if others can be fixed?
+export/templates/IEEEtran-(Journal|TransMag)_pdf4_systemF
+export/templates/kluwer_pdf4_systemF
+#
+# There is no Russian LuaTeX TeX font support yet.
+export/.*/ru/(splash|Intro|Tutorial)_(pdf5|dvi3)_texF
+#
+# There is no Chinese LuaTeX or XeTeX TeX font support yet.
+export/.*/zh_CN/.*(pdf[45]|dvi3)_texF
+export/templates/ctex_pdf4_texF
+#
+# These started failing after we implemented tests for formats
+# that are in the complement set to the default format (7ecbb068).
+# TODO it might be worth it to take a look at each individually and
+# see whether they are supposed to fail or if there is something LyX
+# can do to add support for exporting them.
+export/doc/hu/Tutorial_dvi3_.*F
+export/doc/ja/.*_(pdf[245]|dvi3).*
+export/examples/(chessgame|chess-article|powerdot-example)_pdf[25].*
+export/examples/(docbook_article)_(pdf[245]|dvi3).*
+export/examples/instant_preview_(dvi3|pdf4)_systemF
+export/examples/instant_preview_pdf[25].*
+export/examples/listerrors_(pdf[245]).*
+export/examples/seminar_pdf4_systemF
+export/examples/(|de/|es/)tufte-(book|handout)_(dvi.*|pdf|pdf3|pdf4.*)
+export/examples/fr/exemple-powerdot_pdf[25].*
+export/examples/ja/(.*)_(dvi3|pdf[245]).*
+export/examples/ja/(knitr|lilypond|sweave)_(dvi|pdf3)
+export/examples/ko/splash_(dvi||pdf[23]?)
+export/templates/DocBook_article_(dvi3_|pdf2|pdf[45]_).*
+export/templates/JSS-article_(dvi|dvi3_.*|pdf3?)
+export/templates/attic/latex8_(dvi|dvi3_.*)
+export/templates/ctex_pdf[23]?
+#
+# The following exports worked with TeX Live 2013, but not in 2014.
+# For a workaround, see:
+# https://www.mail-archive.com/lyx-devel@lists.lyx.org/msg184435.html
+export/examples/aa_sample_(dvi3|pdf4|pdf5)_(texF|systemF)
+export/templates/aa_(dvi3|pdf4|pdf5)_(texF|systemF)
+#
+# These exports correctly fail now on TeX Live 2014. Although they compiled
+# without error on TeX Live 2013, the resulting PDFs had gibberish.
+export/doc/he/(Intro|Tutorial)_pdf4_texF
+export/examples/he/(example_lyxified|example_raw|splash)_pdf4_texF
