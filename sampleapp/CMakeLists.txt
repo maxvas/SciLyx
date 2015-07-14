@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 2.6.4)
-set(PROJECT science-editor-sampleapp)
+set(PROJECT SciLyxGui)
 
 project(${PROJECT})
 

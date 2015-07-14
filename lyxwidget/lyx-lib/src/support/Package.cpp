@@ -23,6 +23,9 @@
 #include "support/os.h"
 #include <iostream>
 #include <QDir>
+#include <QString>
+#include <QFile>
+#include <QDataStream>
 
 #if defined (USE_WINDOWS_PACKAGING)
 # include "support/os_win32.h"
@@ -107,6 +110,49 @@ Package::Package(string const & command_line_arg0,
 		 string const & command_line_user_support_dir)
 	: explicit_user_support_dir_(false)
 {
+    //MAXVAS: А вот здесь происходит интересная штука.
+    //Lyx пытается найти каталог со всеми иконками, настройками и пр.
+    //Без этого каталога ничего не бцдет работать
+    //Если мы запустили SciLyxGui.exe, то он бы нашел его сразу: lyx-system
+    //А вот если SciLyx.dll используется из другой программы, запущенной совершенно из другого места, то дело труба.
+    //Но ничего, мы ведь можем хранить pathes.conf
+    //в котором хранится путь до lyx-system!
+    QString lyxSystem = "lyx-system";
+    QFile pathes("pathes.conf");
+    if (!pathes.exists())
+    {
+        //А вот тут уже действительно труба! Файла со спасительным путем нет...
+        throw ExceptionMessage(ErrorException,
+            _("pathes.conf not found"),
+            _("Unable to determine the path to the lyx-system directory"));
+        return;
+    }
+    if (!pathes.open(QFile::ReadOnly))
+    {
+        //Файл pathes.conf существует, но мы его не можем читать! Фатал еррор...
+        throw ExceptionMessage(ErrorException,
+            _("pathes.conf can't be read"),
+            _("Unable to determine the path to the lyx-system directory"));
+        return;
+    }
+    while(!pathes.atEnd())
+    {
+        QString line = QString::fromUtf8(pathes.readLine()).trimmed();
+        if (line.length()==0)
+            continue;
+        QStringList ls = line.split("=");
+        if (ls.length()!=2)
+        {
+            throw ExceptionMessage(ErrorException,
+                _("Format of pathes.conf is wrong!"),
+                _("Unable to determine the path to the lyx-system directory"));
+        }
+        ls[0] = ls[0].trimmed();
+        if (ls[0]=="lyx-system")
+        {
+            lyxSystem = ls[1].trimmed();
+        }
+    }
 	// Specification of temp_dir_ may be reset by LyXRC,
 	// but the default is fixed for a given OS.
 	system_temp_dir_ = FileName::tempPath();
@@ -118,7 +164,7 @@ Package::Package(string const & command_line_arg0,
     binary_dir_ = FileName(QDir::currentPath().toStdString());
 
     // the LyX package directory
-    lyx_dir_ = FileName(addPath(binary_dir_.absFileName(), "lyx-system/lib"));
+    lyx_dir_ = FileName((lyxSystem+"/lib").toStdString());
 	lyx_dir_ = FileName(lyx_dir_.realPath());
 
 	// Is LyX being run in-place from the build tree?

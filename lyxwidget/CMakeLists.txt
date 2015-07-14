@@ -40,7 +40,7 @@ target_link_libraries(${PROJECT_NAME} LyX_testlib)
 qt5_use_modules(${PROJECT} Widgets)
 
 install (DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/lyx-lib/lib DESTINATION ${CMAKE_BINARY_DIR}/bin/lyx-system )
-install (DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/lyx-lib/lib DESTINATION ${CMAKE_BINARY_DIR}/lyx-system )
+#install (DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/lyx-lib/lib DESTINATION ${CMAKE_BINARY_DIR}/lyx-system )
 
 #Uncomment this if you wish to use a shared library
 #install(TARGETS ${PROJECT} DESTINATION ${CMAKE_BINARY_DIR}/bin)
