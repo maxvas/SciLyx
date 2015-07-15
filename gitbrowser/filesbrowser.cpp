@@ -38,6 +38,7 @@ FilesBrowser::FilesBrowser(QString remote, QString pass, QString localRepoFolder
     ui->listView->setModel(model);
     ui->listView->setEditTriggers(QAbstractItemView::SelectedClicked|QAbstractItemView::EditKeyPressed);
     connect(model, SIGNAL(fileRenamed(QString,QString,QString)), this, SLOT(onFileRenamed(QString,QString,QString)));
+
     go("/");
     syncWidget = new SyncDialog(this);
     git = new GitManager(repoFolder, "", repoPass, author, email);
@@ -380,6 +381,16 @@ void FilesBrowser::commitChangesDisconnectSignals()
     disconnect(git, SIGNAL(pullFailure(QString,QString)), this, SLOT(commitChangesFailure(QString,QString)));
     disconnect(git, SIGNAL(pushSuccess()), this, SLOT(commitChangesSuccess()));
     disconnect(git, SIGNAL(pushFailure(QString,QString)), this, SLOT(commitChangesFailure(QString,QString)));
+}
+
+void FilesBrowser::configureStarted()
+{
+    syncWidget->start("Конфигурирование SciLyx...");
+}
+
+void FilesBrowser::configureFinished()
+{
+    syncWidget->stop();
 }
 
 void FilesBrowser::callUpdate()

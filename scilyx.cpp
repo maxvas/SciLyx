@@ -18,6 +18,8 @@ SciLyx::SciLyx(QString remote, QString pass, QString localRepoFolder, QString au
     connect(mFileManager, SIGNAL(openEditorTriggered(QString)), mEditor, SLOT(openDocumentInNewWindow(QString)));
     connect(mFileManager, SIGNAL(openOldVersionInEditorTriggered(QString,QString,QByteArray)), mEditor, SLOT(openOldDocumentInNewWindow(QString,QString,QByteArray)));
     connect(mEditor, SIGNAL(documentSaved()), mFileManager, SLOT(commitChanges()));
+    connect(mEditor, SIGNAL(configureStarted()), mFileManager, SLOT(configureStarted()));
+    connect(mEditor, SIGNAL(configureFinished()), mFileManager, SLOT(configureFinished()));
     QVBoxLayout *layout = new QVBoxLayout(this);
     this->setLayout(layout);
     layout->addWidget(mFileManager);

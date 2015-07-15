@@ -85,6 +85,8 @@ private:
 
 typedef void (*MainWindowCreatedHandler)(lyx::frontend::GuiView* mainWindow);
 typedef void (*DocumentSavedHandler)();
+typedef void (*ConfigureStartedHandler)();
+typedef void (*ConfigureFinishedHandler)();
 
 /// initial startup
 class LyX {
@@ -96,6 +98,8 @@ public:
     //MAXVAS
     void addMainWindowCreatedHandler(MainWindowCreatedHandler mwHandler);
     void setDocumentSavedHandlerHandler(DocumentSavedHandler dsHandler);
+    void setConfigureStartedHandler(ConfigureStartedHandler handler);
+    void setConfigureFinishedHandler(ConfigureFinishedHandler handler);
     void startGUI();
     void updateMainBuffer();
     void openInNewWindow(std::string fileName);
@@ -109,6 +113,8 @@ public:
     void prepareExit();
     MainWindowCreatedHandler mainWindowCreatedHandler;
     DocumentSavedHandler documentSavedHandler;
+    ConfigureStartedHandler configureStartedHandler;
+    ConfigureFinishedHandler configureFinishedHandler;
 private:
 	/// noncopyable
 	LyX(LyX const &);

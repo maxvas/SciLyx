@@ -17,6 +17,16 @@ using namespace std;
 #define lyxInstance (&lyx::Singleton<lyx::LyX>::Instance())
 #define widgetInstance LyxGlobal::mainWidget()
 
+LyxThread::LyxThread(QWidget *parent)
+    :QThread(parent), parent(parent)
+{
+
+}
+
+void LyxThread::run()
+{
+}
+
 int LyxWidget::getPrefferedWidth() const
 {
     return 900;
@@ -65,28 +75,10 @@ LyxWidget::LyxWidget(QWidget *parent)
 {
     ui->setupUi(this);
 
-    QStringList args;
-    args<<QApplication::arguments()[0];
-    int argc = args.length();
-    char** data = new char*[argc];
-    for (int i=0; i<argc; i++)
-    {
-        QByteArray arr = args[i].toLocal8Bit().data();
-        data[i] = new char[arr.length()+1];
-        strcpy(data[i], arr);
-        //data[i+arr.length()] = 0;
-        cout<<data[i]<<endl;
-    }
-    lyx::lyxerr.setStream(cerr);
-    lyx::support::os::init(argc, data);
+//    configureDialog = new ConfigureDialog();
 
-    LyxGlobal::setMainWidget(this);
-    lyx::LyX *lyx = lyxInstance;
-    lyx->addMainWindowCreatedHandler(LyxWidget::insertLyxInMainWidget);
-    lyx->setDocumentSavedHandlerHandler(LyxWidget::callDocumentSavedHandler);
-    lyx->exec(argc, data);
     //startLyxGUI();
-    QTimer::singleShot(0, this, SLOT(startLyxGUI()));
+    QTimer::singleShot(0, this, SLOT(exec()));
 }
 
 LyxWidget::~LyxWidget()
@@ -109,6 +101,44 @@ void LyxWidget::callDocumentSavedHandler()
 {
     LyxWidget *lyxWidget = (LyxWidget*)widgetInstance;
     lyxWidget->documentSaved();
+}
+
+void LyxWidget::callConfigureStartedSignal()
+{
+    LyxWidget *lyxWidget = (LyxWidget*)widgetInstance;
+    lyxWidget->configureStarted();
+}
+
+void LyxWidget::callConfigureFinishedSignal()
+{
+    LyxWidget *lyxWidget = (LyxWidget*)widgetInstance;
+    lyxWidget->configureFinished();
+}
+
+void LyxWidget::exec()
+{
+    QStringList args;
+    args<<QApplication::arguments()[0];
+    int argc = args.length();
+    char** data = new char*[argc];
+    for (int i=0; i<argc; i++)
+    {
+        QByteArray arr = args[i].toLocal8Bit().data();
+        data[i] = new char[arr.length()+1];
+        strcpy(data[i], arr);
+        //data[i+arr.length()] = 0;
+        cout<<data[i]<<endl;
+    }
+    lyx::lyxerr.setStream(cerr);
+    lyx::support::os::init(argc, data);
+    LyxGlobal::setMainWidget(this);
+    lyx::LyX *lyx = lyxInstance;
+    lyx->addMainWindowCreatedHandler(LyxWidget::insertLyxInMainWidget);
+    lyx->setDocumentSavedHandlerHandler(LyxWidget::callDocumentSavedHandler);
+    lyx->setConfigureStartedHandler(LyxWidget::callConfigureStartedSignal);
+    lyx->setConfigureFinishedHandler(LyxWidget::callConfigureFinishedSignal);
+    lyx->exec(argc, data);
+    QTimer::singleShot(0, this, SLOT(startLyxGUI()));
 }
 
 QWidget *LyxGlobal::mainWidget()

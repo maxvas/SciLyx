@@ -4,6 +4,8 @@
 #include <QWidget>
 #include <QModelIndex>
 #include <QMainWindow>
+#include <QThread>
+#include "configuredialog.h"
 
 namespace lyx{
     namespace frontend{
@@ -28,6 +30,20 @@ private:
     lyx::frontend::GuiView *p_lyxWindow;
 };
 
+class LyxWidget;
+class LyxThread : public QThread
+{
+    Q_OBJECT
+    QWidget *parent;
+
+public:
+    LyxThread(QWidget *parent);
+    void run();
+
+signals:
+    void lyxWidgetCreated(LyxWidget *widget);
+};
+
 class LyxWidget : public QWidget
 {
     Q_OBJECT
@@ -36,16 +52,22 @@ public:
     ~LyxWidget();
     static void insertLyxInMainWidget(lyx::frontend::GuiView* mainWindow);
     static void callDocumentSavedHandler();
+    static void callConfigureStartedSignal();
+    static void callConfigureFinishedSignal();
     int getPrefferedWidth() const;
 
 private:
     Ui::Lyx * ui;
     void closeEvent(QCloseEvent *event);
+    ConfigureDialog *configureDialog;
 
 signals:
     void lyxClosed();
     void documentSaved();
+    void configureStarted();
+    void configureFinished();
 private slots:
+    void exec();
     void startLyxGUI();
     void updateBuffer();
 

@@ -96,6 +96,10 @@ private slots:
     void commitChangesFailure(QString error, QString details);//В случае каких-либо ошибок
     void commitChangesDisconnectSignals();//Отсоединение сигналов и слотов
 
+    //Обработка процесса конфигурирования Lyx
+    void configureStarted();
+    void configureFinished();
+
     //Слоты обработки действий (actions)
     void callUpdate();
     void callOpen();

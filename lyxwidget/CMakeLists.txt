@@ -2,15 +2,18 @@ SET(CMAKE_SHARED_LIBRARY_PREFIX "")
 SET (PROJECT lyxwidget)
 
 SET (SOURCES
-        lyxwidget.cpp
+    lyxwidget.cpp
+    configuredialog.cpp
 )
 
 SET (HEADERS
-        lyxwidget.h
+    lyxwidget.h
+    configuredialog.h
 )
 
 SET (UI
     lyxwidget.ui
+    configuredialog.ui
 )
 
 project (${PROJECT})
@@ -37,7 +40,7 @@ add_subdirectory(lyx-lib ${CMAKE_CURRENT_BINARY_DIR}/lyx-lib)
 target_link_libraries(${PROJECT_NAME} LyX_testlib)
 
 #install (FILES ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT}${CMAKE_SHARED_MODULE_SUFFIX} DESTINATION ${CMAKE_BINARY_DIR}/bin )
-qt5_use_modules(${PROJECT} Widgets)
+qt5_use_modules(${PROJECT} Core Widgets)
 
 install (DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/lyx-lib/lib DESTINATION ${CMAKE_BINARY_DIR}/bin/lyx-system )
 #install (DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/lyx-lib/lib DESTINATION ${CMAKE_BINARY_DIR}/lyx-system )

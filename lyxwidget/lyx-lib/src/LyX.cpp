@@ -136,7 +136,7 @@ void reconfigureUserLyXDir()
 	lyxerr << to_utf8(_("LyX: reconfiguring user directory")) << endl;
 	PathChanger p(package().user_support());
 	Systemcall one;
-	one.startscript(Systemcall::Wait, configure_command);
+    one.startscript(Systemcall::Wait, configure_command, empty_string(), true);
 	lyxerr << "LyX: " << to_utf8(_("Done!")) << endl;
 }
 
@@ -235,6 +235,16 @@ void LyX::addMainWindowCreatedHandler(MainWindowCreatedHandler mwHandler)
 void LyX::setDocumentSavedHandlerHandler(DocumentSavedHandler dsHandler)
 {
     documentSavedHandler = dsHandler;
+}
+
+void LyX::setConfigureStartedHandler(ConfigureStartedHandler handler)
+{
+    configureStartedHandler = handler;
+}
+
+void LyX::setConfigureFinishedHandler(ConfigureFinishedHandler handler)
+{
+    configureFinishedHandler = handler;
 }
 
 void LyX::startGUI()
@@ -507,7 +517,6 @@ void LyX::earlyExit(int status)
 	exit(status);
 }
 
-
 int LyX::init(int & argc, char * argv[])
 {
 	// check for any spurious extra arguments
@@ -537,10 +546,10 @@ int LyX::init(int & argc, char * argv[])
 		return EXIT_FAILURE;
 	}
 
-	if (first_start) {
-		pimpl_->files_to_load_.push_back(
-			i18nLibFileSearch("examples", "splash.lyx").absFileName());
-	}
+//	if (first_start) {
+//		pimpl_->files_to_load_.push_back(
+//			i18nLibFileSearch("examples", "splash.lyx").absFileName());
+//	}
 
 	return EXIT_SUCCESS;
 }
@@ -836,7 +845,9 @@ bool LyX::init()
 		int fd = fileLock(lock_file.c_str());
 
 		if (queryUserLyXDir(package().explicit_user_support())) {
+            configureStartedHandler();
 			reconfigureUserLyXDir();
+            configureFinishedHandler();
 		}
 		fileUnlock(fd, lock_file.c_str());
 	}

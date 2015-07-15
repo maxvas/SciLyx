@@ -15,11 +15,13 @@ SET(CMAKE_SHARED_LIBRARY_PREFIX "")
 SET (SOURCES
     scilyx.cpp
     scilyxplugin.cpp
+#    lyxthread.cpp
 )
 
 SET (HEADERS
     scilyx.h
     scilyxplugin.h
+#    lyxthread.h
 )
 
 INCLUDE_DIRECTORIES(${CMAKE_CURRENT_BINARY_DIR})
