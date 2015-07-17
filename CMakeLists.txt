@@ -35,5 +35,5 @@ set(CMAKE_CXX_FLAGS "-fPIC")
 add_library ( ${PROJECT} SHARED ${HEADERS} ${SOURCES} ${MOC_SOURCES})
 
 target_link_libraries(${PROJECT} Qt5::Widgets lyxwidget gitbrowser qfs)
-file(WRITE ${CMAKE_BINARY_DIR}/bin/pathes.conf "lyx-system=${CMAKE_BINARY_DIR}/bin/lyx-system" )
+file(WRITE ${CMAKE_BINARY_DIR}/bin/pathes.conf "scilyx=${CMAKE_BINARY_DIR}/bin" )
 install(TARGETS ${PROJECT} DESTINATION ${CMAKE_BINARY_DIR}/bin)

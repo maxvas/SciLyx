@@ -28,6 +28,7 @@ private:
     void loadPlugins(QString pluginsPath);
     void unloadPlugins();
     QHash<QString, SciLyxPlugin* > mPlugins;
+    QString sciLyxPath();
 
 };
 

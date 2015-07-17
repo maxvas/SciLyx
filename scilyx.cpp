@@ -8,10 +8,19 @@
 #include <QTimer>
 #include <QCloseEvent>
 #include <QPluginLoader>
+#include <QCoreApplication>
 
 SciLyx::SciLyx(QString remote, QString pass, QString localRepoFolder, QString author, QString email)
     : QWidget(0), mEditor(0)
 {
+    QString sciLyxVar = sciLyxPath();
+    sciLyxVar = sciLyxVar.replace("/", "\\");
+    QString pathEnv = QString::fromLocal8Bit(qgetenv("Path"));
+    QString pathSuffix = QString(";%1\\Python27;%1\\miktex\\bin;%1\\ImageMagick-6.9.0-Q16;%1\\gs\\gs9.15\\bin").arg(sciLyxVar);
+    pathEnv += pathSuffix;
+    qputenv("Path", pathEnv.toLocal8Bit());
+    qputenv("scilyx", sciLyxVar.toLocal8Bit());
+
     mFileManager = new FilesBrowser(remote, pass, localRepoFolder, author, email, this);
     mEditor = new LyxWidget(this);
     mEditor->hide();
@@ -103,4 +112,35 @@ void SciLyx::unloadPlugins()
         mPlugins.remove(plugin->name());
         delete plugin;
     }
+}
+
+QString SciLyx::sciLyxPath()
+{
+    QString sciLyxPath = QCoreApplication::applicationDirPath();
+    QFile pathes("pathes.conf");
+    if (!pathes.exists())
+    {
+        return sciLyxPath;
+    }
+    if (!pathes.open(QFile::ReadOnly))
+    {
+        return sciLyxPath;
+    }
+    while(!pathes.atEnd())
+    {
+        QString line = QString::fromUtf8(pathes.readLine()).trimmed();
+        if (line.length()==0)
+            continue;
+        QStringList ls = line.split("=");
+        if (ls.length()!=2)
+        {
+            return sciLyxPath;
+        }
+        ls[0] = ls[0].trimmed();
+        if (ls[0]=="scilyx")
+        {
+            sciLyxPath = ls[1].trimmed();
+        }
+    }
+    return sciLyxPath;
 }

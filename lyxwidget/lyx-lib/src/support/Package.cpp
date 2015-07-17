@@ -117,42 +117,7 @@ Package::Package(string const & command_line_arg0,
     //А вот если SciLyx.dll используется из другой программы, запущенной совершенно из другого места, то дело труба.
     //Но ничего, мы ведь можем хранить pathes.conf
     //в котором хранится путь до lyx-system!
-    QString lyxSystem = "lyx-system";
-    QFile pathes("pathes.conf");
-    if (!pathes.exists())
-    {
-        //А вот тут уже действительно труба! Файла со спасительным путем нет...
-        throw ExceptionMessage(ErrorException,
-            _("pathes.conf not found"),
-            _("Unable to determine the path to the lyx-system directory"));
-        return;
-    }
-    if (!pathes.open(QFile::ReadOnly))
-    {
-        //Файл pathes.conf существует, но мы его не можем читать! Фатал еррор...
-        throw ExceptionMessage(ErrorException,
-            _("pathes.conf can't be read"),
-            _("Unable to determine the path to the lyx-system directory"));
-        return;
-    }
-    while(!pathes.atEnd())
-    {
-        QString line = QString::fromUtf8(pathes.readLine()).trimmed();
-        if (line.length()==0)
-            continue;
-        QStringList ls = line.split("=");
-        if (ls.length()!=2)
-        {
-            throw ExceptionMessage(ErrorException,
-                _("Format of pathes.conf is wrong!"),
-                _("Unable to determine the path to the lyx-system directory"));
-        }
-        ls[0] = ls[0].trimmed();
-        if (ls[0]=="lyx-system")
-        {
-            lyxSystem = ls[1].trimmed();
-        }
-    }
+    QString sciLyxPath = qgetenv("scilyx");
 	// Specification of temp_dir_ may be reset by LyXRC,
 	// but the default is fixed for a given OS.
 	system_temp_dir_ = FileName::tempPath();
@@ -164,7 +129,7 @@ Package::Package(string const & command_line_arg0,
     binary_dir_ = FileName(QDir::currentPath().toStdString());
 
     // the LyX package directory
-    lyx_dir_ = FileName((lyxSystem+"/lib").toStdString());
+    lyx_dir_ = FileName((sciLyxPath+"/lyx-system/lib").toStdString());
 	lyx_dir_ = FileName(lyx_dir_.realPath());
 
 	// Is LyX being run in-place from the build tree?
