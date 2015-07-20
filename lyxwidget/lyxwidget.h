@@ -5,7 +5,6 @@
 #include <QModelIndex>
 #include <QMainWindow>
 #include <QThread>
-#include "configuredialog.h"
 
 namespace lyx{
     namespace frontend{
@@ -59,7 +58,6 @@ public:
 private:
     Ui::Lyx * ui;
     void closeEvent(QCloseEvent *event);
-    ConfigureDialog *configureDialog;
 
 signals:
     void lyxClosed();

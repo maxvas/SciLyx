@@ -23,5 +23,7 @@ else()
 	add_library(boost_signals STATIC ${_allinone_files})
 endif()
 #MAXVAS
-SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fPIC")
+if (${UNIX})
+    SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fPIC")
+endif (${UNIX})
 set_target_properties(boost_signals PROPERTIES FOLDER "3rd_party")

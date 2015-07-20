@@ -3,8 +3,6 @@ set(PROJECT gitbrowser)
 
 project(${PROJECT})
 
-add_subdirectory(askpass)
-
 find_package( Qt5 REQUIRED COMPONENTS Core Gui Widgets Network Sql)
 
 if(WIN32)
@@ -26,7 +24,7 @@ set(HEADERS
     syncdialog.h
     gitmanager.h
     texteditor.h
-    passwordprovider.h
+    reposettings.h
     #../../../genset/couch.h
 )
 
@@ -38,7 +36,7 @@ set(SOURCES
     syncdialog.cpp
     gitmanager.cpp
     texteditor.cpp
-    passwordprovider.cpp
+    reposettings.cpp
     #../../../genset/couch.cpp
 )
 
@@ -47,6 +45,7 @@ set(UI
     filesbrowser.ui
     syncdialog.ui
     texteditor.ui
+    reposettings.ui
 )
 
 set(RESOURCES
@@ -58,11 +57,21 @@ SET (RESSRC )
 qt5_wrap_cpp (MOC_SOURCES ${HEADERS})
 qt5_wrap_ui (UIS ${UI})
 qt5_add_resources (RESSRC ${RESOURCES})
-#cmake_policy(SET CMP0028 OLD)
-set(CMAKE_CXX_FLAGS "-fPIC")
+
+if(COMMAND cmake_policy)
+    if(POLICY CMP0028)
+        cmake_policy(SET CMP0028 OLD)
+    endif()
+    if(POLICY CMP0020)
+        cmake_policy(SET CMP0020 OLD)
+    endif()
+endif()
+
+if (${UNIX})
+    set(CMAKE_CXX_FLAGS "-fPIC")
+endif (${UNIX})
 
 add_library ( ${PROJECT} SHARED ${HEADERS} ${SOURCES} ${MOC_SOURCES} ${UIS} ${RESSRC})
-
 #add_executable(${PROJECT} ${HEADERS} ${SOURCES} ${MOC_SOURCES} ${UIS} ${RESSRC})
 
 target_link_libraries(${PROJECT} Qt5::Widgets Qt5::Network Qt5::Sql qfs)

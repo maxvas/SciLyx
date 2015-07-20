@@ -82,7 +82,9 @@ else()
 endif()
 set_target_properties(support PROPERTIES FOLDER "applications/LyX")
 #MAXVAS
-SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fPIC")
+if (${UNIX})
+    SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fPIC")
+endif (${UNIX})
 
 if(USE_MACOSX_PACKAGING AND Qt5Core_FOUND)
        qt_use_modules(support Core Gui)

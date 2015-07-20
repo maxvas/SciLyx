@@ -19,7 +19,9 @@ endif()
 set_target_properties(common PROPERTIES FOLDER "applications/LyX")
 target_link_libraries(common support)
 #MAXVAS
-SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fPIC")
+if (${UNIX})
+    SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fPIC")
+endif (${UNIX})
 
 qt_use_modules(common Core Gui Widgets Concurrent)
 

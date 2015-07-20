@@ -22,6 +22,8 @@ lyx_add_path(boost_regex_sources ${TOP_SRC_DIR}/boost/libs/regex/src)
 
 add_library(boost_regex STATIC ${boost_regex_sources})
 #MAXVAS
-SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fPIC")
+if (${UNIX})
+    SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fPIC")
+endif (${UNIX})
 set_target_properties(boost_regex PROPERTIES FOLDER "3rd_party")
 

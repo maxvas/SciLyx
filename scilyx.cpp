@@ -10,8 +10,8 @@
 #include <QPluginLoader>
 #include <QCoreApplication>
 
-SciLyx::SciLyx(QString remote, QString pass, QString localRepoFolder, QString author, QString email)
-    : QWidget(0), mEditor(0)
+SciLyx::SciLyx(QString localRepoFolder)
+    : QWidget(0)/*, mEditor(0)*/
 {
     QString sciLyxVar = sciLyxPath();
     sciLyxVar = sciLyxVar.replace("/", "\\");
@@ -21,46 +21,52 @@ SciLyx::SciLyx(QString remote, QString pass, QString localRepoFolder, QString au
     qputenv("Path", pathEnv.toLocal8Bit());
     qputenv("scilyx", sciLyxVar.toLocal8Bit());
 
-    mFileManager = new FilesBrowser(remote, pass, localRepoFolder, author, email, this);
+    mGitBrowser = new GitBrowser(localRepoFolder);
     mEditor = new LyxWidget(this);
     mEditor->hide();
-    connect(mFileManager, SIGNAL(openEditorTriggered(QString)), mEditor, SLOT(openDocumentInNewWindow(QString)));
-    connect(mFileManager, SIGNAL(openOldVersionInEditorTriggered(QString,QString,QByteArray)), mEditor, SLOT(openOldDocumentInNewWindow(QString,QString,QByteArray)));
-    connect(mEditor, SIGNAL(documentSaved()), mFileManager, SLOT(commitChanges()));
-    connect(mEditor, SIGNAL(configureStarted()), mFileManager, SLOT(configureStarted()));
-    connect(mEditor, SIGNAL(configureFinished()), mFileManager, SLOT(configureFinished()));
+    connect(mGitBrowser, SIGNAL(openEditorTriggered(QString)), mEditor, SLOT(openDocumentInNewWindow(QString)));
+    connect(mGitBrowser, SIGNAL(openOldVersionInEditorTriggered(QString,QString,QByteArray)), mEditor, SLOT(openOldDocumentInNewWindow(QString,QString,QByteArray)));
+    connect(mEditor, SIGNAL(documentSaved()), mGitBrowser, SLOT(commitChanges()));
+    connect(mEditor, SIGNAL(configureStarted()), mGitBrowser, SLOT(configureStarted()));
+    connect(mEditor, SIGNAL(configureFinished()), mGitBrowser, SLOT(configureFinished()));
     QVBoxLayout *layout = new QVBoxLayout(this);
     this->setLayout(layout);
-    layout->addWidget(mFileManager);
+    layout->addWidget(mGitBrowser);
     layout->setMargin(0);
     loadPlugins("");
+    setWindowTitle("SciLyx");
 }
 
 SciLyx::~SciLyx()
 {
-    mFileManager->deleteLater();
+    mGitBrowser->deleteLater();
     mEditor->deleteLater();
     unloadPlugins();
 }
 
 QString SciLyx::currentPath()
 {
-    return mFileManager->currentAbsolutePath();
+    return mGitBrowser->currentAbsolutePath();
 }
 
 bool SciLyx::registerAction(QString name, QAction *action)
 {
-    return mFileManager->registerAction(name, action);
+    return mGitBrowser->registerAction(name, action);
 }
 
 bool SciLyx::unregisterAction(QString name)
 {
-    return mFileManager->unregisterAction(name);
+    return mGitBrowser->unregisterAction(name);
+}
+
+void SciLyx::loadConfigOrAskUser()
+{
+    mGitBrowser->readRepoConfigOrAskUser();
 }
 
 bool SciLyx::openEditor(QString fileName)
 {
-    return mFileManager->openEditor(fileName);
+    return mGitBrowser->openEditor(fileName);
 }
 
 void SciLyx::

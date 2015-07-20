@@ -17,23 +17,22 @@
 #include "versionbrowserdialog.h"
 #include "syncdialog.h"
 #include "texteditor.h"
-#include "passwordprovider.h"
 
-FilesBrowser::FilesBrowser(QString remote, QString pass, QString localRepoFolder, QString author, QString email, QWidget *parent) :
+GitBrowser::GitBrowser(QString localRepoFolder, QWidget *parent) :
     QWidget(parent)
 {
     Q_INIT_RESOURCE(gitbrowser);
 
-    ui = new Ui::FilesBrowser;
+    ui = new Ui::GitBrowser;
     ui->setupUi(this);
+
+    repoParams = new RepoParams();
     model = new QFileSystemModel;
     model->setNameFilters(QStringList()<<"*.lyx");
     model->setNameFilterDisables(false);
     repoFolder = localRepoFolder;
-    repoPass = pass;
     model->setRootPath(repoFolder);
     model->setReadOnly(false);
-
 
     ui->listView->setModel(model);
     ui->listView->setEditTriggers(QAbstractItemView::SelectedClicked|QAbstractItemView::EditKeyPressed);
@@ -41,7 +40,9 @@ FilesBrowser::FilesBrowser(QString remote, QString pass, QString localRepoFolder
 
     go("/");
     syncWidget = new SyncDialog(this);
-    git = new GitManager(repoFolder, "", repoPass, author, email);
+    repoSettingsDialog = new RepoSettings(this);
+    connect(repoSettingsDialog, SIGNAL(changed()), this, SLOT(updateRepoParams()));
+    git = new GitManager(repoFolder);
     actUpdate = new QAction("Обновить", this);
     connect(actUpdate, SIGNAL(triggered()), this, SLOT(callUpdate()));
     actOpen = new QAction("Открыть", this);
@@ -62,16 +63,39 @@ FilesBrowser::FilesBrowser(QString remote, QString pass, QString localRepoFolder
     connect(actCut, SIGNAL(triggered()), this, SLOT(callCut()));
     actPaste = new QAction("Вставить", this);
     connect(actPaste, SIGNAL(triggered()), this, SLOT(callPaste()));
+    actRepoManager = new QAction("Репозитории", this);
+    connect(actRepoManager, SIGNAL(triggered(bool)), SLOT(callRepoSettings()));
     ui->listView->setContextMenuPolicy(Qt::CustomContextMenu);
-    //QMetaObject::invokeMethod(this, "init", Qt::QueuedConnection, Q_ARG(QString, remote));
-    toolbar = new QToolBar("Главная", this);
-    this->layout()->addWidget(toolbar);
+    QList<QAction* > toolBarActions;
+    toolBarActions.append(actRepoManager);
+    ui->toolBar->addActions(toolBarActions);
 }
 
-FilesBrowser::~FilesBrowser()
+void GitBrowser::readRepoConfigOrAskUser()
+{
+    if (!readRepoConfig())
+        callRepoSettings();
+    else
+        updateRepoParams();
+}
+
+void GitBrowser::updateRepoParams()
+{
+    git->setRepoParams(repoParams);
+    QMetaObject::invokeMethod(this, "init", Qt::QueuedConnection);
+}
+
+bool GitBrowser::readRepoConfig()
+{
+    return repoParams->readFromConfig();
+}
+
+GitBrowser::~GitBrowser()
 {
     delete ui;
     delete syncWidget;
+    delete repoSettingsDialog;
+    delete repoParams;
     git->deleteLater();
 }
 
@@ -80,13 +104,13 @@ FilesBrowser::~FilesBrowser()
 //    return currentPathWithSlash();
 //}
 
-QString FilesBrowser::currentAbsolutePath()
+QString GitBrowser::currentAbsolutePath()
 {
     QDir dir(currentPathWithSlash());
     return dir.absolutePath();
 }
 
-bool FilesBrowser::openEditor(QString fileName)
+bool GitBrowser::openEditor(QString fileName)
 {
     QFile file(fileName);
     if (!file.exists())
@@ -96,7 +120,7 @@ bool FilesBrowser::openEditor(QString fileName)
 }
 
 //Выполняет переход к каталогу
-void FilesBrowser::go(QString path)
+void GitBrowser::go(QString path)
 {
     QDir dir(repoFolder);
     QString path_ =  path == "/" ? "/" : path.mid(1);
@@ -112,7 +136,7 @@ void FilesBrowser::go(QString path)
 }
 
 //Выполняет переход на уровень выше
-void FilesBrowser::up()
+void GitBrowser::up()
 {
     QString newPath = currentPath;
     if (currentPath!="/")
@@ -125,29 +149,29 @@ void FilesBrowser::up()
     go(newPath);
 }
 
-void FilesBrowser::on_goBtn_clicked()
+void GitBrowser::on_goBtn_clicked()
 {
     go(ui->lineEdit->text());
 }
 
-void FilesBrowser::on_upBtn_clicked()
+void GitBrowser::on_upBtn_clicked()
 {
     up();
 }
 
-void FilesBrowser::on_updateBtn_clicked()
+void GitBrowser::on_updateBtn_clicked()
 {
     update();
 }
 
 //Создание нового документа
-void FilesBrowser::on_newDocumentBtn_clicked()
+void GitBrowser::on_newDocumentBtn_clicked()
 {
     QString path = currentPathWithSlash();
     path = repoFolder + path;
 }
 
-void FilesBrowser::on_listView_doubleClicked(const QModelIndex &index)
+void GitBrowser::on_listView_doubleClicked(const QModelIndex &index)
 {
     if (model->fileInfo(index).isDir())
     {
@@ -161,13 +185,13 @@ void FilesBrowser::on_listView_doubleClicked(const QModelIndex &index)
     }
 }
 
-void FilesBrowser::on_lineEdit_returnPressed()
+void GitBrowser::on_lineEdit_returnPressed()
 {
     go(ui->lineEdit->text());
 }
 
 //Меню
-void FilesBrowser::on_listView_customContextMenuRequested(const QPoint &pos)
+void GitBrowser::on_listView_customContextMenuRequested(const QPoint &pos)
 {
     const QModelIndex &index = ui->listView->indexAt(pos);
     if (index.isValid()) {
@@ -179,7 +203,7 @@ void FilesBrowser::on_listView_customContextMenuRequested(const QPoint &pos)
 }
 
 //Вызов контекстного меню элемента
-void FilesBrowser::on_listView_showItemContextMenu(const QModelIndex &index, const QPoint& globalPos)
+void GitBrowser::on_listView_showItemContextMenu(const QModelIndex &index, const QPoint& globalPos)
 {
     QMenu menu;
     if (model->fileInfo(index).isDir())
@@ -198,40 +222,42 @@ void FilesBrowser::on_listView_showItemContextMenu(const QModelIndex &index, con
 }
 
 //Вызов контекстного меню при клике на свободное пространство
-void FilesBrowser::on_listView_showSpaceContextMenu(const QPoint& globalPos)
+void GitBrowser::on_listView_showSpaceContextMenu(const QPoint& globalPos)
 {
     QMenu menu;
     menu.addAction(actNewDir);
     menu.exec(globalPos);
 }
 
-void FilesBrowser::resizeEvent(QResizeEvent *event)
+void GitBrowser::resizeEvent(QResizeEvent *event)
 {
+    UNUSED(event);
     syncWidget->setGeometry(geometry());
 }
 
-QString FilesBrowser::currentPathWithSlash()
+QString GitBrowser::currentPathWithSlash()
 {
     return currentPath == "/" ? currentPath : currentPath + "/";
 }
 
-bool FilesBrowser::registerAction(QString name, QAction *action)
+bool GitBrowser::registerAction(QString name, QAction *action)
 {
     if (actions.contains(name))
         return false;
     actions[name] = action;
     QList<QAction* > list;
     list.append(action);
-    toolbar->addActions(list);
+    ui->toolBar->addActions(list);
+    return true;
 }
 
-bool FilesBrowser::unregisterAction(QString name)
+bool GitBrowser::unregisterAction(QString name)
 {
     return actions.remove(name);
 }
 
 //Этот слот вызывается только после успешного переименования файла или папки
-void FilesBrowser::onFileRenamed(const QString &path, const QString &oldName, const QString &newName)
+void GitBrowser::onFileRenamed(const QString &path, const QString &oldName, const QString &newName)
 {
     UNUSED(path);
     UNUSED(oldName);
@@ -239,9 +265,9 @@ void FilesBrowser::onFileRenamed(const QString &path, const QString &oldName, co
     commitChanges();
 }
 
-void FilesBrowser::init(QString remote)
+void GitBrowser::init()
 {
-    init_remote = remote;
+    init_remote = repoParams->login+"@"+repoParams->url;
     QDir dir(repoFolder);
     if (!dir.exists())
     {
@@ -267,29 +293,30 @@ void FilesBrowser::init(QString remote)
     }
 }
 
-void FilesBrowser::initRemoveProgressChanged(int value)
+void GitBrowser::initRemoveProgressChanged(int value)
 {
     syncWidget->setProgress((int)((float)value/2.0));
 }
 
-void FilesBrowser::initRemoveSuccess()
+void GitBrowser::initRemoveSuccess()
 {
     syncWidget->setProgress(50);
     connect(git, SIGNAL(cloneSuccess()), this, SLOT(initSuccess()));
     git->clone(init_remote);
 }
 
-void FilesBrowser::initRemoveFailure(QString error, QString details)
+void GitBrowser::initRemoveFailure(QString error, QString details)
 {
+    UNUSED(error);
     initFailure("Ошибка на этапе инициализации", details);
 }
 
-void FilesBrowser::initCloneProgressChanged(int value)
+void GitBrowser::initCloneProgressChanged(int value)
 {
     syncWidget->setProgress(50+(int)((float)value/2.0));
 }
 
-void FilesBrowser::initSuccess()
+void GitBrowser::initSuccess()
 {
     syncWidget->setProgress(100);
     syncWidget->stop();
@@ -297,47 +324,54 @@ void FilesBrowser::initSuccess()
     ui->listView->setRootIndex(model->setRootPath(path_));
 }
 
-void FilesBrowser::initFailure(QString error, QString details)
+void GitBrowser::initFailure(QString error, QString details)
 {
-
+    UNUSED(error);
+    UNUSED(details);
+    //TODO: дописать обработку ошибки инициализации репозитория
 }
 
-void FilesBrowser::repair(QString error, QString details)
+void GitBrowser::repair(QString error, QString details)
 {
-
+    UNUSED(error);
+    UNUSED(details);
+    //TODO: дописать
 }
 
-void FilesBrowser::repairSuccess()
+void GitBrowser::repairSuccess()
 {
-
+    //TODO: дописать
 }
 
-void FilesBrowser::repairFailure(QString error, QString details)
+void GitBrowser::repairFailure(QString error, QString details)
 {
-
+    UNUSED(error);
+    UNUSED(details);
+    //TODO: дописать
 }
 
 //Update = git pull
-void FilesBrowser::update()
+void GitBrowser::update()
 {
     syncWidget->start("Синхронизация...");
     connect(git, SIGNAL(pullSuccess()), this, SLOT(updateSuccess()));
     git->pull();
 }
 //Обработчик успешного update
-void FilesBrowser::updateSuccess()
+void GitBrowser::updateSuccess()
 {
     disconnect(git, SIGNAL(pullSuccess()), this, SLOT(updateSuccess()));
     syncWidget->stop();
 }
 //Обработчик ошибки при update
-void FilesBrowser::updateFailure(QString error, QString details)
+void GitBrowser::updateFailure(QString error, QString details)
 {
+    UNUSED(details);
     disconnect(git, SIGNAL(pullSuccess()), this, SLOT(updateSuccess()));
     syncWidget->showError(error);
 }
 
-void FilesBrowser::commitChanges()
+void GitBrowser::commitChanges()
 {
     //Сигналы и слоты соединяются в граф асинхронного выполнения процесса commitChanges
     //После выхода из графа предусмотрено их разъединение (disconnect)
@@ -354,7 +388,7 @@ void FilesBrowser::commitChanges()
     git->add();
 }
 
-void FilesBrowser::commitChangesSuccess()
+void GitBrowser::commitChangesSuccess()
 {
     //Необходимо скрыть виджет синхронизации
     syncWidget->stop();
@@ -362,15 +396,16 @@ void FilesBrowser::commitChangesSuccess()
     commitChangesDisconnectSignals();
 }
 
-void FilesBrowser::commitChangesFailure(QString error, QString details)
+void GitBrowser::commitChangesFailure(QString error, QString details)
 {
+    UNUSED(details);
     //Необходимо скрыть виджет синхронизации
     syncWidget->showError(error);
     //Разъединяем граф commitChanges
     commitChangesDisconnectSignals();
 }
 
-void FilesBrowser::commitChangesDisconnectSignals()
+void GitBrowser::commitChangesDisconnectSignals()
 {
     //Дисконнектим сигналы
     disconnect(git, SIGNAL(addSuccess()), git, SLOT(commit()));
@@ -383,22 +418,22 @@ void FilesBrowser::commitChangesDisconnectSignals()
     disconnect(git, SIGNAL(pushFailure(QString,QString)), this, SLOT(commitChangesFailure(QString,QString)));
 }
 
-void FilesBrowser::configureStarted()
+void GitBrowser::configureStarted()
 {
     syncWidget->start("Конфигурирование SciLyx...");
 }
 
-void FilesBrowser::configureFinished()
+void GitBrowser::configureFinished()
 {
     syncWidget->stop();
 }
 
-void FilesBrowser::callUpdate()
+void GitBrowser::callUpdate()
 {
     update();
 }
 
-void FilesBrowser::callOpen()
+void GitBrowser::callOpen()
 {
     const QModelIndex &index = ui->listView->currentIndex();
     if (model->fileInfo(index).isFile())
@@ -408,7 +443,7 @@ void FilesBrowser::callOpen()
     }
 }
 
-void FilesBrowser::callVersions()
+void GitBrowser::callVersions()
 {
     const QModelIndex &index = ui->listView->currentIndex();
     if (model->fileInfo(index).isDir())
@@ -429,7 +464,7 @@ void FilesBrowser::callVersions()
     }
 }
 
-void FilesBrowser::callRename()
+void GitBrowser::callRename()
 {
     const QModelIndex &index = ui->listView->currentIndex();
     if (!index.isValid())
@@ -438,7 +473,7 @@ void FilesBrowser::callRename()
     ui->listView->edit(index);
 }
 
-void FilesBrowser::callRemove()
+void GitBrowser::callRemove()
 {
     const QModelIndex &index = ui->listView->currentIndex();
     QString fileName = model->fileInfo(index).fileName();
@@ -462,7 +497,7 @@ void FilesBrowser::callRemove()
 }
 
 //слот, вызываемый на действие "Новый каталог"
-void FilesBrowser::callNewDir()
+void GitBrowser::callNewDir()
 {
     QString newDir = "Новая папка";
     int i=0;
@@ -486,25 +521,31 @@ void FilesBrowser::callNewDir()
 }
 
 //Слот, вызываемый на действие "Новый документ"
-void FilesBrowser::callNewDocument()
+void GitBrowser::callNewDocument()
 {
 
 }
 
 //Слот, вызываемый на действие "Копировать"
-void FilesBrowser::callCopy()
+void GitBrowser::callCopy()
 {
 
 }
 
 //Слот, вызываемый на действие "Вырезать"
-void FilesBrowser::callCut()
+void GitBrowser::callCut()
 {
 
 }
 
 //Слот, вызываемый на действие "Вставить"
-void FilesBrowser::callPaste()
+void GitBrowser::callPaste()
 {
 
+}
+
+//Слот, вызываемый на действие "Открыть настройки репозитория"
+void GitBrowser::callRepoSettings()
+{
+    repoSettingsDialog->startEdit(repoParams);
 }

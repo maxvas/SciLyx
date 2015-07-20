@@ -9,6 +9,7 @@
 #include <QToolBar>
 
 #include "gitmanager.h"
+#include "reposettings.h"
 #include "../qfs/qfilemanager.h"
 
 #define UNUSED(expr) do { (void)(expr); } while (0)
@@ -16,16 +17,18 @@
 class SyncDialog;
 
 namespace Ui {
-class FilesBrowser;
+class GitBrowser;
 }
 
-class FilesBrowser : public QWidget
+class GitBrowser : public QWidget
 {
     Q_OBJECT
 
 public:
-    explicit FilesBrowser(QString remote, QString pass, QString localRepoFolder, QString author, QString email, QWidget *parent = 0);
-    ~FilesBrowser();
+    GitBrowser(QString localRepoFolder, QWidget *parent = 0);
+    void readRepoConfigOrAskUser();
+    bool readRepoConfig();
+    ~GitBrowser();
     //QString currentPath();
     QString currentAbsolutePath();
     bool openEditor(QString fileName);
@@ -33,12 +36,12 @@ public:
     bool unregisterAction(QString name);
 
 private:
-    Ui::FilesBrowser *ui;
+    Ui::GitBrowser *ui;
     QString repoFolder;//Каталог, в котором хранится локальная копия репозитория
-    QString repoPass;//Пароль от репозитория
     QString currentPath;//Текущий путь (отображается в lineEdit)
     QFileSystemModel *model;//Модель файловой системы
     SyncDialog *syncWidget;//Виджет, затемняющий окно проводника во время синхронизации и при ошибках синхронизации
+    RepoSettings *repoSettingsDialog;//Диалог настройки репозитория
     GitManager *git;//GitManager осуществляет взаимодействие с git
     //Действия
     QAction *actUpdate;
@@ -51,6 +54,7 @@ private:
     QAction *actCopy;
     QAction *actCut;
     QAction *actPaste;
+    QAction *actRepoManager;
     void go(QString path);//Выполняет переход к каталогу
     void up();//Выполняет переход на уровень выше
     void on_listView_showItemContextMenu(const QModelIndex &index, const QPoint &globalPos);//Контекстное меню файла или папки
@@ -60,7 +64,7 @@ private:
     QString init_remote;
     QString currentPathWithSlash();
     QHash<QString, QAction* > actions;
-    QToolBar *toolbar;
+    RepoParams *repoParams;
 
 private slots:
     //Слоты, вызываемые напрямую из GUI
@@ -74,7 +78,7 @@ private slots:
     void onFileRenamed(const QString & path, const QString & oldName, const QString & newName);//Вызывется после Переименования файла или каталога в listView
 
     //Асинхронный процесс инициализации
-    void init(QString remote);
+    void init();
     void initRemoveProgressChanged(int value);
     void initRemoveSuccess();
     void initRemoveFailure(QString error, QString details);
@@ -111,6 +115,9 @@ private slots:
     void callCopy();
     void callCut();
     void callPaste();
+    void callRepoSettings();
+
+    void updateRepoParams();
 
 signals:
     void openEditorTriggered(QString fileName);

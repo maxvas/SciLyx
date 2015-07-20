@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>FilesBrowser</class>
- <widget class="QWidget" name="FilesBrowser">
+ <class>GitBrowser</class>
+ <widget class="QWidget" name="GitBrowser">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -13,94 +13,108 @@
   <property name="windowTitle">
    <string>Обзор документов</string>
   </property>
-  <layout class="QGridLayout" name="gridLayout_2">
-   <item row="0" column="0">
-    <layout class="QGridLayout" name="gridLayout">
-     <item row="0" column="0">
-      <layout class="QHBoxLayout" name="horizontalLayout">
-       <item>
-        <widget class="QPushButton" name="newDocumentBtn">
-         <property name="maximumSize">
-          <size>
-           <width>300</width>
-           <height>27</height>
-          </size>
-         </property>
-         <property name="toolTip">
-          <string>Выполнить синхронизацию файлов и папок</string>
-         </property>
-         <property name="text">
-          <string>Новый отчет</string>
-         </property>
-         <property name="icon">
-          <iconset resource="gitbrowser.qrc">
-           <normaloff>:/images/new-document.png</normaloff>:/images/new-document.png</iconset>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QPushButton" name="updateBtn">
-         <property name="maximumSize">
-          <size>
-           <width>300</width>
-           <height>27</height>
-          </size>
-         </property>
-         <property name="toolTip">
-          <string>Выполнить синхронизацию файлов и папок</string>
-         </property>
-         <property name="text">
-          <string>Обновить</string>
-         </property>
-         <property name="icon">
-          <iconset resource="gitbrowser.qrc">
-           <normaloff>:/images/arrow-circle-315.png</normaloff>:/images/arrow-circle-315.png</iconset>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QPushButton" name="upBtn">
-         <property name="maximumSize">
-          <size>
-           <width>300</width>
-           <height>27</height>
-          </size>
-         </property>
-         <property name="toolTip">
-          <string>Перейти на каталог выше</string>
-         </property>
-         <property name="text">
-          <string>Вверх</string>
-         </property>
-         <property name="icon">
-          <iconset resource="gitbrowser.qrc">
-           <normaloff>:/images/arrow-090.png</normaloff>:/images/arrow-090.png</iconset>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QLineEdit" name="lineEdit"/>
-       </item>
-       <item>
-        <widget class="QPushButton" name="goBtn">
-         <property name="text">
-          <string>Перейти</string>
-         </property>
-         <property name="default">
-          <bool>true</bool>
-         </property>
-        </widget>
-       </item>
-      </layout>
+  <layout class="QVBoxLayout" name="verticalLayout">
+   <property name="spacing">
+    <number>2</number>
+   </property>
+   <property name="leftMargin">
+    <number>4</number>
+   </property>
+   <property name="topMargin">
+    <number>4</number>
+   </property>
+   <property name="rightMargin">
+    <number>4</number>
+   </property>
+   <property name="bottomMargin">
+    <number>4</number>
+   </property>
+   <item>
+    <widget class="QToolBar" name="toolBar"/>
+   </item>
+   <item>
+    <layout class="QHBoxLayout" name="horizontalLayout">
+     <item>
+      <widget class="QPushButton" name="newDocumentBtn">
+       <property name="maximumSize">
+        <size>
+         <width>300</width>
+         <height>27</height>
+        </size>
+       </property>
+       <property name="toolTip">
+        <string>Выполнить синхронизацию файлов и папок</string>
+       </property>
+       <property name="text">
+        <string>Новый отчет</string>
+       </property>
+       <property name="icon">
+        <iconset resource="gitbrowser.qrc">
+         <normaloff>:/images/new-document.png</normaloff>:/images/new-document.png</iconset>
+       </property>
+      </widget>
      </item>
-     <item row="1" column="0">
-      <widget class="QListView" name="listView">
-       <property name="alternatingRowColors">
+     <item>
+      <widget class="QPushButton" name="updateBtn">
+       <property name="maximumSize">
+        <size>
+         <width>300</width>
+         <height>27</height>
+        </size>
+       </property>
+       <property name="toolTip">
+        <string>Выполнить синхронизацию файлов и папок</string>
+       </property>
+       <property name="text">
+        <string>Обновить</string>
+       </property>
+       <property name="icon">
+        <iconset resource="gitbrowser.qrc">
+         <normaloff>:/images/arrow-circle-315.png</normaloff>:/images/arrow-circle-315.png</iconset>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="upBtn">
+       <property name="maximumSize">
+        <size>
+         <width>300</width>
+         <height>27</height>
+        </size>
+       </property>
+       <property name="toolTip">
+        <string>Перейти на каталог выше</string>
+       </property>
+       <property name="text">
+        <string>Вверх</string>
+       </property>
+       <property name="icon">
+        <iconset resource="gitbrowser.qrc">
+         <normaloff>:/images/arrow-090.png</normaloff>:/images/arrow-090.png</iconset>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLineEdit" name="lineEdit"/>
+     </item>
+     <item>
+      <widget class="QPushButton" name="goBtn">
+       <property name="text">
+        <string>Перейти</string>
+       </property>
+       <property name="default">
         <bool>true</bool>
        </property>
       </widget>
      </item>
     </layout>
+   </item>
+   <item>
+    <widget class="QListView" name="listView">
+     <property name="alternatingRowColors">
+      <bool>true</bool>
+     </property>
+    </widget>
    </item>
   </layout>
  </widget>

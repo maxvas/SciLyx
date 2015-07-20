@@ -1,6 +1,7 @@
 #include <QApplication>
 #include <QDir>
 #include <scilyx.h>
+#include <gitbrowser/filesbrowser.h>
 
 int main(int argc, char *argv[])
 {
@@ -9,12 +10,17 @@ int main(int argc, char *argv[])
 //    QString pass = "kalamantin";
 //    QString author = "Max";
 //    QString email = "max-vas@bk.ru";
-    QString remoteRepo = "limsadmin@192.168.0.14:/home/limsadmin/lims/documents.git";
-    QString pass = "Qweasd789";
-    QString author = "limsadmin";
-    QString email = "carpovpv@mail.ru";
+//    QString remoteRepo = "limsadmin@192.168.0.14:/home/limsadmin/lims/documents.git";
+//    QString pass = "Qweasd789";
+//    QString author = "limsadmin";
+//    QString email = "carpovpv@mail.ru";
     QString localRepo = QDir::homePath()+"/lims/documents";
-    SciLyx f4(remoteRepo, pass, localRepo, author, email);
+    SciLyx f4(localRepo);
     f4.show();
+    f4.loadConfigOrAskUser();
     return a.exec();
+//    FilesBrowser fb("", "", "", "", "");
+//    fb.show();
+//    return a.exec();
+
 }

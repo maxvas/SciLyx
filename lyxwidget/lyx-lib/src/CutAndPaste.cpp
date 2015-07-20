@@ -73,6 +73,7 @@
 
 #include <string>
 #include <QUrl>
+#include <QStringList>
 
 using namespace std;
 using namespace lyx::support;

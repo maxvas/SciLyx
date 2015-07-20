@@ -7,11 +7,9 @@
 #include <QCoreApplication>
 #include <iostream>
 
-#include "passwordprovider.h"
-
 using namespace std;
 
-GitManager::GitManager(QString workingDirectory, QString remote, QString password, QString userName, QString userEmail) :
+GitManager::GitManager(QString workingDirectory) :
     QObject(0), inProcess(false), workingDirectory(workingDirectory)
 {
     connect(&git, SIGNAL(finished(int)), this, SLOT(onFinished(int)));
@@ -19,21 +17,7 @@ GitManager::GitManager(QString workingDirectory, QString remote, QString passwor
     connect(&git, SIGNAL(started()), this, SLOT(onStarted()));
     connect(&git, SIGNAL(error(QProcess::ProcessError)), this, SLOT(gitError(QProcess::ProcessError)));
     git.setProcessChannelMode(QProcess::MergedChannels);
-    //Устанавливаем переменные окружения
-    QStringList env;
-    QString askPassCommand = QDir::currentPath()+"/askpass";
-    env<<"SSH_ASKPASS="+askPassCommand;
-    env<<"DISPLAY=10";
-    env<<"GIT_AUTHOR_NAME="+userName;
-    env<<"GIT_AUTHOR_EMAIL="+userEmail;
-    env<<"GIT_COMMITTER_NAME="+userName;
-    env<<"GIT_COMMITTER_EMAIL="+userEmail;
     QString homeDir = QDir::homePath();
-#ifdef __unix__
-    env<<"GIT_SSH="+homeDir+"/lims/ssh";
-#endif
-    git.setEnvironment(env);
-    passProvider = new PasswordProvider(password);
 #ifdef _WIN32
     gitCommand = QDir::currentPath()+"/git/bin/git.exe";
 #else
@@ -41,10 +25,25 @@ GitManager::GitManager(QString workingDirectory, QString remote, QString passwor
 #endif
 }
 
+void GitManager::setRepoParams(RepoParams *params)
+{
+    remote = params->login+"@"+params->url;
+    //Устанавливаем переменные окружения
+    QStringList env;
+    env<<"DISPLAY=10";
+    env<<"GIT_AUTHOR_NAME="+params->author;
+    env<<"GIT_AUTHOR_EMAIL="+params->email;
+    env<<"GIT_COMMITTER_NAME="+params->author;
+    env<<"GIT_COMMITTER_EMAIL="+params->email;
+#ifdef __unix__
+    env<<"GIT_SSH="+homeDir+"/lims/ssh";
+#endif
+    git.setEnvironment(env);
+}
+
 GitManager::~GitManager()
 {
     git.terminate();
-    passProvider->deleteLater();
 }
 
 //Запуск git

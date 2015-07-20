@@ -25,7 +25,9 @@ endif()
 lyx_automoc(${insets_sources} ${insets_headers})
 set_target_properties(insets PROPERTIES FOLDER "applications/LyX")
 #MAXVAS
-SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fPIC")
+if (${UNIX})
+    SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fPIC")
+endif (${UNIX})
 qt_use_modules(insets Core Gui Widgets)
 target_link_libraries(insets ${QT_QTCORE_LIBRARY} ${QT_QTGUI_LIBRARY})
 

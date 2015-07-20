@@ -5,14 +5,14 @@
 #include <QString>
 #include <QProcess>
 #include <QQueue>
-
-class PasswordProvider;
+#include "reposettings.h"
 
 class GitManager : public QObject
 {
     Q_OBJECT
 public:
-    explicit GitManager(QString workingDirectory, QString remote, QString password, QString userName, QString userEmail);
+    explicit GitManager(QString workingDirectory);
+    void setRepoParams(RepoParams *params);
     ~GitManager();
 
 private:
@@ -22,7 +22,6 @@ private:
     QString remote;//Адрес удаленного репозитория
     QString command;//команда, выполняемая git
     QByteArray output;//Вывод git
-    PasswordProvider *passProvider;//Простой TCP-сервер, передающий в процесс askpass пароль от GIT
     void start(QStringList args);//Запуск git
     QString temp_show_fileName;
     QString temp_show_commit;

@@ -58,7 +58,9 @@ else()
 endif()
 set_target_properties(frontend_qt PROPERTIES FOLDER "applications/LyX")
 #MAXVAS
-SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fPIC")
+if (${UNIX})
+    SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fPIC")
+endif (${UNIX})
 
 if(Qt5Core_FOUND AND APPLE)
        qt_use_modules(frontend_qt Core Gui Widgets Concurrent MacExtras)

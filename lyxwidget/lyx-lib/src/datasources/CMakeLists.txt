@@ -9,7 +9,9 @@ set(CMAKE_AUTOMOC ON)
 find_package(Qt5Widgets)
 
 add_library(${PROJECT} STATIC AbstractDataSelector.h DataSourceManager.h DataSourceManager.cpp LapTable.h LapTable.cpp)
-SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fPIC")
+if (${UNIX})
+    SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fPIC")
+endif (${UNIX})
 target_link_libraries(${PROJECT} Qt5::Widgets)
 
 

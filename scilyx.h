@@ -3,7 +3,7 @@
 
 #include <QWidget>
 
-class FilesBrowser;
+class GitBrowser;
 class LyxWidget;
 class QVBoxLayout;
 class SciLyxPlugin;
@@ -12,17 +12,18 @@ class SciLyx : public QWidget
 {
     Q_OBJECT
 public:
-    SciLyx(QString remote, QString pass, QString localRepoFolder, QString author, QString email);
+    SciLyx(QString localRepoFolder);
     ~SciLyx();
     QString currentPath();
     bool registerAction(QString name, QAction *action);
     bool unregisterAction(QString name);
+    void loadConfigOrAskUser();
 
 public slots:
     bool openEditor(QString fileName);
 
 private:
-    FilesBrowser *mFileManager;
+    GitBrowser *mGitBrowser;
     LyxWidget *mEditor;
     void closeEvent(QCloseEvent *event);
     void loadPlugins(QString pluginsPath);

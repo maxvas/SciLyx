@@ -25,7 +25,9 @@ else()
 endif()
 set_target_properties(mathed PROPERTIES FOLDER "applications/LyX")
 #MAXVAS
-SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fPIC")
+if (${UNIX})
+    SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fPIC")
+endif (${UNIX})
 
 lyx_add_gcc_pch(mathed)
 
