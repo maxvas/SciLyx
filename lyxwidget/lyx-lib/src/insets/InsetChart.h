@@ -31,6 +31,7 @@ class LaTeXFeatures;
 /// Used for functions graphics, diagrams etc.
 class InsetChart : public Inset
 {
+//    Q_OBJECT
 public:
 	///
 	InsetChart(Buffer * buf);
@@ -117,6 +118,7 @@ private:
 	docstring toolTip(BufferView const & bv, int x, int y) const;
 	/// The thing that actually draws the image on LyX's screen.
 	RenderGraphic * graphic_;
+
 };
 
 } // namespace lyx

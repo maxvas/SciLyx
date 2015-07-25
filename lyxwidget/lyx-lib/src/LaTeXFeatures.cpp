@@ -745,7 +745,9 @@ char const * simplefeatures[] = {
 	"algorithm2e",
 	"sectionbox",
 	"tcolorbox",
-	"pdfcomment"
+    "pdfcomment",
+    "tikz",
+    "pgfplots"
 };
 
 char const * bibliofeatures[] = {
@@ -858,6 +860,9 @@ string const LaTeXFeatures::getPackages() const
 			packages << "\\usepackage{" << simplefeatures[i] << "}\n";
 	}
 
+    if (mustProvide("plotmarks"))
+        packages << "\\usepgflibrary{plotmarks}\n";
+
 	// The rest of these packages are somewhat more complicated
 	// than those above.
 
@@ -870,7 +875,6 @@ string const LaTeXFeatures::getPackages() const
 		packages << "\\usepackage{tipx}\n";
 	if (mustProvide("tone") && !params_.useNonTeXFonts)
 		packages << "\\usepackage{tone}\n";
-
 	// if fontspec or newtxmath is used, AMS packages have to be loaded
 	// before fontspec (in BufferParams)
 	string const amsPackages = loadAMSPackages();

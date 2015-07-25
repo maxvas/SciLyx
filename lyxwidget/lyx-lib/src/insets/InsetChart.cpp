@@ -281,8 +281,7 @@ docstring InsetChart::createDocBookAttributes() const
 void InsetChart::latex(otexstream & os,
 			  OutputParams const & runparams) const
 {
-    //todo
-    os << from_utf8("");
+    params_.latex(os);
 }
 
 int InsetChart::plaintext(odocstringstream &ods, const OutputParams &op, size_t max_length) const
@@ -308,9 +307,9 @@ docstring InsetChart::xhtml(XHTMLStream &os, const OutputParams &) const
 
 void InsetChart::validate(LaTeXFeatures & features) const
 {
-	// If we have no chart, we should not require anything.
 	features.require("tikz");
 	features.require("pgfplots");
+    features.require("plotmarks");
 }
 
 

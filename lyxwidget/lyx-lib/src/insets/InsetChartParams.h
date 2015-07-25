@@ -34,11 +34,17 @@
 #include "support/lyxlib.h"
 #include "support/lstrings.h"
 #include "support/Translator.h"
+#include "support/TempFile.h"
 
 #include <ostream>
 
+//#include "../frontends/qt4/ChartConverter.h"
+
+
 using namespace std;
 using namespace lyx::support;
+
+//class InsetChartConverter;
 
 namespace lyx {
 
@@ -96,7 +102,13 @@ public:
 /// This class holds all the parameters needed by insetChart.
 class InsetChartParams
 {
+//    Q_OBJECT
 public:
+    QByteArray imageData;
+
+    /// Scaling the Screen inside Lyx
+    unsigned int lyxscale;
+
 	///
     InsetChartParams();
 
@@ -119,12 +131,17 @@ public:
     bool grid;
     vector<ChartLine* > lines;
     void toStream(ostream & os) const;
+    void latex(otexstream &os) const;
 private:
+//    InsetChartConverter *converter;
 	/// Initialize the object to a default status.
     void init();
     void clear();
 	/// Copy the other objects content to us, used in copy c-tor and assignment
     void copy(InsetChartParams const & igp);
+
+//private Q_SLOTS:
+//    void onConverted();
 };
 
 ///

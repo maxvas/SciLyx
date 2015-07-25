@@ -20,6 +20,7 @@
 
 #include "support/debug.h"
 #include "support/lstrings.h"       // ascii_lowercase
+#include "GuiApplication.h"
 
 #include <QPainter>
 #include <QImageReader>
@@ -86,6 +87,15 @@ bool GuiImage::load(QByteArray const & imageData)
 
 bool GuiImage::load()
 {
+    if (imageData_.length()==7)
+    {
+        if (imageData_=="loading")
+        {
+            QPixmap loading = frontend::getPixmap("images/", "loading", "png");
+            original_ = loading.toImage();
+            return true;
+        }
+    }
     if (!original_.loadFromData(imageData_)) {
 		LYXERR(Debug::GRAPHICS, "Unable to open image");
 		return false;

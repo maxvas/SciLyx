@@ -250,8 +250,8 @@ bool InsetGraphicsParams::Read(Lexer & lex, string const & token, string const &
 		lyxscale = lex.getInteger();
 	} else if (token == "display") {
 		lex.next();
-		string const type = lex.getString();
-		display = lex.getString() != "false";
+        string const type = lex.getString();
+        display = type != "false";
 	} else if (token == "scale") {
 		lex.next();
 		scale = lex.getString();

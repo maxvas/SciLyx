@@ -16,6 +16,7 @@
 #include "ui_ChartUi.h"
 
 #include "insets/InsetChartParams.h"
+#include "ChartConverter.h"
 
 #include <vector>
 #include <DataSourceManager.h>
@@ -58,10 +59,15 @@ private Q_SLOTS:
     void on_dataSelected(LapTable *table);
     void on_show();
     void on_close();
+    void on_OK();
+    void on_Apply();
+    void on_Converted();
 
 private:
     bool guiSender;
     DataSourceManager *dsManager;
+    InsetChartConverter converter;
+    QString actionAfterConvert;
 	///
 	bool isValid();
 	/// Dialog inherited methods

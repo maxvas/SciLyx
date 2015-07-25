@@ -8,13 +8,15 @@ project(insets)
 
 file(GLOB insets_sources ${TOP_SRC_DIR}/src/insets/${LYX_CPP_FILES})
 file(GLOB insets_headers ${TOP_SRC_DIR}/src/insets/${LYX_HPP_FILES})
+file(GLOB moc_files ${TOP_SRC_DIR}/src/insets/${LYX_MOC_FILES})
 
 list(REMOVE_ITEM insets_sources ${TOP_SRC_DIR}/src/insets/InsetTheorem.cpp)
 
 lyx_add_msvc_pch(insets)
 include_directories(${TOP_SRC_DIR}/src/insets ${QT_INCLUDES})
 include_directories(${TOP_SRC_DIR}/src/common)
-
+set(CMAKE_INCLUDE_CURRENT_DIR ON)
+set(CMAKE_AUTOMOC ON)
 
 if(NOT LYX_MERGE_FILES)
         add_library(insets ${library_type} ${insets_sources} ${insets_headers})
@@ -22,7 +24,7 @@ else()
 	lyx_const_touched_files(_allinone  insets_sources)
 	add_library(insets ${library_type} ${_allinone_files})
 endif()
-lyx_automoc(${insets_sources} ${insets_headers})
+lyx_automoc(${insets_sources})
 set_target_properties(insets PROPERTIES FOLDER "applications/LyX")
 #MAXVAS
 if (${UNIX})

@@ -39,6 +39,11 @@
 #include <iostream>
 #include <limits>
 #include <sstream>
+#include <QString>
+#include <QByteArray>
+#include <QImage>
+
+//#include "../frontends/qt4/ChartConverter.h"
 
 using namespace std;
 using namespace lyx::support;
@@ -233,12 +238,16 @@ string const write_attribute(string const & name, Length const & value)
 InsetChartParams::InsetChartParams()
 {
     init();
+//    converter = new InsetChartConverter();
+//    connect(converter, SIGNAL(finished()), this, SLOT(onConverted()));
 }
 
 
 InsetChartParams::InsetChartParams(InsetChartParams const & igp)
 {
     copy(igp);
+//    converter = new InsetChartConverter();
+//    connect(converter, SIGNAL(finished()), this, SLOT(onConverted()));
 }
 
 void InsetChartParams::operator=(InsetChartParams const & params)
@@ -252,6 +261,7 @@ void InsetChartParams::operator=(InsetChartParams const & params)
 void InsetChartParams::init()
 {
     clear();
+    lyxscale = 100;			// lyx scaling in percentage
     xLabel = "X";
     yLabel = "Y";
     grid = false;
@@ -268,16 +278,19 @@ void InsetChartParams::clear()
         delete lines[i];
     }
     lines.clear();
+    imageData.clear();
 }
 
 void InsetChartParams::copy(InsetChartParams const & igp)
 {
+    clear();
+    imageData = QByteArray(igp.imageData.data(), igp.imageData.size());
+    lyxscale = igp.lyxscale;
     title = igp.title;
     legend = igp.legend;
     xLabel = igp.xLabel;
     yLabel = igp.yLabel;
     grid = igp.grid;
-    clear();
     int linesCount = (int)igp.lines.size();
     for (int i=0; i<linesCount; i++){
         ChartLine *line = igp.lines[i];
@@ -285,9 +298,17 @@ void InsetChartParams::copy(InsetChartParams const & igp)
     }
 }
 
+//void InsetChartParams::onConverted()
+//{
+//    imageData = converter->getImageData();
+//}
+
 void InsetChartParams::toStream(ostream &os) const
 {
-    os << "<lyxchart"<< ">\n";
+    os << "<lyxchart";
+    os << "imagedata=\"" << imageData.toBase64(QByteArray::Base64UrlEncoding).data() << "\" ";
+    os << "lyxscale=\"" << lyxscale << "\"";
+    os << ">\n";
     int linesCount = (int)lines.size();
     os << "<features"
        << write_attribute("title", url_encode(title))
@@ -321,6 +342,41 @@ void InsetChartParams::toStream(ostream &os) const
     os.flush();
 }
 
+void InsetChartParams::latex(otexstream & os) const
+{
+    os<<"\\begin{tikzpicture}\n";
+    os<<"\\begin{axis}[\n";
+    os<<"title="<<title<<",\n";
+    if (legend){
+        os<<"legend style={xshift=3.5cm,yshift=-.2cm},\n";
+    }
+    if (grid){
+        os<<"grid=major,\n";
+    }
+    os<<"xlabel="<<xLabel<<",\n";
+    os<<"ylabel="<<yLabel<<"\n";
+    os<<"]\n";
+
+    for (std::vector<ChartLine* >::const_iterator i=lines.begin(); i!=lines.end();i++){
+        ChartLine *line = *i;
+        string smoothValue = "";
+        if (line->smooth){
+            smoothValue= ", smooth";
+        }
+        os<<"\\addplot["<<line->lineType<<", mark = "<<line->markerType<<smoothValue<<", mark options={solid}, color="<<line->lineColor<<"] coordinates {\n";
+        for (std::vector<ChartPoint* >::iterator i=line->data.begin(); i!=line->data.end(); i++){
+            ChartPoint *point = *i;
+            os<<"( "<<point->x<<", "<<point->y<<" )\n";
+        }
+        os<<"};\n";
+        if (legend){
+            os<<"\\addlegendentry{"<<line->name<<"}\n";
+        }
+    }
+    os<<"\\end{axis}\n";
+    os<<"\\end{tikzpicture}\n";
+}
+
 bool operator==(InsetChartParams const & left,
         InsetChartParams const & right)
 {
@@ -346,6 +402,8 @@ void InsetChartParams::write(ostream & os) const
 
 bool InsetChartParams::read(Lexer & lex)
 {
+//    ostringstream streamOld;
+//    this->toStream(streamOld);
     clear();
     string line;
     istream & is = lex.getStream();
@@ -354,10 +412,26 @@ bool InsetChartParams::read(Lexer & lex)
     if (!prefixIs(line, "<lyxchart")) {
         LASSERT(false, return false);
     }
-
+    string imgData;
+    if (!getTokenValue(line, "imagedata", imgData))
+    {
+        imageData = QString("loading").toUtf8();
+    } else
+    {
+        QByteArray arr(imgData.c_str());
+        arr = QByteArray::fromBase64(arr, QByteArray::Base64UrlEncoding);
+        imageData = arr;
+    }
+    int num = 100;
+    if (!getTokenValue(line, "lyxscale", num))
+    {
+        lyxscale = 100;
+    }else {
+        lyxscale = num;
+    }
     l_getline(is, line);
     if (!prefixIs(line, "<features")) {
-        lyxerr << "Wrong chart format (expected <features ...> got"
+        lyxerr << "Wrong chart format (expected <features ...> got "
                << line << ')' << endl;
         return false;
     }
@@ -375,7 +449,7 @@ bool InsetChartParams::read(Lexer & lex)
     for (int i=0; i<linesCount; i++){
         l_getline(is, line);
         if (!prefixIs(line, "<line")) {
-            lyxerr << "Wrong chart format (expected <line ...> got"
+            lyxerr << "Wrong chart format (expected <line ...> got "
                    << line << ')' << endl;
             return false;
         }
@@ -392,7 +466,7 @@ bool InsetChartParams::read(Lexer & lex)
         for (int i=0; i<pointsCount; i++){
             l_getline(is, line);
             if (!prefixIs(line, "<point")) {
-                lyxerr << "Wrong chart format (expected <point ...> got"
+                lyxerr << "Wrong chart format (expected <point ...> got "
                        << line << ')' << endl;
                 return false;
             }
@@ -403,75 +477,39 @@ bool InsetChartParams::read(Lexer & lex)
         }
         l_getline(is, line);
         if (!prefixIs(line, "</line>")) {
-            lyxerr << "Wrong tabular format (expected </point> got"
+            lyxerr << "Wrong tabular format (expected </point> got "
                    << line << ')' << endl;
             return false;
         }
     }
     l_getline(is, line);
     if (!prefixIs(line, "</lyxchart>")) {
-        lyxerr << "Wrong tabular format (expected </lyxchart> got"
+        lyxerr << "Wrong tabular format (expected </lyxchart> got "
                << line << ')' << endl;
         return false;
     }
+//    if (imageData=="loading")
+//    {
+//        converter->startConvertation(this);
+//    }
+//    ostringstream streamNew;
+//    this->toStream(streamNew);
+//    if (streamOld.str()!=streamNew.str())
+//    {
+//        converter->startConvertation(this);
+//    }
     return true;
 }
 
 graphics::Params InsetChartParams::as_grfxParams() const
 {
-    TempFile tempfile("chartXXXXXX.tex");
-    tempfile.setAutoRemove(false);
-    string outfile = tempfile.name().toFilesystemEncoding();
-    ofstream texfile(outfile.c_str());
-    texfile<<"\\documentclass[convert={size=500, outext=.png}]{standalone}\n\
-             \\usepackage{tikz}\n\
-             \\usepackage[T2A,T1]{fontenc}\n\
-             \\usepackage[utf8]{inputenc}\n\
-             \\usepackage[english,russian]{babel}\n\
-             \\usepackage{pgfplots}\n\
-             \\usetikzlibrary{plotmarks}\n\
-             \n\
-             \\begin{document}\n";
-    texfile<<"\\begin{tikzpicture}\n";
-    texfile<<"\\begin{axis}[\n";
-    texfile<<"title="<<title<<",\n";
-    if (legend){
-        texfile<<"legend style={xshift=3.5cm,yshift=-.2cm},\n";
-    }
-    if (grid){
-        texfile<<"grid=major,\n";
-    }
-    texfile<<"xlabel="<<xLabel<<",\n";
-    texfile<<"ylabel="<<yLabel<<"\n";
-    texfile<<"]\n";
-
-    for (std::vector<ChartLine* >::const_iterator i=lines.begin(); i!=lines.end();i++){
-        ChartLine *line = *i;
-        string smoothValue = "";
-        if (line->smooth){
-            smoothValue= ", smooth";
-        }
-        texfile<<"\\addplot["<<line->lineType<<", mark = "<<line->markerType<<smoothValue<<", mark options={solid}, color="<<line->lineColor<<"] coordinates {\n";
-        for (std::vector<ChartPoint* >::iterator i=line->data.begin(); i!=line->data.end(); i++){
-            ChartPoint *point = *i;
-            texfile<<"( "<<point->x<<", "<<point->y<<" )\n";
-        }
-        texfile<<"};\n";
-        if (legend){
-            texfile<<"\\addlegendentry{"<<line->name<<"}\n";
-        }
-    }
-    texfile<<"\\end{axis}\n";
-    texfile<<"\\end{tikzpicture}\n";
-    texfile<<"\\end{document}\n";
     graphics::Params pars;
-//    pars.filename = FileName(outfile);
-    pars.scale = 100;
+    pars.imageData = imageData;
+    pars.scale = lyxscale;
     pars.angle = 0;
-
     pars.display = true;
-
     return pars;
 }
 
 } // namespace lyx
+

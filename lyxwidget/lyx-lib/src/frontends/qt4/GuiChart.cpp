@@ -155,10 +155,12 @@ GuiChart::GuiChart(GuiView & lv)
     connect(colorCB, SIGNAL(currentIndexChanged(int)), this, SLOT(changeAdaptor()));
     connect(markerCB, SIGNAL(currentIndexChanged(int)), this, SLOT(changeAdaptor()));
 	//main buttons
-	connect(okPB, SIGNAL(clicked()), this, SLOT(slotOK()));
-	connect(applyPB, SIGNAL(clicked()), this, SLOT(slotApply()));
+    connect(okPB, SIGNAL(clicked()), this, SLOT(on_OK()));
+    connect(applyPB, SIGNAL(clicked()), this, SLOT(on_Apply()));
 	connect(closePB, SIGNAL(clicked()), this, SLOT(slotClose()));
 	connect(restorePB, SIGNAL(clicked()), this, SLOT(slotRestore()));
+    //converted
+    connect(&converter, SIGNAL(finished()), this, SLOT(on_Converted()));
 
 	bc().setPolicy(ButtonPolicy::NoRepeatedApplyReadOnlyPolicy);
 	bc().setOK(okPB);
@@ -584,4 +586,27 @@ void lyx::frontend::GuiChart::on_show()
 void lyx::frontend::GuiChart::on_close()
 {
     delete dsManager;
+}
+
+void lyx::frontend::GuiChart::on_OK()
+{
+    actionAfterConvert = "OK";
+    applyView();
+    converter.startConvertation(&params_);
+}
+
+void lyx::frontend::GuiChart::on_Apply()
+{
+    actionAfterConvert = "Apply";
+    applyView();
+    converter.startConvertation(&params_);
+}
+
+void lyx::frontend::GuiChart::on_Converted()
+{
+    params_.imageData = converter.getImageData();
+    if (actionAfterConvert=="OK")
+        slotOK();
+    else
+        slotApply();
 }
