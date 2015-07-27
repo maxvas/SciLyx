@@ -31,6 +31,7 @@
 #include "support/FileName.h"
 #include "support/gettext.h"
 #include "support/lassert.h"
+#include "../Encoding.h"
 
 #include <ostream>
 #include <iomanip>
@@ -262,12 +263,12 @@ void InsetChartParams::init()
 {
     clear();
     lyxscale = 100;			// lyx scaling in percentage
-    xLabel = "X";
-    yLabel = "Y";
+    xLabel = from_utf8("X");
+    yLabel = from_utf8("Y");
     grid = false;
     legend = false;
     ChartLine *line = new ChartLine;
-    line->name = "Ряд 1";
+    line->name = from_utf8("Ряд 1");
     lines.push_back(line);
 }
 
@@ -305,16 +306,16 @@ void InsetChartParams::copy(InsetChartParams const & igp)
 
 void InsetChartParams::toStream(ostream &os) const
 {
-    os << "<lyxchart";
+    os << "<lyxchart ";
     os << "imagedata=\"" << imageData.toBase64(QByteArray::Base64UrlEncoding).data() << "\" ";
     os << "lyxscale=\"" << lyxscale << "\"";
     os << ">\n";
     int linesCount = (int)lines.size();
     os << "<features"
-       << write_attribute("title", url_encode(title))
+       << write_attribute("title", title)
        << write_attribute("legend", legend)
-       << write_attribute("xLabel", url_encode(xLabel))
-       << write_attribute("yLabel", url_encode(yLabel))
+       << write_attribute("xLabel", xLabel)
+       << write_attribute("yLabel", yLabel)
        << write_attribute("grid", grid)
        << write_attribute("linesCount", linesCount);
     os << ">\n";
@@ -322,7 +323,7 @@ void InsetChartParams::toStream(ostream &os) const
         ChartLine *line = lines[i];
         int pointsCount = (int)line->data.size();
         os << "<line"
-           << write_attribute("name", url_encode(line->name))
+           << write_attribute("name", line->name)
            << write_attribute("smooth", line->smooth)
            << write_attribute("lineColor", line->lineColor)
            << write_attribute("lineType", line->lineType)
@@ -342,19 +343,22 @@ void InsetChartParams::toStream(ostream &os) const
     os.flush();
 }
 
-void InsetChartParams::latex(otexstream & os) const
+void InsetChartParams::latex(otexstream & os, OutputParams const & runparams) const
 {
+    Encoding const & encoding = *(runparams.encoding);
     os<<"\\begin{tikzpicture}\n";
     os<<"\\begin{axis}[\n";
-    os<<"title="<<title<<",\n";
+    os<<"title=";
+    os<<encoding.latexString(title).first;
+    os<<",\n";
     if (legend){
         os<<"legend style={xshift=3.5cm,yshift=-.2cm},\n";
     }
     if (grid){
         os<<"grid=major,\n";
     }
-    os<<"xlabel="<<xLabel<<",\n";
-    os<<"ylabel="<<yLabel<<"\n";
+    os<<"xlabel="<<encoding.latexString(xLabel).first<<",\n";
+    os<<"ylabel="<<encoding.latexString(yLabel).first<<"\n";
     os<<"]\n";
 
     for (std::vector<ChartLine* >::const_iterator i=lines.begin(); i!=lines.end();i++){
@@ -370,7 +374,7 @@ void InsetChartParams::latex(otexstream & os) const
         }
         os<<"};\n";
         if (legend){
-            os<<"\\addlegendentry{"<<line->name<<"}\n";
+            os<<"\\addlegendentry{"<<encoding.latexString(line->name).first<<"}\n";
         }
     }
     os<<"\\end{axis}\n";
@@ -441,9 +445,9 @@ bool InsetChartParams::read(Lexer & lex)
     getTokenValue(line, "xLabel", xLabel);
     getTokenValue(line, "yLabel", yLabel);
     getTokenValue(line, "grid", grid);
-    title = urlDecode(title);
-    xLabel = urlDecode(xLabel);
-    yLabel = urlDecode(yLabel);
+//    title = urlDecode(title);
+//    xLabel = urlDecode(xLabel);
+//    yLabel = urlDecode(yLabel);
     int linesCount = 0;
     getTokenValue(line, "linesCount", linesCount);
     for (int i=0; i<linesCount; i++){
@@ -456,7 +460,7 @@ bool InsetChartParams::read(Lexer & lex)
         ChartLine *chartLine = new ChartLine;
         lines.push_back(chartLine);
         getTokenValue(line, "name", chartLine->name);
-        chartLine->name = urlDecode(chartLine->name);
+//        chartLine->name = urlDecode(chartLine->name);
         getTokenValue(line, "smooth", chartLine->smooth);
         getTokenValue(line, "lineColor", chartLine->lineColor);
         getTokenValue(line, "lineType", chartLine->lineType);

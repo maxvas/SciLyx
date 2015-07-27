@@ -51,6 +51,7 @@
 #include <QObject>
 #include <DataSourceManager.h>
 #include <QDesktopWidget>
+#include <QMovie>
 
 using namespace std;
 using namespace lyx::support;
@@ -167,6 +168,9 @@ GuiChart::GuiChart(GuiView & lv)
 	bc().setApply(applyPB);
 	bc().setRestore(restorePB);
     bc().setCancel(closePB);
+    okPB->setAnimatedIcon(":/images/loading.gif");
+    applyPB->setAnimatedIcon(":/images/loading.gif");
+
     changed();
 }
 
@@ -196,10 +200,10 @@ void GuiChart::changeAdaptor()
 void GuiChart::applyView()
 {
     InsetChartParams & igp = params_;
-    igp.title = fromqstr(titleLine->text());
+    igp.title = from_utf8(fromqstr(titleLine->text()));
     igp.legend = legendChk->isChecked();
-    igp.xLabel = fromqstr(xLabelLine->text());
-    igp.yLabel = fromqstr(yLabelLine->text());
+    igp.xLabel = from_utf8(fromqstr(xLabelLine->text()));
+    igp.yLabel = from_utf8(fromqstr(yLabelLine->text()));
     igp.grid = gridChk->isChecked();
     igp.lines.clear();
     for (int i=0; i<seriesList->count(); i++)
@@ -238,16 +242,16 @@ void GuiChart::dispatchParams()
 void GuiChart::paramsToDialog(const InsetChartParams &params)
 {
     clearSeries();
-    titleLine->setText(params.title.c_str());
+    titleLine->setText(to_utf8(params.title).c_str());
     legendChk->setChecked(params.legend);
-    xLabelLine->setText(params.xLabel.c_str());
-    yLabelLine->setText(params.yLabel.c_str());
+    xLabelLine->setText(to_utf8(params.xLabel).c_str());
+    yLabelLine->setText(to_utf8(params.yLabel).c_str());
     gridChk->setChecked(params.grid);
     for (std::vector<ChartLine* >::const_iterator i=params.lines.begin(); i!=params.lines.end(); ++i)
     {
         ChartLine *line = (*i);
-        QListWidgetItem *it = new QListWidgetItem(line->name.c_str(), seriesList);
-        new QListWidgetItem(line->name.c_str(), linesList);
+        QListWidgetItem *it = new QListWidgetItem(to_utf8(line->name).c_str(), seriesList);
+        new QListWidgetItem(to_utf8(line->name).c_str(), linesList);
         it->setFlags(it->flags() | Qt::ItemIsEditable);
         it->setData(Qt::UserRole, (qlonglong)(line->clone()));
     }
@@ -255,7 +259,7 @@ void GuiChart::paramsToDialog(const InsetChartParams &params)
         seriesList->setCurrentRow(0);
     }
 }
-//MAXVAS
+
 Dialog * createGuiChart(GuiView & lv) {
     return new GuiChart(lv);
 }
@@ -273,7 +277,7 @@ void lyx::frontend::GuiChart::on_addSeriesB_clicked()
     it->setFlags(it->flags() | Qt::ItemIsEditable);
     ChartLine *line = new ChartLine;
     it->setData(Qt::UserRole, (qlonglong)line);
-    line->name = it->text().toStdString();
+    line->name = from_utf8(it->text().toStdString());
     seriesList->setCurrentItem(it);
     changeAdaptor();
 }
@@ -428,12 +432,12 @@ void lyx::frontend::GuiChart::on_seriesList_itemChanged(QListWidgetItem *item)
     if (!line){
         return;
     }
-    line->name = item->text().toStdString();
+    line->name = from_utf8(item->text().toStdString());
     QListWidgetItem *it = linesList->item(linesList->currentRow());
     if (!it){
         return;
     }
-    it->setText(line->name.c_str());
+    it->setText(to_utf8(line->name).c_str());
     changeAdaptor();
 }
 
@@ -590,6 +594,9 @@ void lyx::frontend::GuiChart::on_close()
 
 void lyx::frontend::GuiChart::on_OK()
 {
+    okPB->showAnimation();
+    okPB->setDisabled(true);
+    applyPB->setDisabled(true);
     actionAfterConvert = "OK";
     applyView();
     converter.startConvertation(&params_);
@@ -597,6 +604,9 @@ void lyx::frontend::GuiChart::on_OK()
 
 void lyx::frontend::GuiChart::on_Apply()
 {
+    applyPB->showAnimation();
+    okPB->setDisabled(true);
+    applyPB->setDisabled(true);
     actionAfterConvert = "Apply";
     applyView();
     converter.startConvertation(&params_);
@@ -606,7 +616,15 @@ void lyx::frontend::GuiChart::on_Converted()
 {
     params_.imageData = converter.getImageData();
     if (actionAfterConvert=="OK")
+    {
         slotOK();
+        okPB->hideAnimation();
+    }
     else
+    {
         slotApply();
+        applyPB->hideAnimation();
+    }
+    okPB->setDisabled(false);
+    applyPB->setDisabled(false);
 }

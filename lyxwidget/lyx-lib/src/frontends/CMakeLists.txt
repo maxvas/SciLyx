@@ -14,6 +14,8 @@ add_subdirectory(qt4)
 file(GLOB frontends_sources ${TOP_SRC_DIR}/src/frontends/${LYX_CPP_FILES})
 file(GLOB frontends_headers ${TOP_SRC_DIR}/src/frontends/${LYX_HPP_FILES})
 
+set(CMAKE_INCLUDE_CURRENT_DIR ON)
+set(CMAKE_AUTOMOC ON)
 lyx_automoc(${frontends_sources})
 
 if(NOT LYX_MERGE_FILES)

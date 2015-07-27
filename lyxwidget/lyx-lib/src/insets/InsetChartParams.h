@@ -72,7 +72,7 @@ public:
 class ChartLine{
 public:
     ChartLine(){
-        name = "";
+        name = docstring();
         smooth = false;
         lineColor = "black";
         lineType = "solid";
@@ -92,7 +92,7 @@ public:
         return result;
     }
     vector< ChartPoint* > data;
-    string name;
+    docstring name;
     bool smooth;
     string lineColor;
     string lineType;
@@ -124,14 +124,14 @@ public:
     ///
     graphics::Params as_grfxParams() const;
     ///
-    string title;
+    docstring title;
     bool legend;
-    string xLabel;
-    string yLabel;
+    docstring xLabel;
+    docstring yLabel;
     bool grid;
     vector<ChartLine* > lines;
     void toStream(ostream & os) const;
-    void latex(otexstream &os) const;
+    void latex(otexstream &os, const OutputParams &runparams) const;
 private:
 //    InsetChartConverter *converter;
 	/// Initialize the object to a default status.

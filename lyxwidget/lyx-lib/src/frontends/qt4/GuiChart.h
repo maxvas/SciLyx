@@ -23,6 +23,7 @@
 #include <LapTable.h>
 
 class QString;
+class QMovie;
 
 namespace lyx {
 

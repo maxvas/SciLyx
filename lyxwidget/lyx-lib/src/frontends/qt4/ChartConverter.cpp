@@ -63,15 +63,15 @@ QString InsetChartConverter::writeLatex(const lyx::InsetChartParams *params)
              \\begin{document}\n";
     texfile<<"\\begin{tikzpicture}\n";
     texfile<<"\\begin{axis}[\n";
-    texfile<<"title="<<params->title<<",\n";
+    texfile<<"title="<<to_utf8(params->title)<<",\n";
     if (params->legend){
         texfile<<"legend style={xshift=3.5cm,yshift=-.2cm},\n";
     }
     if (params->grid){
         texfile<<"grid=major,\n";
     }
-    texfile<<"xlabel="<<params->xLabel<<",\n";
-    texfile<<"ylabel="<<params->yLabel<<"\n";
+    texfile<<"xlabel="<<to_utf8(params->xLabel)<<",\n";
+    texfile<<"ylabel="<<to_utf8(params->yLabel)<<"\n";
     texfile<<"]\n";
 
     for (std::vector<ChartLine* >::const_iterator i=params->lines.begin(); i!=params->lines.end();i++){
@@ -87,7 +87,7 @@ QString InsetChartConverter::writeLatex(const lyx::InsetChartParams *params)
         }
         texfile<<"};\n";
         if (params->legend){
-            texfile<<"\\addlegendentry{"<<line->name<<"}\n";
+            texfile<<"\\addlegendentry{"<<to_utf8(line->name)<<"}\n";
         }
     }
     texfile<<"\\end{axis}\n";
@@ -109,13 +109,9 @@ void InsetChartConverter::onLatexProcessFinished(int code)
     args<<"-dNOPAUSE";
     args<<"-sDEVICE=png16m";
     args<<"-dGraphicsAlphaBits=4";
+    args<<"-r150";
     args<<"-sOutputFile=-";
     args<<"-q";
-//    QString cmd = "convert";
-//    QStringList args;
-//    args<<"-density 300";
-//    args<<"-define pdf:use-cropbox=true";
-//    args<<"-";
     QString gsFileName = fileOnlyName;
     if (gsFileName.endsWith(".tex"))
         gsFileName = gsFileName.left(gsFileName.length()-4);

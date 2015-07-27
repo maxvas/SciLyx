@@ -85,7 +85,7 @@
       </spacer>
      </item>
      <item>
-      <widget class="QPushButton" name="okPB">
+      <widget class="QAnimatedPushButton" name="okPB">
        <property name="text">
         <string>&amp;OK</string>
        </property>
@@ -98,7 +98,7 @@
       </widget>
      </item>
      <item>
-      <widget class="QPushButton" name="applyPB">
+      <widget class="QAnimatedPushButton" name="applyPB">
        <property name="sizePolicy">
         <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
          <horstretch>0</horstretch>
@@ -626,6 +626,13 @@
    </item>
   </layout>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>QAnimatedPushButton</class>
+   <extends>QPushButton</extends>
+   <header>QAnimatedPushButton.h</header>
+  </customwidget>
+ </customwidgets>
  <tabstops>
   <tabstop>tabWidget</tabstop>
   <tabstop>restorePB</tabstop>

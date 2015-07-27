@@ -281,7 +281,7 @@ docstring InsetChart::createDocBookAttributes() const
 void InsetChart::latex(otexstream & os,
 			  OutputParams const & runparams) const
 {
-    params_.latex(os);
+    params_.latex(os, runparams);
 }
 
 int InsetChart::plaintext(odocstringstream &ods, const OutputParams &op, size_t max_length) const

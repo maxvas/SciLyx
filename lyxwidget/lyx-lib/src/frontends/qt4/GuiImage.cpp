@@ -76,10 +76,10 @@ unsigned int GuiImage::height() const
 
 bool GuiImage::load(QByteArray const & imageData)
 {
-	if (!original_.isNull()) {
-		LYXERR(Debug::GRAPHICS, "Image is loaded already!");
-		return false;
-	}
+//	if (!original_.isNull()) {
+//		LYXERR(Debug::GRAPHICS, "Image is loaded already!");
+//		return false;
+//	}
     imageData_ = imageData;
 	return load();
 }
