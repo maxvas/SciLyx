@@ -6,5 +6,6 @@
         <file>images/arrow-circle-315.png</file>
         <file>images/error.png</file>
         <file>images/new-document.png</file>
+        <file>images/settings.png</file>
     </qresource>
 </RCC>

@@ -63,12 +63,10 @@ GitBrowser::GitBrowser(QString localRepoFolder, QWidget *parent) :
     connect(actCut, SIGNAL(triggered()), this, SLOT(callCut()));
     actPaste = new QAction("Вставить", this);
     connect(actPaste, SIGNAL(triggered()), this, SLOT(callPaste()));
-    actRepoManager = new QAction("Репозитории", this);
-    connect(actRepoManager, SIGNAL(triggered(bool)), SLOT(callRepoSettings()));
+    actRepoSettings = new QAction(QIcon(":/images/settings.png"), "Настройки репозитория", this);
+    connect(actRepoSettings, SIGNAL(triggered(bool)), SLOT(callRepoSettings()));
     ui->listView->setContextMenuPolicy(Qt::CustomContextMenu);
-    QList<QAction* > toolBarActions;
-    toolBarActions.append(actRepoManager);
-    ui->toolBar->addActions(toolBarActions);
+    registerAction("settings", actRepoSettings);
 }
 
 void GitBrowser::readRepoConfigOrAskUser()
@@ -245,15 +243,31 @@ bool GitBrowser::registerAction(QString name, QAction *action)
     if (actions.contains(name))
         return false;
     actions[name] = action;
-    QList<QAction* > list;
-    list.append(action);
-    ui->toolBar->addActions(list);
     return true;
 }
 
 bool GitBrowser::unregisterAction(QString name)
 {
     return actions.remove(name);
+}
+
+void GitBrowser::clearToolBar()
+{
+    ui->toolBar->clear();
+}
+
+void GitBrowser::addToolBarAction(QString name)
+{
+    if (!actions.contains(name))
+        return;
+    QList<QAction* > list;
+    list.append(actions[name]);
+    ui->toolBar->addActions(list);
+}
+
+void GitBrowser::addToolBarSeparator()
+{
+    ui->toolBar->addSeparator();
 }
 
 //Этот слот вызывается только после успешного переименования файла или папки

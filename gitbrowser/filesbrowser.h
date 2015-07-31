@@ -34,6 +34,9 @@ public:
     bool openEditor(QString fileName);
     bool registerAction(QString name, QAction *action);
     bool unregisterAction(QString name);
+    void clearToolBar();
+    void addToolBarAction(QString name);
+    void addToolBarSeparator();
 
 private:
     Ui::GitBrowser *ui;
@@ -54,7 +57,7 @@ private:
     QAction *actCopy;
     QAction *actCut;
     QAction *actPaste;
-    QAction *actRepoManager;
+    QAction *actRepoSettings;
     void go(QString path);//Выполняет переход к каталогу
     void up();//Выполняет переход на уровень выше
     void on_listView_showItemContextMenu(const QModelIndex &index, const QPoint &globalPos);//Контекстное меню файла или папки

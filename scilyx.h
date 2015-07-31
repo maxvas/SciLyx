@@ -18,6 +18,11 @@ public:
     bool registerAction(QString name, QAction *action);
     bool unregisterAction(QString name);
     void loadConfigOrAskUser();
+    void clearToolBar();
+    void addToolBarAction(QString name);
+    void addToolBarSeparator();
+    void loadPlugins(QString pluginsPath = "");
+    void unloadPlugins();
 
 public slots:
     bool openEditor(QString fileName);
@@ -26,8 +31,6 @@ private:
     GitBrowser *mGitBrowser;
     LyxWidget *mEditor;
     void closeEvent(QCloseEvent *event);
-    void loadPlugins(QString pluginsPath);
-    void unloadPlugins();
     QHash<QString, SciLyxPlugin* > mPlugins;
     QString sciLyxPath();
 

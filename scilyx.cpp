@@ -33,7 +33,6 @@ SciLyx::SciLyx(QString localRepoFolder)
     this->setLayout(layout);
     layout->addWidget(mGitBrowser);
     layout->setMargin(0);
-    loadPlugins("");
     setWindowTitle("SciLyx");
 }
 
@@ -62,6 +61,21 @@ bool SciLyx::unregisterAction(QString name)
 void SciLyx::loadConfigOrAskUser()
 {
     mGitBrowser->readRepoConfigOrAskUser();
+}
+
+void SciLyx::clearToolBar()
+{
+    mGitBrowser->clearToolBar();
+}
+
+void SciLyx::addToolBarAction(QString name)
+{
+    mGitBrowser->addToolBarAction(name);
+}
+
+void SciLyx::addToolBarSeparator()
+{
+    mGitBrowser->addToolBarSeparator();
 }
 
 bool SciLyx::openEditor(QString fileName)

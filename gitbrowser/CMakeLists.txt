@@ -25,6 +25,7 @@ set(HEADERS
     gitmanager.h
     texteditor.h
     reposettings.h
+    newdocument.h
     #../../../genset/couch.h
 )
 
@@ -37,6 +38,7 @@ set(SOURCES
     gitmanager.cpp
     texteditor.cpp
     reposettings.cpp
+    newdocument.cpp
     #../../../genset/couch.cpp
 )
 
@@ -46,6 +48,7 @@ set(UI
     syncdialog.ui
     texteditor.ui
     reposettings.ui
+    newdocument.ui
 )
 
 set(RESOURCES
