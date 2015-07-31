@@ -40,10 +40,10 @@ void VersionBrowserDialog::clearCommmits()
 
 void VersionBrowserDialog::openOldFileSuccess(QString fileName, QString commit, QByteArray data)
 {
+    close();
     disconnect(git, SIGNAL(showSuccess(QString,QString,QByteArray)), this, SLOT(openOldFileSuccess(QString,QString,QByteArray)));
     disconnect(git, SIGNAL(showFailure(QString,QString)), this, SLOT(openOldFileFailure(QString,QString)));
     emit openedOldFile(fileName, commit, data);
-    close();
 }
 
 void VersionBrowserDialog::openOldFileFailure(QString error, QString details)

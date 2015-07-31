@@ -2,6 +2,7 @@
 #define NEWDOCUMENT_H
 
 #include <QDialog>
+#include <QDir>
 
 namespace Ui {
 class NewDocument;
@@ -14,6 +15,8 @@ class NewDocument : public QDialog
 public:
     explicit NewDocument(QWidget *parent = 0);
     ~NewDocument();
+    void generateFileName();
+    void setFolder(QString path);
 
 
 private slots:
@@ -21,8 +24,14 @@ private slots:
 
     void on_cancelPB_clicked();
 
+    void on_fileNameLE_textChanged(const QString &arg1);
+
 private:
     Ui::NewDocument *ui;
+    QDir folder;
+
+signals:
+    void submit(QString fileName);
 };
 
 #endif // NEWDOCUMENT_H

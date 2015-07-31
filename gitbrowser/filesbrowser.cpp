@@ -19,7 +19,7 @@
 #include "texteditor.h"
 
 GitBrowser::GitBrowser(QString localRepoFolder, QWidget *parent) :
-    QWidget(parent)
+    QWidget(parent), newDocumentDialog(0)
 {
     Q_INIT_RESOURCE(gitbrowser);
 
@@ -55,7 +55,7 @@ GitBrowser::GitBrowser(QString localRepoFolder, QWidget *parent) :
     connect(actRemove, SIGNAL(triggered()), this, SLOT(callRemove()));
     actNewDir = new QAction("Новая папка", this);
     connect(actNewDir, SIGNAL(triggered()), this, SLOT(callNewDir()));
-    actNewDocument = new QAction("Новый документ", this);
+    actNewDocument = new QAction(QIcon(":/images/new-document.png"), "Новый документ", this);
     connect(actNewDocument, SIGNAL(triggered()), this, SLOT(callNewDocument()));
     actCopy = new QAction("Копировать", this);
     connect(actCopy, SIGNAL(triggered()), this, SLOT(callCopy()));
@@ -67,6 +67,7 @@ GitBrowser::GitBrowser(QString localRepoFolder, QWidget *parent) :
     connect(actRepoSettings, SIGNAL(triggered(bool)), SLOT(callRepoSettings()));
     ui->listView->setContextMenuPolicy(Qt::CustomContextMenu);
     registerAction("settings", actRepoSettings);
+    registerAction("new-document", actNewDocument);
 }
 
 void GitBrowser::readRepoConfigOrAskUser()
@@ -537,7 +538,25 @@ void GitBrowser::callNewDir()
 //Слот, вызываемый на действие "Новый документ"
 void GitBrowser::callNewDocument()
 {
+    if (!newDocumentDialog)
+    {
+        newDocumentDialog = new NewDocument(this);
+        newDocumentDialog->setModal(true);
+        connect(newDocumentDialog, SIGNAL(submit(QString)), this, SLOT(onNewDocumentSubmitted(QString)));
+    }
+    QString path = currentPathWithSlash();
+    path = repoFolder + path;
+    newDocumentDialog->setFolder(path);
+    newDocumentDialog->generateFileName();
+    newDocumentDialog->show();
+}
 
+void GitBrowser::onNewDocumentSubmitted(QString fileName)
+{
+    QString path = currentPathWithSlash();
+    path = repoFolder + path;
+    QString filePath = path+fileName;
+    emit openEditorTriggered(filePath);
 }
 
 //Слот, вызываемый на действие "Копировать"

@@ -11,6 +11,7 @@
 #include "gitmanager.h"
 #include "reposettings.h"
 #include "../qfs/qfilemanager.h"
+#include "newdocument.h"
 
 #define UNUSED(expr) do { (void)(expr); } while (0)
 
@@ -68,6 +69,7 @@ private:
     QString currentPathWithSlash();
     QHash<QString, QAction* > actions;
     RepoParams *repoParams;
+    NewDocument *newDocumentDialog;
 
 private slots:
     //Слоты, вызываемые напрямую из GUI
@@ -115,6 +117,7 @@ private slots:
     void callRemove();
     void callNewDir();
     void callNewDocument();
+    void onNewDocumentSubmitted(QString fileName);
     void callCopy();
     void callCut();
     void callPaste();

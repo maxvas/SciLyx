@@ -35,26 +35,6 @@
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout">
      <item>
-      <widget class="QPushButton" name="newDocumentBtn">
-       <property name="maximumSize">
-        <size>
-         <width>300</width>
-         <height>27</height>
-        </size>
-       </property>
-       <property name="toolTip">
-        <string>Выполнить синхронизацию файлов и папок</string>
-       </property>
-       <property name="text">
-        <string>Новый отчет</string>
-       </property>
-       <property name="icon">
-        <iconset resource="gitbrowser.qrc">
-         <normaloff>:/images/new-document.png</normaloff>:/images/new-document.png</iconset>
-       </property>
-      </widget>
-     </item>
-     <item>
       <widget class="QPushButton" name="updateBtn">
        <property name="maximumSize">
         <size>
