@@ -19,8 +19,8 @@ Install it before building SciLyx:
 ### Building
 To build the SciLyx folow this instructions:
   1. Clone this repo to get SciLyx sources
-  2. Use cmake-gui to set the CMake variables (replace pathes to own):\
-     GIT_PATH=C:/Program Files (x86)/Git\
+  2. Use cmake-gui to set the CMake variables (replace pathes to own):
+     GIT_PATH=C:/Program Files (x86)/Git
      GNUWIN32_DIR=C:/gnuwin32
   3. cmake
   4. make
