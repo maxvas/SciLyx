@@ -44,7 +44,8 @@ SyncDialog::SyncDialog(QWidget *parent) :
     mainLayout->addSpacerItem(new QSpacerItem(10, 10, QSizePolicy::Minimum, QSizePolicy::Expanding));
     syncImage->start();
     this->setLayout(mainLayout);
-    this->hide();
+//    this->hide();
+    progress->setVisible(false);
 }
 
 SyncDialog::~SyncDialog()

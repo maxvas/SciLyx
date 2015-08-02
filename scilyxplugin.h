@@ -11,6 +11,7 @@ class SciLyxPlugin : public QDialog
     Q_OBJECT
 	
 public:
+    virtual ~SciLyxPlugin();
     virtual QString name() = 0;
     virtual bool init() = 0;
     SciLyx *scilyx()

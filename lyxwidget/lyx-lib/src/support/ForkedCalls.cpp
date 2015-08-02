@@ -236,7 +236,7 @@ int ForkedProcess::waitForChild()
 	while (wait) {
 		pid_t waitrpid = waitpid(pid_, &status, WUNTRACED);
 		if (waitrpid == -1) {
-			lyxerr << "LyX: Error waiting for child:"
+			lyxerr << "SciLyX: Error waiting for child:"
 			       << strerror(errno) << endl;
 			wait = false;
 		} else if (WIFEXITED(status)) {
@@ -244,17 +244,17 @@ int ForkedProcess::waitForChild()
 			retval_ = WEXITSTATUS(status);
 			wait = false;
 		} else if (WIFSIGNALED(status)) {
-			lyxerr << "LyX: Child didn't catch signal "
+			lyxerr << "SciLyX: Child didn't catch signal "
 			       << WTERMSIG(status)
 			       << "and died. Too bad." << endl;
 			wait = false;
 		} else if (WIFSTOPPED(status)) {
-			lyxerr << "LyX: Child (pid: " << pid_
+			lyxerr << "SciLyX: Child (pid: " << pid_
 			       << ") stopped on signal "
 			       << WSTOPSIG(status)
 			       << ". Waiting for child to finish." << endl;
 		} else {
-			lyxerr << "LyX: Something rotten happened while "
+			lyxerr << "SciLyX: Something rotten happened while "
 				"waiting for child " << pid_ << endl;
 			wait = false;
 		}
@@ -538,7 +538,7 @@ string const getChildErrorMessage()
 		) != 0;
 
 	ostringstream ss;
-	ss << "LyX: Error waiting for child: " << error_code;
+	ss << "SciLyX: Error waiting for child: " << error_code;
 
 	if (ok) {
 		ss << ": " << (LPTSTR)t_message;
@@ -622,7 +622,7 @@ void handleCompletedProcesses()
 		pid_t const waitrpid = waitpid(pid, &stat_loc, WNOHANG);
 
 		if (waitrpid == -1) {
-			lyxerr << "LyX: Error waiting for child: "
+			lyxerr << "SciLyX: Error waiting for child: "
 			       << strerror(errno) << endl;
 
 			// Child died, so pretend it returned 1
@@ -643,13 +643,13 @@ void handleCompletedProcesses()
 			remove_it = true;
 
 		} else if (WIFSTOPPED(stat_loc)) {
-			lyxerr << "LyX: Child (pid: " << pid
+			lyxerr << "SciLyX: Child (pid: " << pid
 			       << ") stopped on signal "
 			       << WSTOPSIG(stat_loc)
 			       << ". Waiting for child to finish." << endl;
 
 		} else {
-			lyxerr << "LyX: Something rotten happened while "
+			lyxerr << "SciLyX: Something rotten happened while "
 				"waiting for child " << pid << endl;
 
 			// Child died, so pretend it returned 1

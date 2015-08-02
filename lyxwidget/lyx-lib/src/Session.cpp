@@ -65,7 +65,7 @@ void LastFilesSection::read(istream & is)
 		    && lastfiles.size() < num_lastfiles)
 			lastfiles.push_back(file);
 		else
-			LYXERR(Debug::INIT, "LyX: Warning: Ignore last file: " << tmp);
+			LYXERR(Debug::INIT, "SciLyX: Warning: Ignore last file: " << tmp);
 	} while (is.good());
 }
 
@@ -95,7 +95,7 @@ void LastFilesSection::setNumberOfLastFiles(unsigned int no)
 	if (0 < no && no <= absolute_max_last_files)
 		num_lastfiles = no;
 	else {
-		LYXERR(Debug::INIT, "LyX: session: too many last files\n"
+		LYXERR(Debug::INIT, "SciLyX: session: too many last files\n"
 			<< "\tdefault (=" << default_num_last_files << ") used.");
 		num_lastfiles = default_num_last_files;
 	}
@@ -129,11 +129,11 @@ void LastOpenedSection::read(istream & is)
 				lastopened.push_back(lof);
 			} else {
 				LYXERR(Debug::INIT, 
-					"LyX: Warning: Ignore last opened file: " << tmp);
+					"SciLyX: Warning: Ignore last opened file: " << tmp);
 			}
 		} catch (...) {
 			LYXERR(Debug::INIT,
-				"LyX: Warning: unknown state of last opened file: " << tmp);
+				"SciLyX: Warning: unknown state of last opened file: " << tmp);
 		}
 	} while (is.good());
 }
@@ -189,9 +189,9 @@ void LastFilePosSection::read(istream & is)
 			    && lastfilepos.size() < num_lastfilepos)
 				lastfilepos[file] = filepos;
 			else
-				LYXERR(Debug::INIT, "LyX: Warning: Ignore pos of last file: " << fname);
+				LYXERR(Debug::INIT, "SciLyX: Warning: Ignore pos of last file: " << fname);
 		} catch (...) {
-			LYXERR(Debug::INIT, "LyX: Warning: unknown pos of last file: " << tmp);
+			LYXERR(Debug::INIT, "SciLyX: Warning: unknown pos of last file: " << tmp);
 		}
 	} while (is.good());
 }
@@ -266,9 +266,9 @@ void BookmarksSection::read(istream & is)
 			if (file.exists() && !file.isDirectory() && idx <= max_bookmarks)
 				bookmarks[idx] = Bookmark(file, pit, pos, 0, 0);
 			else
-				LYXERR(Debug::INIT, "LyX: Warning: Ignore bookmark of file: " << fname);
+				LYXERR(Debug::INIT, "SciLyX: Warning: Ignore bookmark of file: " << fname);
 		} catch (...) {
-			LYXERR(Debug::INIT, "LyX: Warning: unknown Bookmark info: " << tmp);
+			LYXERR(Debug::INIT, "SciLyX: Warning: unknown Bookmark info: " << tmp);
 		}
 	} while (is.good());
 }
@@ -356,7 +356,7 @@ void LastCommandsSection::setNumberOfLastCommands(unsigned int no)
 	if (0 < no && no <= absolute_max_last_commands)
 		num_lastcommands = no;
 	else {
-		LYXERR(Debug::INIT, "LyX: session: too many last commands\n"
+		LYXERR(Debug::INIT, "SciLyX: session: too many last commands\n"
 			<< "\tdefault (=" << default_num_last_commands << ") used.");
 		num_lastcommands = default_num_last_commands;
 	}
@@ -411,7 +411,7 @@ void Session::readFile()
 			lastCommands().read(is);
 
 		else
-			LYXERR(Debug::INIT, "LyX: Warning: unknown Session section: " << tmp);
+			LYXERR(Debug::INIT, "SciLyX: Warning: unknown Session section: " << tmp);
 	}
 }
 
@@ -429,7 +429,7 @@ void Session::writeFile() const
 		lastCommands().write(os);
 		bookmarks().write(os);
 	} else
-		LYXERR(Debug::INIT, "LyX: Warning: unable to save Session: "
+		LYXERR(Debug::INIT, "SciLyX: Warning: unable to save Session: "
 		       << session_file);
 }
 

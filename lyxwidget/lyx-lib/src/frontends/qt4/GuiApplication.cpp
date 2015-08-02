@@ -1626,7 +1626,7 @@ void GuiApplication::dispatch(FuncRequest const & cmd, DispatchResult & dr)
 			fname = i18nLibFileSearch("examples", arg, "lyx");
 
 		if (fname.empty()) {
-			lyxerr << "LyX: unable to find documentation file `"
+            lyxerr << "SciLyX: unable to find documentation file `"
 			       << arg << "'. Bad installation?" << endl;
 			break;
 		}
@@ -2813,7 +2813,7 @@ GuiApplication::ReturnValues GuiApplication::readUIFile(FileName ui_path)
 
 		default:
 			if (!rtrim(lex.getString()).empty())
-				lex.printError("LyX::ReadUIFile: "
+                lex.printError("SciLyX::ReadUIFile: "
 				               "Unknown menu tag: `$$Token'");
 			else
 				LYXERR0("Error with status: " << status);

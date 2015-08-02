@@ -38,13 +38,16 @@ GitBrowser::GitBrowser(QString localRepoFolder, QWidget *parent) :
     ui->listView->setEditTriggers(QAbstractItemView::SelectedClicked|QAbstractItemView::EditKeyPressed);
     connect(model, SIGNAL(fileRenamed(QString,QString,QString)), this, SLOT(onFileRenamed(QString,QString,QString)));
 
-    go("/");
     syncWidget = new SyncDialog(this);
     repoSettingsDialog = new RepoSettings(this);
     connect(repoSettingsDialog, SIGNAL(changed()), this, SLOT(updateRepoParams()));
     git = new GitManager(repoFolder);
-    actUpdate = new QAction("Обновить", this);
+    actUpdate = new QAction(QIcon(":/images/arrow-circle-315.png"), "Обновить", this);
     connect(actUpdate, SIGNAL(triggered()), this, SLOT(callUpdate()));
+    actUp = new QAction(QIcon(":/images/arrow-090.png"), "Перейти на каталог выше", this);
+    connect(actUp, SIGNAL(triggered()), this, SLOT(up()));
+    actGo = new QAction(QIcon(":/images/go.png"), "Перейти", this);
+    connect(actGo, SIGNAL(triggered()), this, SLOT(on_goBtn_clicked()));
     actOpen = new QAction("Открыть", this);
     connect(actOpen, SIGNAL(triggered()), this, SLOT(callOpen()));
     actVersions = new QAction("Версии...", this);
@@ -68,6 +71,12 @@ GitBrowser::GitBrowser(QString localRepoFolder, QWidget *parent) :
     ui->listView->setContextMenuPolicy(Qt::CustomContextMenu);
     registerAction("settings", actRepoSettings);
     registerAction("new-document", actNewDocument);
+    ui->navigationPanel->addActions(QList<QAction* >()<<actUpdate<<actUp);
+    pathLE = new QLineEdit();
+    connect(pathLE, SIGNAL(returnPressed()), this, SLOT(on_lineEdit_returnPressed()));
+    ui->navigationPanel->addWidget(pathLE);
+    ui->navigationPanel->addActions(QList<QAction* >()<<actGo);
+    go("/");
 }
 
 void GitBrowser::readRepoConfigOrAskUser()
@@ -129,7 +138,7 @@ void GitBrowser::go(QString path)
         return;
     }
     currentPath = path;
-    ui->lineEdit->setText(currentPath);
+    pathLE->setText(currentPath);
     path_ = repoFolder+currentPath;
     ui->listView->setRootIndex(model->setRootPath(path_));
 }
@@ -150,7 +159,7 @@ void GitBrowser::up()
 
 void GitBrowser::on_goBtn_clicked()
 {
-    go(ui->lineEdit->text());
+    go(pathLE->text());
 }
 
 void GitBrowser::on_upBtn_clicked()
@@ -186,7 +195,7 @@ void GitBrowser::on_listView_doubleClicked(const QModelIndex &index)
 
 void GitBrowser::on_lineEdit_returnPressed()
 {
-    go(ui->lineEdit->text());
+    go(pathLE->text());
 }
 
 //Меню

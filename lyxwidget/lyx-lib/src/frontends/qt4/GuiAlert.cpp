@@ -91,7 +91,7 @@ int doPrompt(docstring const & title0, docstring const & question,
 			return default_button;
 	}
 
-	docstring const title = bformat(_("LyX: %1$s"), title0);
+    docstring const title = bformat(_("SciLyX: %1$s"), title0);
 
 	/// Long operation in progress prevents user from Ok-ing the error dialog
 	bool long_op = theApp()->longOperationStarted();
@@ -155,7 +155,7 @@ void doWarning(docstring const & title0, docstring const & message,
 	if (!use_gui)
 		return;
 
-	docstring const title = bformat(_("LyX: %1$s"), title0);
+    docstring const title = bformat(_("SciLyX: %1$s"), title0);
 
 	if (theApp() == 0) {
 		noAppDialog(toqstr(title), toqstr(message), QMessageBox::Warning);
@@ -212,7 +212,7 @@ void doError(docstring const & title0, docstring const & message, bool backtrace
 	if (!use_gui)
 		return;
 
-	docstring const title = bformat(_("LyX: %1$s"), title0);
+    docstring const title = bformat(_("SciLyX: %1$s"), title0);
 
 	if (theApp() == 0) {
 		noAppDialog(toqstr(title), toqstr(message), QMessageBox::Critical);
@@ -258,7 +258,7 @@ void doInformation(docstring const & title0, docstring const & message)
 	if (!use_gui)
 		return;
 
-	docstring const title = bformat(_("LyX: %1$s"), title0);
+    docstring const title = bformat(_("SciLyX: %1$s"), title0);
 
 	if (theApp() == 0) {
 		noAppDialog(toqstr(title), toqstr(message), QMessageBox::Information);
@@ -307,7 +307,7 @@ bool doAskForText(docstring & response, docstring const & msg,
 		}
 	}
 
-	docstring const title = bformat(_("LyX: %1$s"), msg);
+    docstring const title = bformat(_("SciLyX: %1$s"), msg);
 
 	/// Long operation in progress prevents user from Ok-ing the error dialog
 	bool long_op = theApp()->longOperationStarted();

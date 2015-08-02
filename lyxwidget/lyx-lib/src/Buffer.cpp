@@ -1401,7 +1401,7 @@ docstring Buffer::emergencyWrite()
 	string const doc = isUnnamed() ? onlyFileName(absFileName()) : absFileName();
 
 	docstring user_message = bformat(
-		_("LyX: Attempting to save document %1$s\n"), from_utf8(doc));
+		_("SciLyX: Attempting to save document %1$s\n"), from_utf8(doc));
 
 	// We try to save three places:
 	// 1) Same place as document. Unless it is an unnamed doc.

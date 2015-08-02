@@ -7,6 +7,7 @@
 #include <QAction>
 #include <QTextStream>
 #include <QToolBar>
+#include <QLineEdit>
 
 #include "gitmanager.h"
 #include "reposettings.h"
@@ -41,6 +42,7 @@ public:
 
 private:
     Ui::GitBrowser *ui;
+    QLineEdit *pathLE;
     QString repoFolder;//Каталог, в котором хранится локальная копия репозитория
     QString currentPath;//Текущий путь (отображается в lineEdit)
     QFileSystemModel *model;//Модель файловой системы
@@ -49,6 +51,8 @@ private:
     GitManager *git;//GitManager осуществляет взаимодействие с git
     //Действия
     QAction *actUpdate;
+    QAction *actUp;
+    QAction *actGo;
     QAction *actOpen;
     QAction *actVersions;
     QAction *actRename;
@@ -60,7 +64,6 @@ private:
     QAction *actPaste;
     QAction *actRepoSettings;
     void go(QString path);//Выполняет переход к каталогу
-    void up();//Выполняет переход на уровень выше
     void on_listView_showItemContextMenu(const QModelIndex &index, const QPoint &globalPos);//Контекстное меню файла или папки
     void on_listView_showSpaceContextMenu(const QPoint &globalPos);//Контекстное меню пустого пространства
     void resizeEvent (QResizeEvent *event);
@@ -72,6 +75,9 @@ private:
     NewDocument *newDocumentDialog;
 
 private slots:
+
+    void up();//Выполняет переход на уровень выше
+
     //Слоты, вызываемые напрямую из GUI
     void on_goBtn_clicked();//При нажатии на кнопку "Перейти"
     void on_upBtn_clicked();//При нажатии на кнопку "Вверх"

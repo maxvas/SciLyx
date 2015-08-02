@@ -174,7 +174,7 @@ docstring const Lexer::Pimpl::getDocString() const
 void Lexer::Pimpl::printError(string const & message) const
 {
 	string const tmpmsg = subst(message, "$$Token", getString());
-	lyxerr << "LyX: " << tmpmsg << " [around line " << lineno
+	lyxerr << "SciLyX: " << tmpmsg << " [around line " << lineno
 		<< " of file " << to_utf8(makeDisplayPath(name))
 		<< " current token: '" << getString() << "'"
 		<< " context: '" << context << "']" << endl;

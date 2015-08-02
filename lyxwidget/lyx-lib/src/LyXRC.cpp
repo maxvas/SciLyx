@@ -528,7 +528,7 @@ LyXRC::ReturnValues LyXRC::read(Lexer & lexrc, bool check_format)
 					  || kmap.empty()) {
 					primary_kbmap = kmap;
 				} else {
-					lexrc.printError("LyX: Keymap `$$Token' not found");
+					lexrc.printError("SciLyX: Keymap `$$Token' not found");
 				}
 			}
 			break;
@@ -540,7 +540,7 @@ LyXRC::ReturnValues LyXRC::read(Lexer & lexrc, bool check_format)
 					  || kmap.empty()) {
 					secondary_kbmap = kmap;
 				} else {
-					lexrc.printError("LyX: Keymap `$$Token' not found");
+					lexrc.printError("SciLyX: Keymap `$$Token' not found");
 				}
 			}
 			break;

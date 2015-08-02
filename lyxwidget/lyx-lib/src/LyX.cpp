@@ -133,11 +133,11 @@ void reconfigureUserLyXDir()
 {
 	string const configure_command = package().configure_command();
 
-	lyxerr << to_utf8(_("LyX: reconfiguring user directory")) << endl;
+	lyxerr << to_utf8(_("SciLyX: reconfiguring user directory")) << endl;
 	PathChanger p(package().user_support());
 	Systemcall one;
     one.startscript(Systemcall::Wait, configure_command, empty_string(), true);
-	lyxerr << "LyX: " << to_utf8(_("Done!")) << endl;
+	lyxerr << "SciLyX: " << to_utf8(_("Done!")) << endl;
 }
 
 } // namespace anon
@@ -774,7 +774,7 @@ static void error_handler(int err_sig)
 
 void LyX::printError(ErrorItem const & ei)
 {
-	docstring tmp = _("LyX: ") + ei.error + char_type(':')
+	docstring tmp = _("SciLyX: ") + ei.error + char_type(':')
 		+ ei.description;
 	cerr << to_utf8(tmp) << endl;
 }
@@ -1026,7 +1026,7 @@ bool LyX::queryUserLyXDir(bool explicit_userdir)
 		earlyExit(EXIT_FAILURE);
 	}
 
-	lyxerr << to_utf8(bformat(_("LyX: Creating directory %1$s"),
+	lyxerr << to_utf8(bformat(_("SciLyX: Creating directory %1$s"),
 			  from_utf8(sup.absFileName()))) << endl;
 
 	if (!sup.createDirectory(0755)) {

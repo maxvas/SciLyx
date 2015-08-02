@@ -7,5 +7,6 @@
         <file>images/error.png</file>
         <file>images/new-document.png</file>
         <file>images/settings.png</file>
+        <file>images/go.png</file>
     </qresource>
 </RCC>

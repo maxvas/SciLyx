@@ -29,7 +29,7 @@ public:
 	/// container.
 	/// \param title is the window title used for decoration.
 	DialogView(GuiView & lv, QString const & name, QString const & title)
-		: QDialog(&lv), Dialog(lv, name, "LyX: " + title)
+        : QDialog(&lv), Dialog(lv, name, "SciLyX: " + title)
 	{}
 
 	virtual QWidget * asQWidget() { return this; }
