@@ -14,5 +14,4 @@ int main(int argc, char *argv[])
     sciLyx.addToolBarAction("new-document");
     sciLyx.show();
     return a.exec();
-
 }

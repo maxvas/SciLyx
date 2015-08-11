@@ -17,6 +17,7 @@ public:
     QString currentPath();
     bool registerAction(QString name, QAction *action);
     bool unregisterAction(QString name);
+    bool loadConfig();
     void loadConfigOrAskUser();
     void clearToolBar();
     void addToolBarAction(QString name);

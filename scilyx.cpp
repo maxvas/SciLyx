@@ -58,6 +58,11 @@ bool SciLyx::unregisterAction(QString name)
     return mGitBrowser->unregisterAction(name);
 }
 
+bool SciLyx::loadConfig()
+{
+    return mGitBrowser->readRepoConfig();
+}
+
 void SciLyx::loadConfigOrAskUser()
 {
     mGitBrowser->readRepoConfigOrAskUser();
