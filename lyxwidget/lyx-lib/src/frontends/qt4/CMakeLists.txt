@@ -71,7 +71,8 @@ target_link_libraries(frontend_qt
 	frontends
 	${QT_QTCORE_LIBRARY}
         ${QT_QTGUI_LIBRARY}
-        datasources)
+        datasources
+        support)
 
 lyx_add_gcc_pch(frontend_qt)
 

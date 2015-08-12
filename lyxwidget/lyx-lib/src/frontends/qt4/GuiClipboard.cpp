@@ -142,6 +142,7 @@ string const GuiClipboard::getAsLyX() const
 
 std::string GuiClipboard::getAsGraphics(Cursor const & cur, bool &isFileList) const
 {
+    (void)cur;
     if (cache_.hasFormat("text/uri-list"))
     {
         QStringList result;

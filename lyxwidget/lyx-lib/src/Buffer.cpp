@@ -1302,7 +1302,7 @@ bool Buffer::save() const
 		return false;
 
 	// we will set this to false if we fail
-	bool made_backup = true;
+//	bool made_backup = true;
 	bool const symlink = fileName().isSymLink();
 //	if (lyxrc.make_backup) {
 //		FileName backupName(absFileName() + '~');

@@ -286,6 +286,8 @@ void InsetChart::latex(otexstream & os,
 
 int InsetChart::plaintext(odocstringstream &ods, const OutputParams &op, size_t max_length) const
 {
+    (void)op;
+    (void)max_length;
     //TODO: дописать
     docstring const str = from_utf8("");
     ods << '<' << str << '>';
@@ -301,6 +303,7 @@ int InsetChart::docbook(odocstream &, const OutputParams &) const
 
 docstring InsetChart::xhtml(XHTMLStream &os, const OutputParams &) const
 {
+    (void)os;
     //TODO: Дописать преобразование в xhtml
     return docstring();
 }
@@ -336,6 +339,7 @@ InsetChartParams const & InsetChart::params() const
 
 void InsetChart::editChart(InsetChartParams const & p) const
 {
+    (void)p;
 }
 
 
@@ -356,6 +360,7 @@ string InsetChart::contextMenuName() const
 void InsetChart::string2params(string const & in, Buffer const & buffer,
                                InsetChartParams & params)
 {
+    (void)buffer;
     if (in.empty())
         return;
 
@@ -372,6 +377,7 @@ void InsetChart::string2params(string const & in, Buffer const & buffer,
 
 string InsetChart::params2string(const InsetChartParams &params, Buffer const & buffer)
 {
+    (void)buffer;
     ostringstream data;
     data << "chart\n";
     params.write(data);

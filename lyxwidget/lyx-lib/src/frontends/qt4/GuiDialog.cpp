@@ -39,11 +39,13 @@ void GuiDialog::closeEvent(QCloseEvent * ev)
 
 void GuiDialog::showEvent(QShowEvent *e)
 {
+    (void)e;
     onWindowShow();
 }
 
 void GuiDialog::hideEvent(QHideEvent *e)
 {
+    (void)e;
     onWindowHide();
 }
 

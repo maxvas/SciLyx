@@ -110,6 +110,8 @@ Package::Package(string const & command_line_arg0,
 		 string const & command_line_user_support_dir)
 	: explicit_user_support_dir_(false)
 {
+    (void)command_line_system_support_dir;
+    (void)command_line_user_support_dir;
     //MAXVAS: А вот здесь происходит интересная штука.
     //Lyx пытается найти каталог со всеми иконками, настройками и пр.
     //Без этого каталога ничего не бцдет работать

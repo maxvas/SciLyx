@@ -52,43 +52,6 @@ using namespace lyx::support;
 namespace lyx {
 
 namespace {
-string url_encode(const string &value) {
-    ostringstream escaped;
-    escaped.fill('0');
-    escaped << hex;
-
-    for (string::const_iterator i = value.begin(), n = value.end(); i != n; ++i) {
-        string::value_type c = (*i);
-
-        // Keep alphanumeric and other accepted characters intact
-        if (isalnum(c) || c == '-' || c == '_' || c == '.' || c == '~') {
-            escaped << c;
-            continue;
-        }
-
-        // Any other characters are percent-encoded
-        escaped << '%' << std::setw(2) << int((unsigned char) c);
-    }
-
-    return escaped.str();
-}
-
-string urlDecode(const string &SRC) {
-    string ret;
-    char ch;
-    int i, ii;
-    for (i=0; i<SRC.length(); i++) {
-        if (int(SRC[i])==37) {
-            sscanf(SRC.substr(i+1,2).c_str(), "%x", &ii);
-            ch=static_cast<char>(ii);
-            ret+=ch;
-            i=i+2;
-        } else {
-            ret+=SRC[i];
-        }
-    }
-    return (ret);
-}
 
 bool string2type(string const & str, bool & num)
 {
@@ -263,12 +226,12 @@ void InsetChartParams::init()
 {
     clear();
     lyxscale = 100;			// lyx scaling in percentage
-    xLabel = from_utf8("X");
-    yLabel = from_utf8("Y");
+    xLabel = "X";
+    yLabel = "Y";
     grid = false;
     legend = false;
     ChartLine *line = new ChartLine;
-    line->name = from_utf8("Ряд 1");
+    line->name = "Ряд 1";
     lines.push_back(line);
 }
 
@@ -349,7 +312,7 @@ void InsetChartParams::latex(otexstream & os, OutputParams const & runparams) co
     os<<"\\begin{tikzpicture}\n";
     os<<"\\begin{axis}[\n";
     os<<"title=";
-    os<<encoding.latexString(title).first;
+    os<<encoding.latexString(from_utf8(title)).first;
     os<<",\n";
     if (legend){
         os<<"legend style={xshift=3.5cm,yshift=-.2cm},\n";
@@ -357,8 +320,8 @@ void InsetChartParams::latex(otexstream & os, OutputParams const & runparams) co
     if (grid){
         os<<"grid=major,\n";
     }
-    os<<"xlabel="<<encoding.latexString(xLabel).first<<",\n";
-    os<<"ylabel="<<encoding.latexString(yLabel).first<<"\n";
+    os<<"xlabel="<<encoding.latexString(from_utf8(xLabel)).first<<",\n";
+    os<<"ylabel="<<encoding.latexString(from_utf8(yLabel)).first<<"\n";
     os<<"]\n";
 
     for (std::vector<ChartLine* >::const_iterator i=lines.begin(); i!=lines.end();i++){
@@ -374,7 +337,7 @@ void InsetChartParams::latex(otexstream & os, OutputParams const & runparams) co
         }
         os<<"};\n";
         if (legend){
-            os<<"\\addlegendentry{"<<encoding.latexString(line->name).first<<"}\n";
+            os<<"\\addlegendentry{"<<encoding.latexString(from_utf8(line->name)).first<<"}\n";
         }
     }
     os<<"\\end{axis}\n";

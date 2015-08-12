@@ -292,7 +292,6 @@ void CacheItem::Impl::imageConverted(bool success)
 // converted successfully.
 bool CacheItem::Impl::loadImage()
 {
-    //MAXVAS: Пока закомментил. Потом надо разобраться
 //	LYXERR(Debug::GRAPHICS, "Loading image.");
 
 //	image_.reset(newImage());
@@ -309,6 +308,7 @@ bool CacheItem::Impl::loadImage()
 //		file_to_load_.removeFile();
 
 //	return success;
+    return true;
 }
 
 

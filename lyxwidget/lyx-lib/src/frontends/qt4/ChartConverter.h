@@ -14,11 +14,11 @@ namespace lyx {
     class InsetChartParams;
 }
 
-class InsetChartConverter: public QObject
+class ChartConverter: public QObject
 {
     Q_OBJECT
 public:
-    explicit InsetChartConverter();
+    explicit ChartConverter();
     void startConvertation(const lyx::InsetChartParams *params);
     QByteArray getImageData();
 

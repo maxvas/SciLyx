@@ -35,9 +35,9 @@ void GitManager::setRepoParams(RepoParams *params)
     env<<"GIT_AUTHOR_EMAIL="+params->email;
     env<<"GIT_COMMITTER_NAME="+params->author;
     env<<"GIT_COMMITTER_EMAIL="+params->email;
-#ifdef __unix__
-    env<<"GIT_SSH="+homeDir+"/lims/ssh";
-#endif
+//#ifdef __unix__
+//    env<<"GIT_SSH="+homeDir+"/lims/ssh";
+//#endif
     git.setEnvironment(env);
 }
 

@@ -7,6 +7,7 @@
 project(${_lyx})
 
 include_directories(${TOP_SRC_DIR}/src)
+SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-unused-local-typedefs -Wno-deprecated")
 
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 set_property(GLOBAL PROPERTY PREDEFINED_TARGETS_FOLDER "CMakeTargets")
@@ -19,10 +20,6 @@ add_subdirectory(mathed)
 add_subdirectory(support)
 add_subdirectory(tex2lyx)
 add_subdirectory(common)
-
-#if (UNIX)
-#        add_subdirectory(client)
-#endif()
 
 file(GLOB lyx_sources ${TOP_SRC_DIR}/src/${LYX_CPP_FILES})
 file(GLOB moc_files ${TOP_SRC_DIR}/src/${LYX_MOC_FILES})

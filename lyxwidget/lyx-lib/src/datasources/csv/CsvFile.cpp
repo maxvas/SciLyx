@@ -23,6 +23,7 @@ QString DataSourceCsvFile::name()
 
 void DataSourceCsvFile::closeEvent(QCloseEvent *e)
 {
+    (void)e;
     textBrowser->setPlainText("");
 }
 

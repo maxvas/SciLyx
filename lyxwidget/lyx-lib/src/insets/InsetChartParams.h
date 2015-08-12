@@ -72,7 +72,7 @@ public:
 class ChartLine{
 public:
     ChartLine(){
-        name = docstring();
+        name = "Line";
         smooth = false;
         lineColor = "black";
         lineType = "solid";
@@ -92,7 +92,7 @@ public:
         return result;
     }
     vector< ChartPoint* > data;
-    docstring name;
+    string name;
     bool smooth;
     string lineColor;
     string lineType;
@@ -124,10 +124,10 @@ public:
     ///
     graphics::Params as_grfxParams() const;
     ///
-    docstring title;
+    string title;
     bool legend;
-    docstring xLabel;
-    docstring yLabel;
+    string xLabel;
+    string yLabel;
     bool grid;
     vector<ChartLine* > lines;
     void toStream(ostream & os) const;

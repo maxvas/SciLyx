@@ -1205,6 +1205,7 @@ void pasteSimpleText(Cursor & cur, bool asParagraphs)
 void pasteClipboardGraphics(Cursor & cur, ErrorList & /* errorList */,
 			    Clipboard::GraphicsType preferedType)
 {
+    (void)preferedType;
     LASSERT(theClipboard().hasGraphicsContents(), return);
 
     bool isFileList = false;

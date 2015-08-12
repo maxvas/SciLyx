@@ -36,6 +36,7 @@ namespace lyx {
 
 RenderGraphic::RenderGraphic(Inset const * inset)
 {
+    (void)inset;
 //	loader_.connect(bind(&Inset::updateFrontend, inset));
     image_ = graphics::newImage();
 }
@@ -44,6 +45,7 @@ RenderGraphic::RenderGraphic(Inset const * inset)
 RenderGraphic::RenderGraphic(RenderGraphic const & other, Inset const * inset)
     : RenderBase(other), image_(other.image_), params_(other.params_)
 {
+    (void)inset;
 //	loader_.connect(bind(&Inset::updateFrontend, inset));
     image_ = graphics::newImage();
 }
@@ -140,6 +142,7 @@ void RenderGraphic::update(graphics::Params const & params)
 
 void RenderGraphic::metrics(MetricsInfo & mi, Dimension & dim) const
 {
+    (void)mi;
 //	if (displayGraphic(params_)) {
 //		if (loader_.status() == graphics::WaitingToLoad)
 //			loader_.startLoading();

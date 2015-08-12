@@ -189,6 +189,7 @@ bool operator!=(InsetGraphicsParams const & left,
 
 void InsetGraphicsParams::Write(ostream & os, Buffer const & buffer) const
 {
+    (void)buffer;
 	// Do not write the default values
 //	if (!filename.empty())
 //		os << "\tfilename " << filename.outputFileName(buffer.filePath()) << '\n';
@@ -236,6 +237,7 @@ void InsetGraphicsParams::Write(ostream & os, Buffer const & buffer) const
 
 bool InsetGraphicsParams::Read(Lexer & lex, string const & token, string const & bufpath)
 {
+    (void)bufpath;
 //	if (token == "filename") {
 //		lex.eatLine();
 //		filename.set(lex.getString(), bufpath);

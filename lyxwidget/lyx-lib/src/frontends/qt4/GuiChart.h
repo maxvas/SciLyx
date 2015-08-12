@@ -67,7 +67,7 @@ private Q_SLOTS:
 private:
     bool guiSender;
     DataSourceManager *dsManager;
-    InsetChartConverter converter;
+    ChartConverter converter;
     QString actionAfterConvert;
 	///
 	bool isValid();

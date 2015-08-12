@@ -926,6 +926,7 @@ int InsetGraphics::docbook(odocstream & os,
 
 string InsetGraphics::prepareHTMLFile(OutputParams const & runparams) const
 {
+    (void)runparams;
     //Конвертация в HTML пока работать не будет
     return string();
 //	// The following code depends on non-empty filenames
@@ -1081,6 +1082,7 @@ InsetGraphicsParams const & InsetGraphics::params() const
 
 void InsetGraphics::editGraphics(InsetGraphicsParams const & p) const
 {
+    (void)p;
     //MAXVAS: Похоже здесь должен открываться внешний редактор для редактирования картинки
     //Пока не будем этого делать. Хотя на будущее - интересная функция
 //	formats.edit(buffer(), p.filename,

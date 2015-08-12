@@ -269,6 +269,7 @@ void LyX::openInNewWindow(string fileName)
 
 void LyX::openOldFileInNewWindow(string fileName, string commit, char *data)
 {
+    (void)commit;
     DispatchResult dr;
     lyx::dispatch(FuncRequest(LFUN_WINDOW_NEW, ""), dr);
     lyx::frontend::GuiApplication *gapp = (lyx::frontend::GuiApplication*)pimpl_->application_.get();

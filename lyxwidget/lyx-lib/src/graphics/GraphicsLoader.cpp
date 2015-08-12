@@ -224,7 +224,8 @@ Loader::Loader(FileName const & file, Params const & params)
 Loader::Loader(Loader const & other)
 	: pimpl_(new Impl)
 {
-	Params const & params = other.pimpl_->params();
+    (void) other;
+//	Params const & params = other.pimpl_->params();
 //    reset(params.filename, params);
 }
 
@@ -238,7 +239,7 @@ Loader::~Loader()
 Loader & Loader::operator=(Loader const & other)
 {
 	if (this != &other) {
-		Params const & params = other.pimpl_->params();
+//		Params const & params = other.pimpl_->params();
 //        reset(params.filename, params);
 	}
 	return *this;

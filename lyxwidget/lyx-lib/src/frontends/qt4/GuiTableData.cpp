@@ -95,6 +95,7 @@ bool GuiTableData::isValid()
 
 bool GuiTableData::initialiseParams(string const & data)
 {
+    (void)data;
 	return true;
 }
 

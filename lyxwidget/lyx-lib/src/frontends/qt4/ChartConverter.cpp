@@ -3,6 +3,7 @@
 
 #include "../insets/InsetChartParams.h"
 #include "../support/TempFile.h"
+#include "../support/docstring.h"
 #include <QObject>
 #include <QProcess>
 #include <QFile>
@@ -13,12 +14,12 @@ using namespace std;
 using namespace lyx;
 using namespace lyx::support;
 
-InsetChartConverter::InsetChartConverter()
+ChartConverter::ChartConverter()
     :QObject(0), inProcess(false)
 {
 }
 
-void InsetChartConverter::startConvertation(const lyx::InsetChartParams *params)
+void ChartConverter::startConvertation(const lyx::InsetChartParams *params)
 {
     if (inProcess)
         return;
@@ -41,12 +42,12 @@ void InsetChartConverter::startConvertation(const lyx::InsetChartParams *params)
     mProcess.start(cmd, QStringList()<<fileOnlyName);
 }
 
-QByteArray InsetChartConverter::getImageData()
+QByteArray ChartConverter::getImageData()
 {
     return mImageData;
 }
 
-QString InsetChartConverter::writeLatex(const lyx::InsetChartParams *params)
+QString ChartConverter::writeLatex(const lyx::InsetChartParams *params)
 {
     tempfile = new TempFile("chartXXXXXX.tex");
     tempfile->setAutoRemove(false);
@@ -63,15 +64,15 @@ QString InsetChartConverter::writeLatex(const lyx::InsetChartParams *params)
              \\begin{document}\n";
     texfile<<"\\begin{tikzpicture}\n";
     texfile<<"\\begin{axis}[\n";
-    texfile<<"title="<<to_utf8(params->title)<<",\n";
+    texfile<<"title="<<params->title<<",\n";
     if (params->legend){
         texfile<<"legend style={xshift=3.5cm,yshift=-.2cm},\n";
     }
     if (params->grid){
         texfile<<"grid=major,\n";
     }
-    texfile<<"xlabel="<<to_utf8(params->xLabel)<<",\n";
-    texfile<<"ylabel="<<to_utf8(params->yLabel)<<"\n";
+    texfile<<"xlabel="<<params->xLabel<<",\n";
+    texfile<<"ylabel="<<params->yLabel<<"\n";
     texfile<<"]\n";
 
     for (std::vector<ChartLine* >::const_iterator i=params->lines.begin(); i!=params->lines.end();i++){
@@ -87,7 +88,7 @@ QString InsetChartConverter::writeLatex(const lyx::InsetChartParams *params)
         }
         texfile<<"};\n";
         if (params->legend){
-            texfile<<"\\addlegendentry{"<<to_utf8(line->name)<<"}\n";
+            texfile<<"\\addlegendentry{"<<line->name<<"}\n";
         }
     }
     texfile<<"\\end{axis}\n";
@@ -99,7 +100,7 @@ QString InsetChartConverter::writeLatex(const lyx::InsetChartParams *params)
     return outfile.c_str();
 }
 
-void InsetChartConverter::onLatexProcessFinished(int code)
+void ChartConverter::onLatexProcessFinished(int code)
 {
     qDebug()<<"Latex finished: "+QString::number(code);
     QString cmd = "mgs";
@@ -127,23 +128,24 @@ void InsetChartConverter::onLatexProcessFinished(int code)
     mImageData.clear();
 }
 
-void InsetChartConverter::onGsProcessFinished(int code)
+void ChartConverter::onGsProcessFinished(int code)
 {
+    (void)code;
     inProcess = false;
     Q_EMIT finished();
 }
 
-void InsetChartConverter::onLatexReadyRead()
+void ChartConverter::onLatexReadyRead()
 {
     qDebug()<<mProcess.readAll();
 }
 
-void InsetChartConverter::onGsReadyRead()
+void ChartConverter::onGsReadyRead()
 {
     mImageData.append(mProcess.readAll());
 }
 
-void InsetChartConverter::onError()
+void ChartConverter::onError()
 {
     qDebug()<<"Error"+mProcess.errorString();
 }
