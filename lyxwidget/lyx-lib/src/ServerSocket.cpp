@@ -76,7 +76,7 @@ ServerSocket::~ServerSocket()
 {
 	if (fd_ != -1) {
 		BOOST_ASSERT (theApp());
-		theApp()->unregisterSocketCallback(fd_);
+//        theApp()->unregisterSocketCallback(fd_);
 		if (::close(fd_) != 0)
 			lyxerr << "lyx: Server socket " << fd_
 			       << " IO error on closing: " << strerror(errno)

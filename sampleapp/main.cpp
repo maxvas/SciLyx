@@ -1,5 +1,7 @@
 #include <QApplication>
+#include <QRect>
 #include <QDir>
+#include <QDesktopWidget>
 #include <scilyx.h>
 #include <gitbrowser/filesbrowser.h>
 
@@ -12,6 +14,7 @@ int main(int argc, char *argv[])
     sciLyx.loadConfigOrAskUser();
     sciLyx.addToolBarAction("settings");
     sciLyx.addToolBarAction("new-document");
+    sciLyx.setMinimumSize(600, 400);
     sciLyx.show();
     return a.exec();
 }
