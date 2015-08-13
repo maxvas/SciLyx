@@ -14,7 +14,9 @@ SciLyx::SciLyx(QString localRepoFolder)
     : QWidget(0)/*, mEditor(0)*/
 {
     QString sciLyxVar = sciLyxPath();
+#ifdef _WIN32
     sciLyxVar = sciLyxVar.replace("/", "\\");
+#endif
     QString pathEnv = QString::fromLocal8Bit(qgetenv("Path"));
     QString pathSuffix = QString(";%1\\Python27;%1\\miktex\\bin;%1\\ImageMagick-6.9.0-Q16;%1\\gs\\gs9.15\\bin").arg(sciLyxVar);
     pathEnv += pathSuffix;

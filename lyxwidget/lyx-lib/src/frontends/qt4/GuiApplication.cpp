@@ -2337,14 +2337,15 @@ void GuiApplication::setGuiLanguage()
 	// opposite. Therefore, long name should be used without truncation.
 	// c.f. http://doc.trolltech.com/4.1/qtranslator.html#load
     qDebug()<<QLibraryInfo::location(QLibraryInfo::TranslationsPath);
-	if (!d->qt_trans_.load(language_name,
-			QLibraryInfo::location(QLibraryInfo::TranslationsPath))) {
-		LYXERR(Debug::LOCALE, "Could not find Qt translations for locale "
-			<< language_name);
-	} else {
-		LYXERR(Debug::LOCALE, "Successfully installed Qt translations for locale "
-			<< language_name);
-	}
+//	if (!d->qt_trans_.load(language_name,
+//    if (!d->qt_trans_.load("qt_ru",
+//			QLibraryInfo::location(QLibraryInfo::TranslationsPath))) {
+//		LYXERR(Debug::LOCALE, "Could not find Qt translations for locale "
+//			<< language_name);
+//	} else {
+//		LYXERR(Debug::LOCALE, "Successfully installed Qt translations for locale "
+//			<< language_name);
+//	}
 
 	switch (theLocale.language()) {
 	case QLocale::Arabic :

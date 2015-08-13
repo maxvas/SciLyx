@@ -30,7 +30,9 @@ void GitManager::setRepoParams(RepoParams *params)
     remote = params->login+"@"+params->url;
     //Устанавливаем переменные окружения
     QStringList env;
+#ifdef _WIN32
     env<<"DISPLAY=10";
+#endif
     env<<"GIT_AUTHOR_NAME="+params->author;
     env<<"GIT_AUTHOR_EMAIL="+params->email;
     env<<"GIT_COMMITTER_NAME="+params->author;
