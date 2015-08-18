@@ -79,12 +79,9 @@ private slots:
     void up();//Выполняет переход на уровень выше
 
     //Слоты, вызываемые напрямую из GUI
-    void on_goBtn_clicked();//При нажатии на кнопку "Перейти"
-    void on_upBtn_clicked();//При нажатии на кнопку "Вверх"
-    void on_updateBtn_clicked();//При нажатии на кнопку "Обновить"
-    void on_newDocumentBtn_clicked();
+    void onGoBtn_clicked();//При нажатии на кнопку "Перейти"
     void on_listView_doubleClicked(const QModelIndex &index);//Двойной клик на папке или каталоге
-    void on_lineEdit_returnPressed();//Нажатие Enter, когда фокус находится на lineEdit
+    void onLineEdit_returnPressed();//Нажатие Enter, когда фокус находится на lineEdit
     void on_listView_customContextMenuRequested(const QPoint &pos);//Вызов меню из listView
     void onFileRenamed(const QString & path, const QString & oldName, const QString & newName);//Вызывется после Переименования файла или каталога в listView
 

@@ -9,6 +9,7 @@
 #include <QFile>
 #include <QDir>
 #include <QDebug>
+#include <iostream>
 
 using namespace std;
 using namespace lyx;
@@ -103,7 +104,11 @@ QString ChartConverter::writeLatex(const lyx::InsetChartParams *params)
 void ChartConverter::onLatexProcessFinished(int code)
 {
     qDebug()<<"Latex finished: "+QString::number(code);
-    QString cmd = "mgs";
+#ifdef __WIN32
+    QString cmd = "gswin32c";
+#else
+    QString cmd = "gs";
+#endif
     QStringList args;
     args<<"-dSAFER";
     args<<"-dBATCH";
@@ -124,6 +129,12 @@ void ChartConverter::onLatexProcessFinished(int code)
     connect(&mProcess, SIGNAL(finished(int)), this, SLOT(onGsProcessFinished(int)));
     connect(&mProcess, SIGNAL(readyRead()), this, SLOT(onGsReadyRead()));
     connect(&mProcess, SIGNAL(error(QProcess::ProcessError)), this, SLOT(onError()));
+    cout<<"Starting "<<cmd.toStdString()<<endl;
+    cout<<cmd.toStdString()<<" ";
+    foreach (QString str, args) {
+        cout<<str.toStdString()<<" ";
+    }
+    cout<<endl;
     mProcess.start(cmd, args);
     mImageData.clear();
 }
@@ -137,7 +148,7 @@ void ChartConverter::onGsProcessFinished(int code)
 
 void ChartConverter::onLatexReadyRead()
 {
-    qDebug()<<mProcess.readAll();
+//    qDebug()<<mProcess.readAll();
 }
 
 void ChartConverter::onGsReadyRead()

@@ -17,10 +17,10 @@ SciLyx::SciLyx(QString localRepoFolder)
 #ifdef _WIN32
     sciLyxVar = sciLyxVar.replace("/", "\\");
 #endif
-    QString pathEnv = QString::fromLocal8Bit(qgetenv("Path"));
-    QString pathSuffix = QString(";%1\\Python27;%1\\miktex\\bin;%1\\ImageMagick-6.9.0-Q16;%1\\gs\\gs9.15\\bin").arg(sciLyxVar);
-    pathEnv += pathSuffix;
-    qputenv("Path", pathEnv.toLocal8Bit());
+//    QString pathEnv = QString::fromLocal8Bit(qgetenv("Path"));
+//    QString pathSuffix = QString(";%1\\Python27;%1\\miktex\\bin;%1\\ImageMagick-6.9.0-Q16;%1\\gs\\gs9.15\\bin").arg(sciLyxVar);
+//    pathEnv += pathSuffix;
+//    qputenv("Path", pathEnv.toLocal8Bit());
     qputenv("scilyx", sciLyxVar.toLocal8Bit());
 
     mGitBrowser = new GitBrowser(localRepoFolder);

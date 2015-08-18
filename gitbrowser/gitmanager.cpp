@@ -67,11 +67,12 @@ void GitManager::start(QStringList args)
         }
     }
     output.clear();
+    cout<<endl;
     QString command = gitCommand;
     foreach (QString arg, args) {
         command += QString(" ") + "\""+arg+"\"";
     }
-    cout<<command.toStdString();
+    cout<<command.toStdString()<<endl;
     git.start(gitCommand, args);
     git.setTextModeEnabled(true);
     this->command = args[0];

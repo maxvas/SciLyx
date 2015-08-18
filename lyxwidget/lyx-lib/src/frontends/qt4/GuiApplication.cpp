@@ -1007,7 +1007,7 @@ GuiApplication::GuiApplication(int & argc, char ** argv)
 	QApplication::setDoubleClickInterval(300);
 #endif
 
-	connect(this, SIGNAL(lastWindowClosed()), this, SLOT(onLastWindowClosed()));
+//	connect(this, SIGNAL(lastWindowClosed()), this, SLOT(onLastWindowClosed()));
 
 	// needs to be done before reading lyxrc
 	QWidget w;

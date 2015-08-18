@@ -4157,6 +4157,8 @@ Buffer::ExportStatus Buffer::preview(string const & format) const
 
 Buffer::ExportStatus Buffer::preview(string const & format, bool includeall) const
 {
+    std::cout<<"\n";
+    std::cout<<"Preview in format "<<format<<std::endl;
 	MarkAsExporting exporting(this);
 	string result_file;
 	// (1) export with all included children (omit \includeonly)

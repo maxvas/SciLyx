@@ -47,7 +47,7 @@ GitBrowser::GitBrowser(QString localRepoFolder, QWidget *parent) :
     actUp = new QAction(QIcon(":/images/arrow-090.png"), "Перейти на каталог выше", this);
     connect(actUp, SIGNAL(triggered()), this, SLOT(up()));
     actGo = new QAction(QIcon(":/images/go.png"), "Перейти", this);
-    connect(actGo, SIGNAL(triggered()), this, SLOT(on_goBtn_clicked()));
+    connect(actGo, SIGNAL(triggered()), this, SLOT(onGoBtn_clicked()));
     actOpen = new QAction("Открыть", this);
     connect(actOpen, SIGNAL(triggered()), this, SLOT(callOpen()));
     actVersions = new QAction("Версии...", this);
@@ -73,7 +73,7 @@ GitBrowser::GitBrowser(QString localRepoFolder, QWidget *parent) :
     registerAction("new-document", actNewDocument);
     ui->navigationPanel->addActions(QList<QAction* >()<<actUpdate<<actUp);
     pathLE = new QLineEdit();
-    connect(pathLE, SIGNAL(returnPressed()), this, SLOT(on_lineEdit_returnPressed()));
+    connect(pathLE, SIGNAL(returnPressed()), this, SLOT(onLineEdit_returnPressed()));
     ui->navigationPanel->addWidget(pathLE);
     ui->navigationPanel->addActions(QList<QAction* >()<<actGo);
     go("/");
@@ -134,7 +134,7 @@ void GitBrowser::go(QString path)
     QString path_ =  path == "/" ? "/" : path.mid(1);
     if (!(dir.exists(path_) || path == "/"))
     {
-        QMessageBox::information(this, "Указанный путь не найден", "Путь '"+currentPath+"' не найден!");
+        QMessageBox::information(this, "Указанный путь не найден", "Путь '"+path+"' не найден!");
         return;
     }
     currentPath = path;
@@ -157,26 +157,9 @@ void GitBrowser::up()
     go(newPath);
 }
 
-void GitBrowser::on_goBtn_clicked()
+void GitBrowser::onGoBtn_clicked()
 {
     go(pathLE->text());
-}
-
-void GitBrowser::on_upBtn_clicked()
-{
-    up();
-}
-
-void GitBrowser::on_updateBtn_clicked()
-{
-    update();
-}
-
-//Создание нового документа
-void GitBrowser::on_newDocumentBtn_clicked()
-{
-    QString path = currentPathWithSlash();
-    path = repoFolder + path;
 }
 
 void GitBrowser::on_listView_doubleClicked(const QModelIndex &index)
@@ -193,7 +176,7 @@ void GitBrowser::on_listView_doubleClicked(const QModelIndex &index)
     }
 }
 
-void GitBrowser::on_lineEdit_returnPressed()
+void GitBrowser::onLineEdit_returnPressed()
 {
     go(pathLE->text());
 }
