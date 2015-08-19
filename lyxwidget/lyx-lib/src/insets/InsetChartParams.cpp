@@ -311,17 +311,17 @@ void InsetChartParams::latex(otexstream & os, OutputParams const & runparams) co
     Encoding const & encoding = *(runparams.encoding);
     os<<"\\begin{tikzpicture}\n";
     os<<"\\begin{axis}[\n";
-    os<<"title=";
+    os<<"title={";
     os<<encoding.latexString(from_utf8(title)).first;
-    os<<",\n";
+    os<<"},\n";
     if (legend){
         os<<"legend style={xshift=3.5cm,yshift=-.2cm},\n";
     }
     if (grid){
         os<<"grid=major,\n";
     }
-    os<<"xlabel="<<encoding.latexString(from_utf8(xLabel)).first<<",\n";
-    os<<"ylabel="<<encoding.latexString(from_utf8(yLabel)).first<<"\n";
+    os<<"xlabel={"<<encoding.latexString(from_utf8(xLabel)).first<<"},\n";
+    os<<"ylabel={"<<encoding.latexString(from_utf8(yLabel)).first<<"}\n";
     os<<"]\n";
 
     for (std::vector<ChartLine* >::const_iterator i=lines.begin(); i!=lines.end();i++){

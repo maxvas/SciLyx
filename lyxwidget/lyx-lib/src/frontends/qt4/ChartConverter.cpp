@@ -40,7 +40,10 @@ void ChartConverter::startConvertation(const lyx::InsetChartParams *params)
     connect(&mProcess, SIGNAL(finished(int)), this, SLOT(onLatexProcessFinished(int)));
     connect(&mProcess, SIGNAL(readyRead()), this, SLOT(onLatexReadyRead()));
     connect(&mProcess, SIGNAL(error(QProcess::ProcessError)), this, SLOT(onError()));
-    mProcess.start(cmd, QStringList()<<fileOnlyName);
+    QStringList args;
+    args<<"-interaction=batchmode";
+    args<<fileOnlyName;
+    mProcess.start(cmd, args);
 }
 
 QByteArray ChartConverter::getImageData()
@@ -65,15 +68,15 @@ QString ChartConverter::writeLatex(const lyx::InsetChartParams *params)
              \\begin{document}\n";
     texfile<<"\\begin{tikzpicture}\n";
     texfile<<"\\begin{axis}[\n";
-    texfile<<"title="<<params->title<<",\n";
+    texfile<<"title={"<<params->title<<"},\n";
     if (params->legend){
         texfile<<"legend style={xshift=3.5cm,yshift=-.2cm},\n";
     }
     if (params->grid){
         texfile<<"grid=major,\n";
     }
-    texfile<<"xlabel="<<params->xLabel<<",\n";
-    texfile<<"ylabel="<<params->yLabel<<"\n";
+    texfile<<"xlabel={"<<params->xLabel<<"},\n";
+    texfile<<"ylabel={"<<params->yLabel<<"}\n";
     texfile<<"]\n";
 
     for (std::vector<ChartLine* >::const_iterator i=params->lines.begin(); i!=params->lines.end();i++){
@@ -104,6 +107,12 @@ QString ChartConverter::writeLatex(const lyx::InsetChartParams *params)
 void ChartConverter::onLatexProcessFinished(int code)
 {
     qDebug()<<"Latex finished: "+QString::number(code);
+    if (code!=0)
+    {
+        inProcess = false;
+        emit error();
+        return;
+    }
 #ifdef __WIN32
     QString cmd = "gswin32c";
 #else
@@ -141,7 +150,12 @@ void ChartConverter::onLatexProcessFinished(int code)
 
 void ChartConverter::onGsProcessFinished(int code)
 {
-    (void)code;
+    if (code!=0)
+    {
+        inProcess = false;
+        emit error();
+        return;
+    }
     inProcess = false;
     Q_EMIT finished();
 }

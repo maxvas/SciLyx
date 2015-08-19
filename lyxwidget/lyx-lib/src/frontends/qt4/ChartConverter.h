@@ -42,6 +42,7 @@ private Q_SLOTS:
 
 Q_SIGNALS:
     void finished();
+    void error();
 
 };
 

@@ -433,6 +433,7 @@ dist_images_DATA = \
 	images/dialog-toggle_toc.png \
 	images/down.png \
 	images/editclear.png \
+	images/errormsg.png \
 	images/ert-insert.png \
 	images/file-open.png \
 	images/float-insert_figure.png \

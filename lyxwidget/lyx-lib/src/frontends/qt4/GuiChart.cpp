@@ -162,6 +162,7 @@ GuiChart::GuiChart(GuiView & lv)
 	connect(restorePB, SIGNAL(clicked()), this, SLOT(slotRestore()));
     //converted
     connect(&converter, SIGNAL(finished()), this, SLOT(on_Converted()));
+    connect(&converter, SIGNAL(error()), this, SLOT(on_ConverterError()));
 
 	bc().setPolicy(ButtonPolicy::NoRepeatedApplyReadOnlyPolicy);
 	bc().setOK(okPB);
@@ -625,6 +626,27 @@ void lyx::frontend::GuiChart::on_Converted()
         slotApply();
         applyPB->hideAnimation();
     }
+    okPB->setIcon(QIcon());
+    applyPB->setIcon(QIcon());
     okPB->setDisabled(false);
     applyPB->setDisabled(false);
+}
+
+void lyx::frontend::GuiChart::on_ConverterError()
+{
+    okPB->setIcon(QIcon());
+    applyPB->setIcon(QIcon());
+    if (actionAfterConvert=="OK")
+    {
+        okPB->hideAnimation();
+        okPB->setIcon(QIcon(":/images/errormsg.png"));
+    }
+    else
+    {
+        applyPB->hideAnimation();
+        applyPB->setIcon(QIcon(":/images/errormsg.png"));
+    }
+    okPB->setDisabled(false);
+    applyPB->setDisabled(false);
+    qDebug()<<"Error while converting chart";
 }

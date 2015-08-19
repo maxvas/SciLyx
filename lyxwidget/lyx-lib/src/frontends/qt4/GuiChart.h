@@ -63,6 +63,7 @@ private Q_SLOTS:
     void on_OK();
     void on_Apply();
     void on_Converted();
+    void on_ConverterError();
 
 private:
     bool guiSender;

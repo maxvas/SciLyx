@@ -40,6 +40,7 @@
 <file alias="images/tabular-feature_append-column.png">../../lib/images/tabular-feature_append-column.png</file>
 <file alias="images/math-macro-append-greedy-param.png">../../lib/images/math-macro-append-greedy-param.png</file>
 <file alias="images/unknown.png">../../lib/images/unknown.png</file>
+<file alias="images/errormsg.png">../../lib/images/error-msg.png</file>
 <file alias="images/down.png">../../lib/images/down.png</file>
 <file alias="images/buffer-export_dvi.png">../../lib/images/buffer-export_dvi.png</file>
 <file alias="images/lyx-quit.png">../../lib/images/lyx-quit.png</file>
