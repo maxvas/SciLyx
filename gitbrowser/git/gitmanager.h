@@ -3,9 +3,10 @@
 
 #include <QObject>
 #include <QString>
-#include <QProcess>
 #include <QQueue>
-#include "reposettings.h"
+#include "../reposettings.h"
+
+class Shell;
 
 class GitManager : public QObject
 {
@@ -16,12 +17,11 @@ public:
     ~GitManager();
 
 private:
-    QProcess git;
+    Shell *console;
     bool inProcess;//Работает ли сейчас git
     QString workingDirectory;
     QString remote;//Адрес удаленного репозитория
     QString command;//команда, выполняемая git
-    QByteArray output;//Вывод git
     void start(QStringList args);//Запуск git
     QString temp_show_fileName;
     QString temp_show_commit;
@@ -47,6 +47,8 @@ signals:
     void remoteFailure(QString error, QString details);
     void checkRemoteAddrSuccess();
     void checkRemoteAddrFailure(QString error, QString details);
+    void checkConnectionSuccess();
+    void checkConnectionFailure(QString error, QString details);
 
 public slots:
     void pull();//Запуск git pull
@@ -58,14 +60,14 @@ public slots:
     void clone(QString remote);
     void remoteShowOrigin();
     void checkRemoteAddr(QString remote);
+    void checkConnection();
 
 private slots:
-    void onStarted();
-    void onReadyRead();//Слот для чтения стандартного вывода команды git
-    void onFinished(int code);//Слот, вызываемый по завершении git
+    void onOutput(QByteArray output);//Слот для чтения стандартного вывода команды git
+    void onFinished(int code, QByteArray output);//Слот, вызываемый по завершении git
     void onRemoteShowOriginSuccess(QString output);
     void onRemoteShowOriginFailure(QString error, QString details);
-    void gitError(QProcess::ProcessError error);
+    void gitError(QString error);
 
 };
 

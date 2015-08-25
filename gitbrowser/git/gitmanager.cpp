@@ -6,46 +6,41 @@
 #include <QProcess>
 #include <QCoreApplication>
 #include <iostream>
+#include "shell.h"
 
 using namespace std;
 
 GitManager::GitManager(QString workingDirectory) :
     QObject(0), inProcess(false), workingDirectory(workingDirectory)
 {
-    connect(&git, SIGNAL(finished(int)), this, SLOT(onFinished(int)));
-    connect(&git, SIGNAL(readyRead()), this, SLOT(onReadyRead()));
-    connect(&git, SIGNAL(started()), this, SLOT(onStarted()));
-    connect(&git, SIGNAL(error(QProcess::ProcessError)), this, SLOT(gitError(QProcess::ProcessError)));
-    git.setProcessChannelMode(QProcess::MergedChannels);
-    QString homeDir = QDir::homePath();
-#ifdef _WIN32
-    gitCommand = QDir::currentPath()+"/git/bin/git.exe";
-#else
+    console = new Shell(workingDirectory);
+    connect(console, SIGNAL(finished(int,QByteArray)), this, SLOT(onFinished(int,QByteArray)));
+    connect(console, SIGNAL(output(QByteArray)), this, SLOT(onOutput(QByteArray)));
     gitCommand = "git";
-#endif
 }
 
 void GitManager::setRepoParams(RepoParams *params)
 {
     remote = params->login+"@"+params->url;
     //Устанавливаем переменные окружения
-    QStringList env;
+//    QStringList env;
 #ifdef _WIN32
-    env<<"DISPLAY=10";
+//    console->write("DISPLAY=10\n");
+//    console->write("$");
 #endif
-    env<<"GIT_AUTHOR_NAME="+params->author;
-    env<<"GIT_AUTHOR_EMAIL="+params->email;
-    env<<"GIT_COMMITTER_NAME="+params->author;
-    env<<"GIT_COMMITTER_EMAIL="+params->email;
-//#ifdef __unix__
-//    env<<"GIT_SSH="+homeDir+"/lims/ssh";
-//#endif
-    git.setEnvironment(env);
+    console->write("GIT_AUTHOR_NAME="+params->author+"\n");
+    console->write("$");
+    console->write("GIT_AUTHOR_EMAIL="+params->email+"\n");
+    console->write("$");
+    console->write("GIT_COMMITTER_NAME="+params->author+"\n");
+    console->write("$");
+    console->write("GIT_COMMITTER_EMAIL="+params->email+"\n");
+    console->write("$");
 }
 
 GitManager::~GitManager()
 {
-    git.terminate();
+    delete console;
 }
 
 //Запуск git
@@ -60,51 +55,38 @@ void GitManager::start(QStringList args)
     {
         if (args[0]=="clone")
         {
-            git.setWorkingDirectory(QCoreApplication::applicationDirPath());
+            console->write("cd "+QCoreApplication::applicationDirPath()+"\n");
+            console->write("$");
         }else
         {
-            git.setWorkingDirectory(workingDirectory);
+            console->write("cd "+workingDirectory+"\n");
+            console->write("$");
         }
     }
-    output.clear();
     cout<<endl;
     QString command = gitCommand;
     foreach (QString arg, args) {
-        command += QString(" ") + "\""+arg+"\"";
+        command += QString(" ") +"\""+arg+"\"";
     }
     cout<<command.toStdString()<<endl;
-    git.start(gitCommand, args);
-    git.setTextModeEnabled(true);
+    console->write(command);
     this->command = args[0];
     inProcess = true;
 }
 
-//Слот для чтения стандартного вывода команды git
-void GitManager::onReadyRead()
-{
-    QByteArray newData = git.readAll();
-    newData += git.readAllStandardError();
-    newData += git.readAllStandardOutput();
-    if (command=="clone")
-    {
-        cout<<QString(newData).toStdString()<<"\n";
-        cout.flush();
-    }
-    output += newData;
-}
-
 //Слот, вызываемый по завершении git
-void GitManager::onFinished(int code)
+void GitManager::onFinished(int code, QByteArray output)
 {
-    cout<<QString(output).toStdString()<<"\n";
-    cout.flush();
+//    cout<<QString::fromUtf8(output).toStdString()<<"\n";
+//    cout.flush();
     inProcess = false;
-    if (command=="commit")
+    console->write("$");
+    if (output.startsWith("git \"commit\""))
     {
         emit commitSuccess();
         return;
     }
-    if (command=="push")
+    if (output.startsWith("git \"push\""))
     {
         if (code==0)
             emit pushSuccess();
@@ -112,7 +94,7 @@ void GitManager::onFinished(int code)
             emit pushFailure("Ошибка при отправке изменений на сервер", QString::fromUtf8(output));
         return;
     }
-    if (command=="pull")
+    if (output.startsWith("git \"pull\""))
     {
         if (code==0)
             emit pullSuccess();
@@ -120,40 +102,54 @@ void GitManager::onFinished(int code)
             emit pullFailure("Ошибка при получении изменений с сервера", QString::fromUtf8(output));
         return;
     }
-    if (command=="add")
+    if (output.startsWith("git \"add\""))
     {
         if (code==0)
             emit addSuccess();
         else
             emit addFailure("Ошибка при добавлении изменений в локальную базу данных (репозиторий)", QString::fromUtf8(output));
     }
-    if (command=="show")
+    if (output.startsWith("git \"show\""))
     {
         if (code==0)
             emit showSuccess(workingDirectory+"/"+temp_show_fileName, temp_show_commit, output);
         else
             emit showFailure("Ошибка при получении старой версии файла из репозитория", QString::fromUtf8(output));
     }
-    if (command=="log")
+    if (output.startsWith("git \"log\""))
     {
         if (code==0)
             emit logSuccess(QString::fromUtf8(output));
         else
             emit logFailure("Ошибка при получении списка версий файла", QString::fromUtf8(output));
     }
-    if (command=="clone")
+    if (output.startsWith("git \"clone\""))
     {
         if (code==0)
             emit cloneSuccess();
         else
             emit cloneFailure("Ошибка при клонировании репозитория", QString::fromUtf8(output));
     }
-    if (command=="remote")
+    if (output.startsWith("git \"remote\""))
     {
         if (code==0)
             emit remoteSuccess(QString::fromUtf8(output));
         else
             emit remoteFailure("Ошибка при получении информации о репозитории", QString::fromUtf8(output));
+    }
+    if (output.startsWith("(ssh"))
+    {
+        QList<QByteArray> lines = output.split('\n');
+        if (lines.count()>1)
+        {
+            if (lines[1].startsWith("ok"))
+            {
+                emit checkConnectionSuccess();
+                return;
+            }
+            emit checkConnectionFailure("Не удалось подключиться к серверу", lines[lines.count()-1]);
+            return;
+        }
     }
 }
 
@@ -185,12 +181,10 @@ void GitManager::onRemoteShowOriginFailure(QString error, QString details)
     emit checkRemoteAddrFailure("Ошибка проверки адреса репозитория: "+error, details);
 }
 
-void GitManager::gitError(QProcess::ProcessError error)
+void GitManager::gitError(QString error)
 {
     qDebug()<<"Error!";
-    QString str1 = git.errorString();
-    QTextCodec *ibmCodec = QTextCodec::codecForName("CP1251");
-    qDebug()<<ibmCodec->fromUnicode(str1);
+    qDebug()<<error;
 }
 
 void GitManager::pull()
@@ -255,10 +249,16 @@ void GitManager::checkRemoteAddr(QString remote)
     temp_checkRemoteAddr_remote = remote;
 }
 
-void GitManager::onStarted()
+void GitManager::checkConnection()
 {
-    if (command=="clone")
-    {
-        git.write("yes\n");
-    }
+    console->write("(ssh -o BatchMode=yes -o ConnectTimeout=5 max@192.168.2.10 echo ok 2>&1)\n");
+    console->write("$");
+}
+
+void GitManager::onOutput(QByteArray output)
+{
+    QFile logFile("shell.txt");
+    logFile.open(QFile::Append);
+    logFile.write(output);
+    logFile.close();
 }

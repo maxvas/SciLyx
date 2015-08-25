@@ -9,7 +9,7 @@
 #include <QToolBar>
 #include <QLineEdit>
 
-#include "gitmanager.h"
+#include "git/gitmanager.h"
 #include "reposettings.h"
 #include "../qfs/qfilemanager.h"
 #include "newdocument.h"

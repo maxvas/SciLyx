@@ -5,8 +5,8 @@
 #include <QFile>
 #include <QDebug>
 #include <QList>
-#include "commitinfo.h"
-#include "gitmanager.h"
+#include "git/commitinfo.h"
+#include "git/gitmanager.h"
 
 VersionBrowserDialog::VersionBrowserDialog(QWidget *parent, QString filePath, GitManager *git) :
     QDialog(parent),

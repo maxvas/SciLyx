@@ -13,42 +13,41 @@ LINK_DIRECTORIES(${CMAKE_CURRENT_SOURCE_DIR}/../qfs)
 
 INCLUDE_DIRECTORIES(${CMAKE_CURRENT_SOURCE_DIR}/../qfs)
 INCLUDE_DIRECTORIES(${CMAKE_CURRENT_BINARY_DIR})
-#INCLUDE_DIRECTORIES(${CMAKE_CURRENT_SOURCE_DIR}/../../../genset)
 
 SET(CMAKE_SHARED_LIBRARY_PREFIX "")
 
 set(HEADERS
-    versionbrowserdialog.h
-    commitinfo.h
-    filesbrowser.h
-    syncdialog.h
-    gitmanager.h
+	git/commitinfo.h
+    git/gitmanager.h
+	git/shell.h
+	filesbrowser.h
+	newdocument.h
+	reposettings.h
+	syncdialog.h
     texteditor.h
-    reposettings.h
-    newdocument.h
-    #../../../genset/couch.h
+    versionbrowserdialog.h
 )
 
 set(SOURCES
     main.cpp
-    versionbrowserdialog.cpp
-    commitinfo.cpp
-    filesbrowser.cpp
-    syncdialog.cpp
-    gitmanager.cpp
+	git/commitinfo.cpp
+	git/gitmanager.cpp
+	git/shell.cpp
+	filesbrowser.cpp
+	newdocument.cpp
+	reposettings.cpp
+	syncdialog.cpp
     texteditor.cpp
-    reposettings.cpp
-    newdocument.cpp
-    #../../../genset/couch.cpp
+	versionbrowserdialog.cpp
 )
 
 set(UI
+	filesbrowser.ui
+	newdocument.ui
+	reposettings.ui
+	syncdialog.ui
+	texteditor.ui
     versionbrowserdialog.ui
-    filesbrowser.ui
-    syncdialog.ui
-    texteditor.ui
-    reposettings.ui
-    newdocument.ui
 )
 
 set(RESOURCES
