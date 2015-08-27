@@ -12,7 +12,8 @@ Shell::Shell(QString workingDirectory):
     sh.setProcessChannelMode(QProcess::MergedChannels);
 #ifdef __WIN32
     sh.setWorkingDirectory(workingDirectory);
-    sh.start(QDir::currentPath()+"/git/bin/sh.exe", QStringList()<<"--login"<<"-i");
+//    sh.start(QDir::currentPath()+"/git/bin/sh.exe", QStringList()<<"--login"<<"-i");
+    sh.start("\"C:\\Program Files\\Git\\bin\\sh.exe\"", QStringList()<<"--login"<<"-i");
 #elif __unix__
     sh.start("sh");
 #endif

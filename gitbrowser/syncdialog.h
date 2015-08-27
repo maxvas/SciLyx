@@ -4,6 +4,7 @@
 #include <QDialog>
 #include <QLabel>
 #include <QProgressBar>
+#include <QtDeclarative/QDeclarativeView>
 
 class SyncDialog : public QLabel
 {
@@ -18,6 +19,7 @@ private:
     QMovie *syncImage;
     QLabel *iconLabel;
     QProgressBar *progress;
+    QDeclarativeView *ww;
 
 public slots:
     void start(QString titleLabel, bool withProgressBar = false);

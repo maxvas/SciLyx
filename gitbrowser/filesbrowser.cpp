@@ -18,6 +18,7 @@
 #include "syncdialog.h"
 #include "texteditor.h"
 #include "newdocument.h"
+#include <QQuickView>
 
 GitBrowser::GitBrowser(QString localRepoFolder, QWidget *parent) :
     QWidget(parent), newDocumentDialog(0)

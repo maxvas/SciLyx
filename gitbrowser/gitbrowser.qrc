@@ -8,5 +8,6 @@
         <file>images/new-document.png</file>
         <file>images/settings.png</file>
         <file>images/go.png</file>
+        <file>WaitingWindow.qml</file>
     </qresource>
 </RCC>

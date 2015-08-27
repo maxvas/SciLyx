@@ -3,6 +3,7 @@
 
 #include <QObject>
 #include <QString>
+#include <QProcess>
 #include <QQueue>
 #include "../reposettings.h"
 
@@ -17,12 +18,14 @@ public:
     ~GitManager();
 
 private:
+//    QProcess git;
     Shell *console;
     bool inProcess;//Работает ли сейчас git
     QString workingDirectory;
     QString remote;//Адрес удаленного репозитория
     QString command;//команда, выполняемая git
-    void start(QStringList args);//Запуск git
+    QByteArray gitOutput;//Вывод git
+    void start(QStringList args, bool quotes=true);//Запуск git
     QString temp_show_fileName;
     QString temp_show_commit;
     QString temp_checkRemoteAddr_remote;
@@ -68,6 +71,9 @@ private slots:
     void onRemoteShowOriginSuccess(QString output);
     void onRemoteShowOriginFailure(QString error, QString details);
     void gitError(QString error);
+//    void onGitStarted();
+//    void onGitReadyRead();
+//    void onGit
 
 };
 

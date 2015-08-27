@@ -25,8 +25,8 @@ void GitManager::setRepoParams(RepoParams *params)
     //Устанавливаем переменные окружения
 //    QStringList env;
 #ifdef _WIN32
-//    console->write("DISPLAY=10\n");
-//    console->write("$");
+    console->write("DISPLAY=10\n");
+    console->write("$");
 #endif
     console->write("GIT_AUTHOR_NAME="+params->author+"\n");
     console->write("$");
@@ -36,6 +36,14 @@ void GitManager::setRepoParams(RepoParams *params)
     console->write("$");
     console->write("GIT_COMMITTER_EMAIL="+params->email+"\n");
     console->write("$");
+    console->write("GIT_SSH_COMMAND=\"ssh -o BatchMode=yes -o ConnectTimeout=5 -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no\"\n");
+    console->write("$");
+//    console->write("echo 'ssh -o BatchMode=yes -o ConnectTimeout=5 -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no $*' > ssh\n");
+//    console->write("$");
+//    console->write("chmod +x ssh\n");
+//    console->write("$");
+//    console->write("GIT_TRACE=1 GIT_SSH='./ssh'\n");
+//    console->write("$");
 }
 
 GitManager::~GitManager()
@@ -44,7 +52,7 @@ GitManager::~GitManager()
 }
 
 //Запуск git
-void GitManager::start(QStringList args)
+void GitManager::start(QStringList args, bool quotes)
 {
     if (inProcess)
         return;
@@ -66,10 +74,14 @@ void GitManager::start(QStringList args)
     cout<<endl;
     QString command = gitCommand;
     foreach (QString arg, args) {
-        command += QString(" ") +"\""+arg+"\"";
+        if (quotes)
+            command += QString(" ") +"\""+arg+"\"";
+        else
+            command += QString(" ") +arg;
     }
     cout<<command.toStdString()<<endl;
-    console->write(command);
+    console->write(command+"\n");
+    console->write("$");
     this->command = args[0];
     inProcess = true;
 }
@@ -80,13 +92,13 @@ void GitManager::onFinished(int code, QByteArray output)
 //    cout<<QString::fromUtf8(output).toStdString()<<"\n";
 //    cout.flush();
     inProcess = false;
-    console->write("$");
+//    console->write("$");
     if (output.startsWith("git \"commit\""))
     {
         emit commitSuccess();
         return;
     }
-    if (output.startsWith("git \"push\""))
+    if (output.startsWith("git push"))
     {
         if (code==0)
             emit pushSuccess();
@@ -94,7 +106,7 @@ void GitManager::onFinished(int code, QByteArray output)
             emit pushFailure("Ошибка при отправке изменений на сервер", QString::fromUtf8(output));
         return;
     }
-    if (output.startsWith("git \"pull\""))
+    if (output.startsWith("git pull"))
     {
         if (code==0)
             emit pullSuccess();
@@ -189,12 +201,12 @@ void GitManager::gitError(QString error)
 
 void GitManager::pull()
 {
-    start(QStringList()<<"pull");
+    start(QStringList()<<"pull"<<"origin", false);
 }
 
 void GitManager::push()
 {
-    start(QStringList()<<"push"<<"origin"<<"master");
+    start(QStringList()<<"push"<<"origin"<<"master", false);
 }
 
 void GitManager::commit()

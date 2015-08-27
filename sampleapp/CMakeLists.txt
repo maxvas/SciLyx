@@ -3,19 +3,21 @@ set(PROJECT SciLyxGui)
 
 project(${PROJECT})
 
-find_package( Qt5 REQUIRED COMPONENTS Core Gui Widgets Network)
+find_package( Qt5 REQUIRED COMPONENTS Core Quick Declarative Gui Widgets Network)
 
 set(HEADERS
 )
 
 set(SOURCES
     main.cpp
+    WaitingWindow.qml
 )
 
 set(UI
 )
 
 set(RESOURCES
+    res.qrc
 )
 #LINK_DIRECTORIES(${CMAKE_CURRENT_SOURCE_DIR}/..)
 #LINK_DIRECTORIES(${CMAKE_CURRENT_SOURCE_DIR}/../gitbrowser)
@@ -27,6 +29,7 @@ INCLUDE_DIRECTORIES(${CMAKE_CURRENT_BINARY_DIR})
 INCLUDE_DIRECTORIES(${CMAKE_CURRENT_SOURCE_DIR}/../qfs)
 SET (MOC_SOURCES )
 SET (UIS )
+SET (RESSRC )
 qt5_wrap_cpp (MOC_SOURCES ${HEADERS})
 qt5_wrap_ui (UIS ${UI})
 qt5_add_resources (RESSRC ${RESOURCES})
@@ -44,6 +47,7 @@ if (${UNIX})
 endif (${UNIX})
 
 add_executable(${PROJECT} ${HEADERS} ${SOURCES} ${MOC_SOURCES} ${UIS} ${RESSRC})
+qt5_use_modules(${PROJECT} Widgets Quick Declarative Core Network Sql)
+target_link_libraries(${PROJECT} SciLyx)
 
-target_link_libraries(${PROJECT} Qt5::Widgets Qt5::Network SciLyx)
 install(TARGETS ${PROJECT} DESTINATION ${CMAKE_BINARY_DIR}/bin)
