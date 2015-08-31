@@ -458,7 +458,7 @@ enum FuncCode
 	// 355
 	LFUN_SPELLING_CONTINUOUSLY,     // vfr, 20130324
 	LFUN_SEPARATOR_INSERT,          // ef 20140502
-    LFUN_TABULAR_DATA,            // Max 20141109
+    LFUN_TABULAR_DATA,              // Max 20141109
 	LFUN_LASTACTION                 // end of the table
 };
 
