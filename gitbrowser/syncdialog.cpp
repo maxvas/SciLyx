@@ -4,6 +4,9 @@
 #include <QMovie>
 #include <QHBoxLayout>
 #include <QVBoxLayout>
+#include <QQmlEngine>
+#include <QQmlComponent>
+#include <QQuickView>
 
 SyncDialog::SyncDialog(QWidget *parent) :
     QLabel(parent)
@@ -33,19 +36,41 @@ SyncDialog::SyncDialog(QWidget *parent) :
     tpLayout->addWidget(progress);
     tpLayout->addSpacerItem(new QSpacerItem(10, 10, QSizePolicy::Minimum, QSizePolicy::Expanding));
 
+    QWidget *centralWidget = new QWidget;
     QHBoxLayout *hLayout = new QHBoxLayout;
     hLayout->addSpacerItem(new QSpacerItem(10, 10, QSizePolicy::Expanding, QSizePolicy::Minimum));
     hLayout->addWidget(iconLabel);
     hLayout->addLayout(tpLayout);
     hLayout->addSpacerItem(new QSpacerItem(10, 10, QSizePolicy::Expanding, QSizePolicy::Minimum));
+    centralWidget->setLayout(hLayout);
+    centralWidget->setStyleSheet("background-color: white;");
+    centralWidget->setMinimumWidth(210);
+    centralWidget->setMaximumWidth(210);
+
+    QHBoxLayout *hCentralLayout = new QHBoxLayout;
+    hCentralLayout->addSpacerItem(new QSpacerItem(10, 10, QSizePolicy::Minimum, QSizePolicy::Expanding));
+    hCentralLayout->addWidget(centralWidget);
+    hCentralLayout->addSpacerItem(new QSpacerItem(10, 10, QSizePolicy::Minimum, QSizePolicy::Expanding));
 
     mainLayout->addSpacerItem(new QSpacerItem(10, 10, QSizePolicy::Minimum, QSizePolicy::Expanding));
-    mainLayout->addLayout(hLayout);
+    mainLayout->addLayout(hCentralLayout);
     mainLayout->addSpacerItem(new QSpacerItem(10, 10, QSizePolicy::Minimum, QSizePolicy::Expanding));
-    syncImage->start();
+    iconLabel->setMovie(syncImage);
     this->setLayout(mainLayout);
 //    this->hide();
     progress->setVisible(false);
+//    QQuickView *view = new QQuickView();
+//        QWidget *container = QWidget::createWindowContainer(view, this);
+//        container->setMinimumSize(200, 200);
+//        container->setMaximumSize(200, 200);
+//        container->setFocusPolicy(Qt::TabFocus);
+//        view->setSource(QUrl("qrc:/WaitingWindow.qml"));
+//    ww = new QDeclarativeView(this);
+//    ww->setSource(QUrl("qrc:/WaitingWindow.qml"));
+//    ww->setGeometry(0, 0, 100, 100);
+//    QVBoxLayout *layout = new QVBoxLayout;
+//    layout->addWidget(ww);
+//    this->setLayout(layout);
 }
 
 SyncDialog::~SyncDialog()
@@ -55,7 +80,7 @@ SyncDialog::~SyncDialog()
 void SyncDialog::start(QString title, bool withProgressBar)
 {
     titleLabel->setText(title);
-    iconLabel->setMovie(syncImage);
+    syncImage->start();
     if (withProgressBar)
     {
         iconLabel->setVisible(false);
@@ -80,7 +105,10 @@ void SyncDialog::setProgress(int value)
 
 void SyncDialog::showError(QString errorString)
 {
-
+    titleLabel->setText(errorString);
+    syncImage->start();
+    syncImage->setFileName(":/images/error.png");
+    this->show();
 }
 
 void SyncDialog::clear()

@@ -151,6 +151,8 @@ Dimension const InsetText::dimension(BufferView const & bv) const
 void InsetText::write(ostream & os) const
 {
 	os << "Text\n";
+    if (text_.readonly)
+        os << "\\readonly\n";
 	text_.write(os);
 }
 
@@ -181,6 +183,17 @@ void InsetText::read(Lexer & lex)
 	// existing text.  As a side effect this makes us also robust against
 	// bugs in LyX that might lead to font changes in ERT in .lyx files.
 	fixParagraphsFont();
+    ParagraphList::const_iterator pit = paragraphs().begin();
+    for (; pit != paragraphs().end(); ++pit) {
+        if (pit->isReadOnly())
+        {
+            InsetList::const_iterator iit = pit->insetList().begin();
+            for (; iit!=pit->insetList().end(); ++iit)
+            {
+                iit->inset->readonly = true;
+            }
+        }
+    }
 }
 
 
@@ -207,7 +220,16 @@ void InsetText::metrics(MetricsInfo & mi, Dimension & dim) const
 	mi.base.textwidth += 2 * TEXT_TO_INSET_OFFSET;
 	dim.asc += TEXT_TO_INSET_OFFSET;
 	dim.des += TEXT_TO_INSET_OFFSET;
-	dim.wid += 2 * TEXT_TO_INSET_OFFSET;
+    dim.wid += 2 * TEXT_TO_INSET_OFFSET;
+}
+
+ColorCode InsetText::backgroundColor(const PainterInfo &) const
+{
+    if (text_.readonly)
+        return Color_yellow;
+    if (readonly)
+        return Color_yellow;
+    return Color_background;
 }
 
 
@@ -228,7 +250,7 @@ void InsetText::draw(PainterInfo & pi, int x, int y) const
 			pi.pain.rectangle(xframe, yframe, w, h, frameColor());
 	}
 	ColorCode const old_color = pi.background_color;
-	pi.background_color = pi.backgroundColor(this, false);
+    pi.background_color = pi.backgroundColor(this, false);
 
 	tm.draw(pi, x + TEXT_TO_INSET_OFFSET, y);
 

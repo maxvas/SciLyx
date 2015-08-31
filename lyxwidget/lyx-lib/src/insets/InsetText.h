@@ -57,6 +57,8 @@ public:
 	void write(std::ostream & os) const;
 	///
 	void metrics(MetricsInfo & mi, Dimension & dim) const;
+    ///
+    virtual ColorCode backgroundColor(PainterInfo const &) const;
 	///
 	void draw(PainterInfo & pi, int x, int y) const;
 	///

@@ -280,6 +280,7 @@ Menuset
 		Item "Таблица из источника...|и" "tabular-data-insert"
 		Item "Рисунок...|Р" "dialog-show-new-inset graphics"
 		Item "График...|ф" "dialog-show-new-inset chart"
+		Item "Данные...|Д" "dialog-show select-data"
 		Item "URL|U" "flex-insert URL"
 		Item "Hyperlink...|k" "href-insert"
 		Item "Footnote|F" "footnote-insert"

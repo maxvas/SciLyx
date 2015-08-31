@@ -1899,10 +1899,15 @@ void TextMetrics::drawParagraph(PainterInfo & pi, pit_type pit, int x, int y) co
 
 		// Clear background of this row if paragraph background was not
 		// already cleared because of a full repaint.
-		if (!pi.full_repaint && row_has_changed) {
+//        if (!pi.full_repaint && row_has_changed) {
+            if (text_->getPar(pit).isReadOnly())
+            {
+                pi.pain.fillRectangle(x, y - row.ascent(),
+                    width(), row.height(), Color_yellow);
+            } else
 			pi.pain.fillRectangle(x, y - row.ascent(),
 				width(), row.height(), pi.background_color);
-		}
+//        }
 
 		// Instrumentation for testing row cache (see also
 		// 12 lines lower):

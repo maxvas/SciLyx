@@ -339,6 +339,7 @@ public:
 	/// Get the font of the "environment" of paragraph \p par_offset in \p pars.
 	/// All font changes of the paragraph are relative to this font.
 	Font const outerFont(pit_type par_offset) const;
+    bool readonly;
 
 private:
 	/// The InsetText owner shall have access to everything.

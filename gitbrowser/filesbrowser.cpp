@@ -17,6 +17,8 @@
 #include "versionbrowserdialog.h"
 #include "syncdialog.h"
 #include "texteditor.h"
+#include "newdocument.h"
+#include <QQuickView>
 
 GitBrowser::GitBrowser(QString localRepoFolder, QWidget *parent) :
     QWidget(parent), newDocumentDialog(0)
@@ -361,13 +363,19 @@ void GitBrowser::repairFailure(QString error, QString details)
 void GitBrowser::update()
 {
     syncWidget->start("Синхронизация...");
+    connect(git, SIGNAL(checkConnectionSuccess()), git, SLOT(pull()));
+    connect(git, SIGNAL(checkConnectionFailure(QString,QString)), this, SLOT(updateFailure(QString,QString)));
     connect(git, SIGNAL(pullSuccess()), this, SLOT(updateSuccess()));
-    git->pull();
+    connect(git, SIGNAL(pullFailure(QString,QString)), this, SLOT(updateFailure(QString,QString)));
+    git->checkConnection();
 }
 //Обработчик успешного update
 void GitBrowser::updateSuccess()
 {
+    disconnect(git, SIGNAL(checkConnectionSuccess()), git, SLOT(pull()));
+    disconnect(git, SIGNAL(checkConnectionFailure(QString,QString)), this, SLOT(updateFailure(QString,QString)));
     disconnect(git, SIGNAL(pullSuccess()), this, SLOT(updateSuccess()));
+    disconnect(git, SIGNAL(pullFailure(QString,QString)), this, SLOT(updateFailure(QString,QString)));
     syncWidget->stop();
 }
 //Обработчик ошибки при update

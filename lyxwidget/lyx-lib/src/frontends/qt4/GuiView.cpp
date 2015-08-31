@@ -4050,7 +4050,7 @@ char const * const dialognames[] = {
 "listings", "label", "line", "log", "mathdelimiter", "mathmatrix", "mathspace",
 "nomenclature", "nomencl_print", "note", "paragraph", "phantom", "prefs", "print",
 "ref", "sendto", "space", "spellchecker", "symbols", "tabular", "tabularcreate", "tabulardatacreate",
-"thesaurus", "texinfo", "toc", "view-source", "vspace", "wrap", "progress"};
+"thesaurus", "texinfo", "toc", "view-source", "vspace", "wrap", "progress", "select-data"};
 
 char const * const * const end_dialognames =
 	dialognames + (sizeof(dialognames) / sizeof(char *));
@@ -4242,6 +4242,7 @@ Dialog * createGuiGraphics(GuiView & lv);
 //MAXVAS
 Dialog * createGuiChart(GuiView & lv);
 Dialog * createGuiTableData(GuiView & lv);
+Dialog * createGuiSelectData(GuiView & lv);
 Dialog * createGuiInclude(GuiView & lv);
 Dialog * createGuiIndex(GuiView & lv);
 Dialog * createGuiListings(GuiView & lv);
@@ -4362,6 +4363,9 @@ Dialog * GuiView::build(string const & name)
     if (name == "tabledata"){
         return createGuiTableData(*this);
     }
+	if (name == "select-data")
+    return createGuiSelectData(*this);
+
 	return 0;
 }
 

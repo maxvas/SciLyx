@@ -9,6 +9,12 @@
 #include <QCloseEvent>
 #include <QPluginLoader>
 #include <QCoreApplication>
+#include <QApplication>
+#include <QQuickView>
+#include <QDeclarativeView>
+#include <QUrl>
+#include <QQmlComponent>
+#include <QQmlEngine>
 
 SciLyx::SciLyx(QString localRepoFolder)
     : QWidget(0)/*, mEditor(0)*/
