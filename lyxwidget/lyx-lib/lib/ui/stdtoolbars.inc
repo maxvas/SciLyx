@@ -71,6 +71,7 @@ ToolbarSet
 		Item "New document" "buffer-new"
 		Item "Open document" "file-open"
 		Item "Save document" "buffer-write"
+		Item "Вставить данные" "dialog-show select-data"
 		Item "Print document" "dialog-show print"
 		Separator
 		Item "Check spelling" "dialog-show spellchecker"

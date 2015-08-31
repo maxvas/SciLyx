@@ -502,6 +502,8 @@ public:
 	virtual Buffer const * updateFrontend() const;
 
 public:
+
+    bool readonly;
 	/// returns LyX code associated with the inset. Used for TOC, ...)
 	virtual InsetCode lyxCode() const { return NO_CODE; }
 
@@ -559,8 +561,8 @@ public:
 
 protected:
 	/// Constructors
-	Inset(Buffer * buf) : buffer_(buf) {}
-	Inset(Inset const &) : buffer_(0) {}
+    Inset(Buffer * buf) : buffer_(buf), readonly(false) {}
+    Inset(Inset const &other) : buffer_(0), readonly(other.readonly) {}
 
 	/// replicate ourselves
 	friend class InsetList;

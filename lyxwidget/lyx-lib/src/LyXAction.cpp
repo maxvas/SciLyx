@@ -3716,6 +3716,8 @@ void LyXAction::init()
  * \endvar
  */
 		{ LFUN_ENVIRONMENT_SPLIT, "environment-split", Noop, Layout },
+		
+		{ LFUN_INSERT_DOCUMENT_FRAGMENT, "insert-document-fragment", Noop, Edit },
 
 		{ LFUN_NOACTION, "", Noop, Hidden }
 #ifndef DOXYGEN_SHOULD_SKIP_THIS

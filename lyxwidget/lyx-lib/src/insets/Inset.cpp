@@ -610,6 +610,8 @@ void Inset::dump() const
 
 ColorCode Inset::backgroundColor(PainterInfo const & /*pi*/) const
 {
+    if (readonly)
+        return Color_yellow;
 	return Color_none;
 }
 

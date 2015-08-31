@@ -3,7 +3,7 @@ set(PROJECT SciLyxGui)
 
 project(${PROJECT})
 
-find_package( Qt5 REQUIRED COMPONENTS Core Quick Declarative Gui Widgets Network)
+find_package( Qt5 REQUIRED COMPONENTS Core Quick Declarative Gui Sql Widgets Network)
 
 set(HEADERS
 )
@@ -47,7 +47,7 @@ if (${UNIX})
 endif (${UNIX})
 
 add_executable(${PROJECT} ${HEADERS} ${SOURCES} ${MOC_SOURCES} ${UIS} ${RESSRC})
-qt5_use_modules(${PROJECT} Widgets Quick Declarative Core Network Sql)
+qt5_use_modules(${PROJECT} Widgets Quick Declarative Core Network Sql Gui)
 target_link_libraries(${PROJECT} SciLyx)
 
 install(TARGETS ${PROJECT} DESTINATION ${CMAKE_BINARY_DIR}/bin)

@@ -197,7 +197,7 @@ void mergeParagraph(BufferParams const & bparams,
 
 
 Text::Text(InsetText * owner, bool use_default_layout)
-	: owner_(owner), autoBreakRows_(false), undo_counter_(0)
+    : owner_(owner), autoBreakRows_(false), undo_counter_(0), readonly(false)
 {
 	pars_.push_back(Paragraph());
 	Paragraph & par = pars_.back();
@@ -211,7 +211,7 @@ Text::Text(InsetText * owner, bool use_default_layout)
 
 
 Text::Text(InsetText * owner, Text const & text)
-	: owner_(owner), autoBreakRows_(text.autoBreakRows_), undo_counter_(0)
+    : owner_(owner), autoBreakRows_(text.autoBreakRows_), undo_counter_(0), readonly(text.readonly)
 {
 	pars_ = text.pars_;
 	ParagraphList::iterator const end = pars_.end();
@@ -1811,7 +1811,10 @@ bool Text::read(Lexer & lex,
 			res = false;
 			break;
 		}
-
+        if (token == "\\readonly") {
+            readonly = true;
+            continue;
+        }
 		if (token == "\\begin_layout") {
 			lex.pushToken(token);
 

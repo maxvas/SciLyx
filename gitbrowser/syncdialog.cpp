@@ -4,6 +4,9 @@
 #include <QMovie>
 #include <QHBoxLayout>
 #include <QVBoxLayout>
+#include <QQmlEngine>
+#include <QQmlComponent>
+#include <QQuickView>
 
 SyncDialog::SyncDialog(QWidget *parent) :
     QLabel(parent)
@@ -56,9 +59,14 @@ SyncDialog::SyncDialog(QWidget *parent) :
     this->setLayout(mainLayout);
 //    this->hide();
     progress->setVisible(false);
-//    ww = new QDeclarativeView;
+//    QQuickView *view = new QQuickView();
+//        QWidget *container = QWidget::createWindowContainer(view, this);
+//        container->setMinimumSize(200, 200);
+//        container->setMaximumSize(200, 200);
+//        container->setFocusPolicy(Qt::TabFocus);
+//        view->setSource(QUrl("qrc:/WaitingWindow.qml"));
+//    ww = new QDeclarativeView(this);
 //    ww->setSource(QUrl("qrc:/WaitingWindow.qml"));
-//    ww->setStyleSheet("background:transparent;");
 //    ww->setGeometry(0, 0, 100, 100);
 //    QVBoxLayout *layout = new QVBoxLayout;
 //    layout->addWidget(ww);
