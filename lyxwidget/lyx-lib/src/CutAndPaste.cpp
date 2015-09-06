@@ -1091,6 +1091,19 @@ bool pasteFromStack(Cursor & cur, ErrorList & errorList, size_t sel_index)
 }
 
 
+bool pasteDocumentFragment(Cursor & cur, std::string lyx, ErrorList & errorList)
+{
+    Buffer buffer("", false);
+    buffer.setUnnamed(true);
+    if (buffer.readString(lyx)) {
+        cur.recordUndo();
+        pasteParagraphList(cur, buffer.paragraphs(),
+            buffer.params().documentClassPtr(), errorList);
+        return true;
+    }
+    return false;
+}
+
 bool pasteClipboardText(Cursor & cur, ErrorList & errorList, bool asParagraphs,
                         Clipboard::TextType type)
 {

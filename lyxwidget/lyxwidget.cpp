@@ -2,6 +2,7 @@
 #include "ui_lyxwidget.h"
 
 #include <QDebug>
+#include <QString>
 #include <QVBoxLayout>
 #include <LyX.h>
 #include <frontends/qt4/GuiView.h>
@@ -11,6 +12,7 @@
 #include <QCloseEvent>
 #include <QTimer>
 #include <QThread>
+#include "../docgenwindow.h"
 
 using namespace std;
 
@@ -30,6 +32,12 @@ void LyxThread::run()
 int LyxWidget::getPrefferedWidth() const
 {
     return 900;
+}
+
+void LyxWidget::insertDocumentFragment(QByteArray lyxCode)
+{
+    lyx::LyX *lyx = lyxInstance;
+    lyx->executeCommand("insert-document-fragment "+QString::fromUtf8(lyxCode).toStdString());
 }
 
 void LyxWidget::openDocumentInNewWindow(QString fileName)
@@ -113,6 +121,18 @@ void LyxWidget::callConfigureFinishedSignal()
 {
     LyxWidget *lyxWidget = (LyxWidget*)widgetInstance;
     lyxWidget->configureFinished();
+}
+
+void LyxWidget::callShowDocGenWindowSignal(char *name)
+{
+    LyxWidget *lyxWidget = (LyxWidget*)widgetInstance;
+    lyxWidget->showDocGen(name);
+}
+
+void LyxWidget::addDocGenWindow(DocGenWindow *win)
+{
+    lyx::LyX *lyx = lyxInstance;
+    lyx->docGenWindows[win->name()] = win;
 }
 
 void LyxWidget::exec()

@@ -15,8 +15,12 @@
 #define LYX_H
 
 #include "support/strfwd.h"
+#include <QString>
+#include <QHash>
 
 #include <vector>
+
+class DocGenWindow;
 
 namespace lyx {
 
@@ -87,6 +91,7 @@ typedef void (*MainWindowCreatedHandler)(lyx::frontend::GuiView* mainWindow);
 typedef void (*DocumentSavedHandler)();
 typedef void (*ConfigureStartedHandler)();
 typedef void (*ConfigureFinishedHandler)();
+typedef void (*ShowDocGenWindowHandler)(char *name);
 
 /// initial startup
 class LyX {
@@ -100,11 +105,13 @@ public:
     void setDocumentSavedHandlerHandler(DocumentSavedHandler dsHandler);
     void setConfigureStartedHandler(ConfigureStartedHandler handler);
     void setConfigureFinishedHandler(ConfigureFinishedHandler handler);
+    void setShowDocGenWindowHandler(ShowDocGenWindowHandler handler);
     void startGUI();
     void updateMainBuffer();
     void openInNewWindow(std::string fileName);
     void openOldFileInNewWindow(std::string fileName, std::string commit, char *data);
     bool tryCloseAll();
+    void executeCommand(std::string commandstr);
 
 	/// Execute LyX.
 	int exec(int & argc, char * argv[]);
@@ -115,6 +122,8 @@ public:
     DocumentSavedHandler documentSavedHandler;
     ConfigureStartedHandler configureStartedHandler;
     ConfigureFinishedHandler configureFinishedHandler;
+    ShowDocGenWindowHandler showDocGenWindowHandler;
+    QHash<QString, DocGenWindow* > docGenWindows;
 private:
 	/// noncopyable
 	LyX(LyX const &);

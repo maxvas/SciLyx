@@ -3,6 +3,7 @@
 
 #include "DialogView.h"
 #include "ui_SelectDataUi.h"
+#include <QSignalMapper>
 
 class QString;
 
@@ -16,6 +17,7 @@ class GuiSelectData : public DialogView, public Ui::SelectDataUi
 
 public:
 	GuiSelectData(GuiView & lv);
+    ~GuiSelectData();
 
 private:
     /// Controller stuff
@@ -24,6 +26,11 @@ private:
     void dispatchParams() {}
     bool isBufferDependent() const { return false; }
     ///@}
+
+    QSignalMapper *signalMapper;
+
+private Q_SLOTS:
+    void onButtonPressed(QString name);
 };
 
 } // namespace frontend

@@ -10,7 +10,7 @@ int main(int argc, char *argv[])
     QApplication a(argc, argv);
     QString localRepo = QDir::homePath()+"/lims/documents";
     SciLyx sciLyx(localRepo);
-    sciLyx.loadPlugins();
+    sciLyx.loadPlugins("scilyx_plugins");
     sciLyx.loadConfigOrAskUser();
     sciLyx.addToolBarAction("settings");
     sciLyx.addToolBarAction("new-document");

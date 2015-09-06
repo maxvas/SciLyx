@@ -5,6 +5,7 @@
 #include "gitbrowser/filesbrowser.h"
 #include "lyxwidget/lyxwidget.h"
 #include "scilyxplugin.h"
+#include "docgenwindow.h"
 #include <QTimer>
 #include <QCloseEvent>
 #include <QPluginLoader>
@@ -37,6 +38,7 @@ SciLyx::SciLyx(QString localRepoFolder)
     connect(mEditor, SIGNAL(documentSaved()), mGitBrowser, SLOT(commitChanges()));
     connect(mEditor, SIGNAL(configureStarted()), mGitBrowser, SLOT(configureStarted()));
     connect(mEditor, SIGNAL(configureFinished()), mGitBrowser, SLOT(configureFinished()));
+    connect(mEditor, SIGNAL(showDocGen(QString)), this, SLOT(showDocGenWindow(QString)));
     QVBoxLayout *layout = new QVBoxLayout(this);
     this->setLayout(layout);
     layout->addWidget(mGitBrowser);
@@ -96,6 +98,11 @@ bool SciLyx::openEditor(QString fileName)
     return mGitBrowser->openEditor(fileName);
 }
 
+void SciLyx::showDocGenWindow(QString name)
+{
+
+}
+
 void SciLyx::
 closeEvent(QCloseEvent *event)
 {
@@ -113,10 +120,6 @@ void SciLyx::loadPlugins(QString pluginsPath)
 {
     QDir pluginsDir(pluginsPath);
     foreach (QString fileName, pluginsDir.entryList(QDir::Files)) {
-        if (!fileName.startsWith("sl_"))
-        {
-            continue;
-        }
         QPluginLoader pluginLoader(pluginsDir.absoluteFilePath(fileName), this);
         QObject *plugin = pluginLoader.instance();
         if (plugin) {
@@ -145,6 +148,17 @@ void SciLyx::unloadPlugins()
         mPlugins.remove(plugin->name());
         delete plugin;
     }
+}
+
+void SciLyx::addDocGenWindow(DocGenWindow *win)
+{
+    mEditor->addDocGenWindow(win);
+    win->mSciLyx = this;
+}
+
+void SciLyx::insertDocumentFragment(QByteArray lyx)
+{
+    mEditor->insertDocumentFragment(lyx);
 }
 
 QString SciLyx::sciLyxPath()
