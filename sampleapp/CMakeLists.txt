@@ -5,6 +5,8 @@ project(${PROJECT})
 
 find_package( Qt5 REQUIRED COMPONENTS Core Quick Declarative Gui Sql Widgets Network)
 
+add_subdirectory(sampleplugin)
+
 set(HEADERS
 )
 

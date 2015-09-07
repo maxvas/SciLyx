@@ -7,6 +7,7 @@ class GitBrowser;
 class LyxWidget;
 class QVBoxLayout;
 class SciLyxPlugin;
+class DocGenWindow;
 
 class SciLyx : public QWidget
 {
@@ -24,9 +25,12 @@ public:
     void addToolBarSeparator();
     void loadPlugins(QString pluginsPath = "");
     void unloadPlugins();
+    void addDocGenWindow(DocGenWindow* win);
+    void insertDocumentFragment(QByteArray lyx);
 
-public slots:
+public Q_SLOTS:
     bool openEditor(QString fileName);
+    void showDocGenWindow(QString name);
 
 private:
     GitBrowser *mGitBrowser;

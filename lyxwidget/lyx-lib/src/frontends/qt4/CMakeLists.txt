@@ -3,7 +3,7 @@
 #
 # Copyright (c) 2006-2011 Peter K�mmel, <syntheticpp@gmx.net>
 #
-
+cmake_minimum_required(VERSION 2.6.4)
 project(frontend_qt)
 
 file(GLOB frontends_qt_sources ${TOP_SRC_DIR}/src/frontends/qt4/${LYX_CPP_FILES})
@@ -18,7 +18,7 @@ file(GLOB frontend_qt_UI ${TOP_SRC_DIR}/src/frontends/qt4/ui/*.ui)
 
 lyx_add_msvc_pch(frontends_qt4)
 
-lyx_automoc(${frontends_qt_sources})
+#lyx_automoc(${frontends_qt_sources})
 
 lyx_add_ui_files(frontends_qt_sources ui_files ${frontend_qt_UI})
 
@@ -41,10 +41,13 @@ add_definitions(-DQT_GENUINE_STR -DLYX_BUILD_QT_FRONTEND)
 include_directories(
 	${TOP_SRC_DIR}/src/frontends/qt4
 	${QT_INCLUDES}
+        ${TOP_SRC_DIR}/../..
         ${CMAKE_CURRENT_BINARY_DIR}
         ${TOP_SRC_DIR}/src/datasources)
 
 include_directories(${TOP_SRC_DIR}/src/common)
+set(CMAKE_INCLUDE_CURRENT_DIR ON)
+set(CMAKE_AUTOMOC ON)
 
 if(LYX_MERGE_FILES)
 	lyx_const_touched_files(_allinone frontends_qt_sources)
@@ -54,7 +57,7 @@ if(LYX_MERGE_FILES)
 	add_library(frontend_qt ${library_type}
 		${_allinone_files} ${frontends_qt_headers} ${ui_files} ${resource_files})
 else()
-	add_library(frontend_qt ${library_type} ${frontends_qt_sources} ${frontends_qt_headers} ${ui_files} ${resource_files})
+        add_library(frontend_qt ${library_type} ${frontends_qt_sources} ${frontends_qt_headers} ${ui_files} ${resource_files})
 endif()
 set_target_properties(frontend_qt PROPERTIES FOLDER "applications/LyX")
 #MAXVAS

@@ -84,6 +84,8 @@ void clearCutStack();
 /// Paste the current selection at \p cur
 /// Does handle undo. Does only work in text, not mathed.
 void pasteSelection(Cursor & cur, ErrorList &);
+/// Replace the current selection with the lyx fragment
+bool pasteDocumentFragment(Cursor & cur, std::string lyx, ErrorList & errorList);
 /// Replace the current selection with the clipboard contents as text
 /// (internal or external: which is newer).
 /// Does handle undo. Does only work in text, not mathed.

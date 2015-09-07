@@ -1,5 +1,5 @@
-#ifndef ABSTRACTDATASELECTOR_H
-#define ABSTRACTDATASELECTOR_H
+#ifndef SCILYXPLUGIN_H
+#define SCILYXPLUGIN_H
 
 #include <QString>
 #include <QtWidgets/QDialog>
@@ -27,4 +27,4 @@ private:
 QT_BEGIN_NAMESPACE
     Q_DECLARE_INTERFACE(SciLyxPlugin, "org.scilyx.SciLyxPlugin")
 QT_END_NAMESPACE
-#endif // ABSTRACTDATASELECTOR_H
+#endif // SCILYXPLUGIN_H

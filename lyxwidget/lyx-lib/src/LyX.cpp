@@ -247,6 +247,11 @@ void LyX::setConfigureFinishedHandler(ConfigureFinishedHandler handler)
     configureFinishedHandler = handler;
 }
 
+void LyX::setShowDocGenWindowHandler(ShowDocGenWindowHandler handler)
+{
+    showDocGenWindowHandler = handler;
+}
+
 void LyX::startGUI()
 {
     lyx::frontend::GuiApplication *gapp = (lyx::frontend::GuiApplication*)pimpl_->application_.get();
@@ -280,6 +285,12 @@ bool LyX::tryCloseAll()
 {
     lyx::frontend::GuiApplication *gapp = (lyx::frontend::GuiApplication*)pimpl_->application_.get();
     return gapp->closeAllViews();
+}
+
+void LyX::executeCommand(string commandstr)
+{
+    FuncRequest cmd = lyxaction.lookupFunc(commandstr);
+    dispatch(cmd);
 }
 
 
@@ -1556,7 +1567,7 @@ void setSpellChecker()
 	if (singleton_->pimpl_->spell_checker_) {
 		singleton_->pimpl_->spell_checker_->changeNumber(speller_change_number);
 		singleton_->pimpl_->spell_checker_->advanceChangeNumber();
-	}
+    }
 }
 
 } // namespace lyx

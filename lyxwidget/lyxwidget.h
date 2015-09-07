@@ -6,6 +6,8 @@
 #include <QMainWindow>
 #include <QThread>
 
+class DocGenWindow;
+
 namespace lyx{
     namespace frontend{
         class GuiView;
@@ -53,7 +55,10 @@ public:
     static void callDocumentSavedHandler();
     static void callConfigureStartedSignal();
     static void callConfigureFinishedSignal();
+    static void callShowDocGenWindowSignal(char *name);
+    void addDocGenWindow(DocGenWindow *win);
     int getPrefferedWidth() const;
+    void insertDocumentFragment(QByteArray lyxCode);
 
 private:
     Ui::Lyx * ui;
@@ -64,6 +69,7 @@ signals:
     void documentSaved();
     void configureStarted();
     void configureFinished();
+    void showDocGen(QString name);
 private slots:
     void exec();
     void startLyxGUI();

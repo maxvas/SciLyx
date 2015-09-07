@@ -93,6 +93,7 @@ namespace lyx {
 using cap::copySelection;
 using cap::cutSelection;
 using cap::pasteFromStack;
+using cap::pasteDocumentFragment;
 using cap::pasteClipboardText;
 using cap::pasteClipboardGraphics;
 using cap::replaceSelection;
@@ -1304,6 +1305,18 @@ void Text::dispatch(Cursor & cur, FuncRequest & cmd)
 		copySelection(cur);
 		cur.message(_("Copy"));
 		break;
+
+    case LFUN_INSERT_DOCUMENT_FRAGMENT: {
+        cur.message(_("Paste"));
+        LASSERT(cur.selBegin().idx() == cur.selEnd().idx(), break);
+        cap::replaceSelection(cur);
+        string lyx = to_utf8(cmd.argument());
+        pasteDocumentFragment(cur, lyx, bv->buffer().errorList("Paste"));
+        bv->buffer().errors("Paste");
+        cur.clearSelection();
+        cur.finishUndo();
+        break;
+    }
 
 	case LFUN_SERVER_GET_XY:
 		cur.message(from_utf8(
@@ -2905,6 +2918,11 @@ bool Text::getStatus(Cursor & cur, FuncRequest const & cmd,
 	case LFUN_SELECTION_PASTE:
 		enable = cap::selection();
 		break;
+
+    case LFUN_INSERT_DOCUMENT_FRAGMENT: {
+        enable = true;
+        break;
+    }
 
 	case LFUN_PARAGRAPH_MOVE_UP:
 		enable = cur.pit() > 0 && !cur.selection();
