@@ -9,13 +9,15 @@ Shell::Shell(QString workingDirectory):
 {
     connect(&sh, SIGNAL(finished(int)), this, SLOT(onFinished(int)));
     connect(&sh, SIGNAL(readyRead()), this, SLOT(onReadyRead()));
+    connect(&sh, SIGNAL(started()), this, SLOT(onStarted()));
+    connect(&sh, SIGNAL(error(QProcess::ProcessError)), this, SLOT(onError(QProcess::ProcessError)));
     sh.setProcessChannelMode(QProcess::MergedChannels);
-#ifdef __WIN32
     sh.setWorkingDirectory(workingDirectory);
+#ifdef __WIN32
 //    sh.start(QDir::currentPath()+"/git/bin/sh.exe", QStringList()<<"--login"<<"-i");
     sh.start("\"C:\\Program Files\\Git\\bin\\sh.exe\"", QStringList()<<"--login"<<"-i");
 #elif __unix__
-    sh.start("sh");
+    sh.start("/bin/dash");
 #endif
 }
 
@@ -132,7 +134,12 @@ void Shell::onFinished(int code)
     emit error("sh was terminated");
 }
 
-void Shell::onError()
+void Shell::onError(QProcess::ProcessError)
 {
     emit error(sh.errorString());
+}
+
+void Shell::onStarted()
+{
+    qDebug()<<"sh started";
 }

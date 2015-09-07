@@ -363,17 +363,13 @@ void GitBrowser::repairFailure(QString error, QString details)
 void GitBrowser::update()
 {
     syncWidget->start("Синхронизация...");
-    connect(git, SIGNAL(checkConnectionSuccess()), git, SLOT(pull()));
-    connect(git, SIGNAL(checkConnectionFailure(QString,QString)), this, SLOT(updateFailure(QString,QString)));
     connect(git, SIGNAL(pullSuccess()), this, SLOT(updateSuccess()));
     connect(git, SIGNAL(pullFailure(QString,QString)), this, SLOT(updateFailure(QString,QString)));
-    git->checkConnection();
+    git->pull();
 }
 //Обработчик успешного update
 void GitBrowser::updateSuccess()
 {
-    disconnect(git, SIGNAL(checkConnectionSuccess()), git, SLOT(pull()));
-    disconnect(git, SIGNAL(checkConnectionFailure(QString,QString)), this, SLOT(updateFailure(QString,QString)));
     disconnect(git, SIGNAL(pullSuccess()), this, SLOT(updateSuccess()));
     disconnect(git, SIGNAL(pullFailure(QString,QString)), this, SLOT(updateFailure(QString,QString)));
     syncWidget->stop();
@@ -383,6 +379,7 @@ void GitBrowser::updateFailure(QString error, QString details)
 {
     UNUSED(details);
     disconnect(git, SIGNAL(pullSuccess()), this, SLOT(updateSuccess()));
+    disconnect(git, SIGNAL(pullFailure(QString,QString)), this, SLOT(updateFailure(QString,QString)));
     syncWidget->showError(error);
 }
 

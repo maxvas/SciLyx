@@ -37,7 +37,8 @@ public slots:
 private slots:
     void onReadyRead();//Слот для чтения стандартного вывода команды sh
     void onFinished(int code);//Слот, вызываемый по завершении sh
-    void onError();//Слот, вызываемый в случае непредвиденных ошибок
+    void onError(QProcess::ProcessError);//Слот, вызываемый в случае непредвиденных ошибок
+    void onStarted();
 
 };
 
