@@ -8,7 +8,7 @@ add_subdirectory(sampleapp)
 add_subdirectory(qfs)
 add_dependencies(SciLyxGui lyxwidget gitbrowser)
 
-find_package( Qt5 REQUIRED COMPONENTS Core Gui Widgets)
+find_package( Qt5 REQUIRED COMPONENTS Core Gui Widgets Quick Declarative)
 
 SET(CMAKE_SHARED_LIBRARY_PREFIX "")
 
