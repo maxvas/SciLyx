@@ -290,7 +290,7 @@ void GitBrowser::init()
     QFile gitFile(repoFolder+"/.git");
     if (!gitFile.exists())
     {
-        syncWidget->start("Инициализация локального репозитория...", true);
+        syncWidget->showSynch("Инициализация локального репозитория...", true);
         syncWidget->setProgress(50);
         connect(&fileManager, SIGNAL(progressChanged(int)), this, SLOT(initRemoveProgressChanged(int)));
         connect(&fileManager, SIGNAL(removeSuccess()), this, SLOT(initRemoveSuccess()));
@@ -362,7 +362,7 @@ void GitBrowser::repairFailure(QString error, QString details)
 //Update = git pull
 void GitBrowser::update()
 {
-    syncWidget->start("Синхронизация...");
+    syncWidget->showSynch("Синхронизация...");
     connect(git, SIGNAL(pullSuccess()), this, SLOT(updateSuccess()));
     connect(git, SIGNAL(pullFailure(QString,QString)), this, SLOT(updateFailure(QString,QString)));
     git->pull();
@@ -396,7 +396,7 @@ void GitBrowser::commitChanges()
     connect(git, SIGNAL(pullFailure(QString,QString)), this, SLOT(commitChangesFailure(QString,QString)));
     connect(git, SIGNAL(pushSuccess()), this, SLOT(commitChangesSuccess()));
     connect(git, SIGNAL(pushFailure(QString,QString)), this, SLOT(commitChangesFailure(QString,QString)));
-    syncWidget->start("Синхронизация...");
+    syncWidget->showSynch("Синхронизация...");
     git->add();
 }
 
@@ -432,7 +432,7 @@ void GitBrowser::commitChangesDisconnectSignals()
 
 void GitBrowser::configureStarted()
 {
-    syncWidget->start("Конфигурирование SciLyx...");
+    syncWidget->showSynch("Конфигурирование SciLyx...");
 }
 
 void GitBrowser::configureFinished()

@@ -6,6 +6,8 @@
 #include <QProgressBar>
 #include <QtDeclarative/QDeclarativeView>
 
+class QQuickItem;
+
 class SyncDialog : public QLabel
 {
     Q_OBJECT
@@ -20,9 +22,10 @@ private:
     QLabel *iconLabel;
     QProgressBar *progress;
     QDeclarativeView *ww;
+    QQuickItem *rootElement;
 
 public slots:
-    void start(QString titleLabel, bool withProgressBar = false);
+    void showSynch(QString titleLabel, bool withProgressBar = false);
     void stop();
     void setProgress(int value);
     void showError(QString errorString);
