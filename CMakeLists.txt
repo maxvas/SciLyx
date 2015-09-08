@@ -8,7 +8,7 @@ add_subdirectory(sampleapp)
 add_subdirectory(qfs)
 add_dependencies(SciLyxGui lyxwidget gitbrowser)
 
-find_package( Qt5 REQUIRED COMPONENTS Core Gui Widgets Quick Declarative)
+find_package( Qt5 REQUIRED COMPONENTS Core Quick Declarative Gui Widgets Network Sql)
 
 SET(CMAKE_SHARED_LIBRARY_PREFIX "")
 
@@ -46,7 +46,9 @@ endif (${UNIX})
 
 add_library ( ${PROJECT} SHARED ${HEADERS} ${SOURCES} ${MOC_SOURCES})
 
-target_link_libraries(${PROJECT} Qt5::Widgets lyxwidget gitbrowser qfs)
+qt5_use_modules(${PROJECT} Widgets Quick Declarative Core Network Sql)
+
+target_link_libraries(${PROJECT} lyxwidget gitbrowser qfs)
 install(TARGETS ${PROJECT} DESTINATION ${CMAKE_BINARY_DIR}/bin)
 file(WRITE ${CMAKE_BINARY_DIR}/pathes.conf "scilyx=${CMAKE_BINARY_DIR}/bin" )
 install (FILES ${CMAKE_BINARY_DIR}/pathes.conf DESTINATION ${CMAKE_BINARY_DIR}/bin)
