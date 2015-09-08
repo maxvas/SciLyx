@@ -46,7 +46,7 @@ Rectangle {//Серый полупрозрачный фон
     Rectangle {//Окно вывода ошибки
         id: error
         property string errorString: "Ошибка"
-        visible: true
+        visible: false
         width: 300
         height: 210
         color: "#ffffff"
