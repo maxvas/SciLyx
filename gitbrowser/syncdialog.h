@@ -30,6 +30,9 @@ public slots:
     void setProgress(int value);
     void showError(QString errorString);
     void clear();
+
+signals:
+    void retry();
 };
 
 #endif // SYNCDIALOG_H

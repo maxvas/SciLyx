@@ -25,6 +25,11 @@ class GitBrowser;
 class GitBrowser : public QWidget
 {
     Q_OBJECT
+    enum CommandType {
+        Init,
+        Update,
+        Commit
+    };
 
 public:
     GitBrowser(QString localRepoFolder, QWidget *parent = 0);
@@ -73,6 +78,7 @@ private:
     QHash<QString, QAction* > actions;
     RepoParams *repoParams;
     NewDocument *newDocumentDialog;
+    CommandType lastCommand;
 
 private slots:
 
@@ -134,6 +140,7 @@ signals:
 
 public slots:
     void commitChanges();//Запуск процесса отправки изменений на сервер
+    void retry();
 };
 
 #endif // FORM4_H

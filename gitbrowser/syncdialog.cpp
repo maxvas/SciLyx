@@ -73,6 +73,7 @@ SyncDialog::SyncDialog(QWidget *parent) :
     layout->addWidget(qw);
     this->setLayout(layout);
     rootElement = qw->rootObject();
+    connect(rootElement, SIGNAL(retry()), this, SIGNAL(retry()));
 }
 
 SyncDialog::~SyncDialog()
@@ -81,7 +82,7 @@ SyncDialog::~SyncDialog()
 
 void SyncDialog::showSynch(QString title, bool withProgressBar)
 {
-    QMetaObject::invokeMethod(rootElement, "showSynch", Q_ARG(QVariant, title));
+    QMetaObject::invokeMethod(rootElement, "showSync");
     this->show();
 }
 

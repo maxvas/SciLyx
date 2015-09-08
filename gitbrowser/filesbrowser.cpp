@@ -79,6 +79,7 @@ GitBrowser::GitBrowser(QString localRepoFolder, QWidget *parent) :
     ui->navigationPanel->addWidget(pathLE);
     ui->navigationPanel->addActions(QList<QAction* >()<<actGo);
     go("/");
+    connect(syncWidget, SIGNAL(retry()), this, SLOT(retry()));
 }
 
 void GitBrowser::readRepoConfigOrAskUser()
@@ -276,6 +277,7 @@ void GitBrowser::onFileRenamed(const QString &path, const QString &oldName, cons
 
 void GitBrowser::init()
 {
+    lastCommand = GitBrowser::Init;
     init_remote = repoParams->login+"@"+repoParams->url;
     QDir dir(repoFolder);
     if (!dir.exists())
@@ -362,6 +364,7 @@ void GitBrowser::repairFailure(QString error, QString details)
 //Update = git pull
 void GitBrowser::update()
 {
+    lastCommand = GitBrowser::Update;
     syncWidget->showSynch("Синхронизация...");
     connect(git, SIGNAL(pullSuccess()), this, SLOT(updateSuccess()));
     connect(git, SIGNAL(pullFailure(QString,QString)), this, SLOT(updateFailure(QString,QString)));
@@ -385,6 +388,7 @@ void GitBrowser::updateFailure(QString error, QString details)
 
 void GitBrowser::commitChanges()
 {
+    lastCommand = GitBrowser::Commit;
     //Сигналы и слоты соединяются в граф асинхронного выполнения процесса commitChanges
     //После выхода из графа предусмотрено их разъединение (disconnect)
     //Выхода из графа всего два: commitChangesSuccess и commitChangesFailure
@@ -398,6 +402,22 @@ void GitBrowser::commitChanges()
     connect(git, SIGNAL(pushFailure(QString,QString)), this, SLOT(commitChangesFailure(QString,QString)));
     syncWidget->showSynch("Синхронизация...");
     git->add();
+}
+
+void GitBrowser::retry()
+{
+    switch (lastCommand) {
+    case GitBrowser::Init:
+        init();
+        break;
+    case GitBrowser::Update:
+        update();
+        break;
+    case GitBrowser::Commit:
+        commitChanges();
+    default:
+        break;
+    }
 }
 
 void GitBrowser::commitChangesSuccess()
