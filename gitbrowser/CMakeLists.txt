@@ -3,7 +3,7 @@ set(PROJECT gitbrowser)
 
 project(${PROJECT})
 
-find_package( Qt5 REQUIRED COMPONENTS Core Quick Declarative Gui Widgets Network Sql)
+find_package( Qt5 REQUIRED COMPONENTS Core Quick Declarative Gui Widgets Network Sql QuickWidgets)
 
 if(WIN32)
     SET(GIT_PATH "" CACHE PATH "Path to Git")
@@ -80,7 +80,7 @@ endif (${UNIX})
 add_library ( ${PROJECT} SHARED ${HEADERS} ${SOURCES} ${QMLS} ${MOC_SOURCES} ${UIS} ${RESSRC})
 #add_executable(${PROJECT} ${HEADERS} ${SOURCES} ${MOC_SOURCES} ${UIS} ${RESSRC})
 
-qt5_use_modules(${PROJECT} Widgets Quick Declarative Core Network Sql)
+qt5_use_modules(${PROJECT} Widgets Quick Declarative Core Network Sql QuickWidgets)
 
 target_link_libraries(${PROJECT} qfs)
 install(TARGETS ${PROJECT} DESTINATION ${CMAKE_BINARY_DIR}/bin)

@@ -19,7 +19,7 @@ GitManager::GitManager(QString workingDirectory) :
     connect(&git, SIGNAL(error(QProcess::ProcessError)), this, SLOT(gitError(QProcess::ProcessError)));
     git.setProcessChannelMode(QProcess::MergedChannels);
 #ifdef _WIN32
-    gitCommand = QDir::currentPath()+"/git/bin/git.exe";
+    gitCommand = "C:\\Program Files\\Git\\bin\\git.exe";
 #else
     gitCommand = "git";
 #endif
@@ -37,7 +37,9 @@ void GitManager::setRepoParams(RepoParams *params)
     env<<"GIT_AUTHOR_EMAIL="+params->email;
     env<<"GIT_COMMITTER_NAME="+params->author;
     env<<"GIT_COMMITTER_EMAIL="+params->email;
+#ifdef __unix__
     env<<"GIT_SSH_COMMAND=\"ssh -o BatchMode=yes -o ConnectTimeout=5 -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no\"\n";
+#endif
     git.setEnvironment(env);
 }
 
