@@ -22,6 +22,10 @@ public:
 
 private:
     Ui::EqWindow *ui;
+    QString eqname;
+
+private slots:
+    void ok();
 
 };
 

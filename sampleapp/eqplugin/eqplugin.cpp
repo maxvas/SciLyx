@@ -15,5 +15,6 @@ bool EqPlugin::init()
 {
     EqWindow *win = new EqWindow(this);
     scilyx()->addDocGenWindow(win);
+
     return true;
 }
