@@ -35,6 +35,8 @@ GuiSelectData::GuiSelectData(GuiView & lv)
     }
     layout1->addStretch(1);
     connect(signalMapper, SIGNAL(mapped(QString)), this, SLOT(onButtonPressed(QString)));
+    connect(closePB, SIGNAL(clicked(bool)),
+            this, SLOT(onClose()));
 }
 
 GuiSelectData::~GuiSelectData()
@@ -46,6 +48,11 @@ void GuiSelectData::onButtonPressed(QString name)
 {
     lyx::LyX *lyx = &lyx::Singleton<lyx::LyX>::Instance();
     lyx->docGenWindows[name]->execute();
+}
+
+void GuiSelectData::onClose()
+{
+    accept();
 }
 
 Dialog * createGuiSelectData(GuiView & lv) {

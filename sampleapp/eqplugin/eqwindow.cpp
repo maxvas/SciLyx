@@ -38,6 +38,8 @@ QString EqWindow::description()
 void EqWindow::execute()
 {
 
+    setWindowTitle(tr("Выбор оборудования"));
+
     eqname = "";
 
     QSqlQueryModel * model = new QSqlQueryModel(this);
