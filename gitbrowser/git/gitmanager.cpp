@@ -19,7 +19,7 @@ GitManager::GitManager(QString workingDirectory) :
     connect(&git, SIGNAL(error(QProcess::ProcessError)), this, SLOT(gitError(QProcess::ProcessError)));
     git.setProcessChannelMode(QProcess::MergedChannels);
 #ifdef _WIN32
-    gitCommand = "C:\\Program Files\\Git\\bin\\git.exe";
+    gitCommand = "git.exe";
 #else
     gitCommand = "git";
 #endif
