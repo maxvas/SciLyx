@@ -38,7 +38,7 @@ void GitManager::setRepoParams(RepoParams *params)
     env<<"GIT_COMMITTER_NAME="+params->author;
     env<<"GIT_COMMITTER_EMAIL="+params->email;
 #ifdef __unix__
-    env<<"GIT_SSH_COMMAND=\"ssh -o BatchMode=yes -o ConnectTimeout=5 -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no\"\n";
+//    env<<"GIT_SSH_COMMAND=\"ssh -o BatchMode=yes -o ConnectTimeout=5 -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no\"\n";
 #endif
     git.setEnvironment(env);
 }

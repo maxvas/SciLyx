@@ -15,7 +15,7 @@ Shell::Shell(QString workingDirectory):
     sh.setWorkingDirectory(workingDirectory);
 #ifdef __WIN32
 //    sh.start(QDir::currentPath()+"/git/bin/sh.exe", QStringList()<<"--login"<<"-i");
-    sh.start("\"C:\\Program Files\\Git\\bin\\sh.exe\"", QStringList()<<"--login"<<"-i");
+    sh.start("\"sh.exe\"", QStringList()<<"--login"<<"-i");
 #elif __unix__
     sh.start("/bin/dash");
 #endif
