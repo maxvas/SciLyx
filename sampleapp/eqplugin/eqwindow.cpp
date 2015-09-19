@@ -51,6 +51,9 @@ void EqWindow::execute()
     ui->tbl->horizontalHeader()->setStretchLastSection(true);
     ui->tbl->horizontalHeader()->setHighlightSections(false);
 
+    show();
+    ui->tbl->resizeRowsToContents();
+
     exec();
 
     if(eqname.isEmpty())
@@ -59,10 +62,9 @@ void EqWindow::execute()
     LyxGen doc;
     QString lyx =
     "\\begin_layout Standard\n"
-    "Работа ведется на приборе "
     "\\begin_inset Text\n"
     "\\readonly\n"
-    "\\begin_layout Default\n";
+    "\\begin_layout Standard\n\\noindent\n";
 
     lyx += eqname + "\n";
 
@@ -85,7 +87,7 @@ void EqWindow::ok()
     QModelIndex ind = ui->tbl->currentIndex();
     if(ind.isValid())
     {
-        eqname = ui->tbl->model()->index(ind.row(), 1).data().toString();
+        eqname = ui->tbl->model()->index(ind.row(), 1).data().toString().trimmed();
         accept();
     }
     else

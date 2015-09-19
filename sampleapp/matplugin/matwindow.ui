@@ -1,12 +1,12 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>EqWindow</class>
- <widget class="QDialog" name="EqWindow">
+ <class>MatWindow</class>
+ <widget class="QDialog" name="MatWindow">
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>531</width>
+    <width>861</width>
     <height>441</height>
    </rect>
   </property>
@@ -19,7 +19,7 @@
      <item row="0" column="0">
       <widget class="QLabel" name="label">
        <property name="text">
-        <string>Доступное оборудование</string>
+        <string>Выбор реагентов</string>
        </property>
       </widget>
      </item>

@@ -7,6 +7,7 @@ find_package( Qt5 REQUIRED COMPONENTS Core Quick Declarative Gui Sql Widgets Net
 
 #add_subdirectory(sampleplugin)
 add_subdirectory(eqplugin)
+add_subdirectory(matplugin)
 
 set(HEADERS
 )
