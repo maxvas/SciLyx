@@ -1,5 +1,0 @@
-<RCC>
-    <qresource prefix="/">
-        <file>WaitingWindow.qml</file>
-    </qresource>
-</RCC>

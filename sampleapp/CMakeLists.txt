@@ -14,14 +14,12 @@ set(HEADERS
 
 set(SOURCES
     main.cpp
-    WaitingWindow.qml
 )
 
 set(UI
 )
 
 set(RESOURCES
-    res.qrc
 )
 #LINK_DIRECTORIES(${CMAKE_CURRENT_SOURCE_DIR}/..)
 #LINK_DIRECTORIES(${CMAKE_CURRENT_SOURCE_DIR}/../gitbrowser)
