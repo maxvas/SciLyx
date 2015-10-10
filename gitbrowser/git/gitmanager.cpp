@@ -27,7 +27,10 @@ GitManager::GitManager(QString workingDirectory) :
 
 void GitManager::setRepoParams(RepoParams *params)
 {
-    remote = params->login+"@"+params->url;
+    if (params->login.length()==0)
+        remote = params->url;
+    else
+        remote = params->login+"@"+params->url;
     //Устанавливаем переменные окружения
     QStringList env;
 #ifdef _WIN32
