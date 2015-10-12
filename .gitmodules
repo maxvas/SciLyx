@@ -1,0 +1,3 @@
+[submodule "gitbrowser"]
+	path = gitbrowser
+	url = https://github.com/maxvas/gitbrowser
